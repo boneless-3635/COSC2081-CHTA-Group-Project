@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //declare an unknown user object first, then assign it to customer or admin later
         User user;
-        //login phase, enter 'yes' or 'no' to login or register. Otherwise, ask again for valid input
+        //login phase, enter 'yes' or 'no' to log in or register. Otherwise, ask again for valid input
         while (true) {
             java.lang.System.out.println("Do you have account yet ? (yes/no)");
             Scanner userInput = new Scanner(java.lang.System.in);
@@ -25,6 +25,8 @@ public class Main {
             //admin's events here
             Admin admin = (Admin) user;
             System.out.println(admin); //print for testing
+
+
         } else {
             //customer's events here
             Customer customer = (Customer) user;
