@@ -51,6 +51,10 @@ public class Main {
                         break;
                     }
                 }
+                
+                if (!optionSelected) {
+                    System.out.println("Invalid option");
+                }
             }
 
 //            check which option was selected to display the required information
