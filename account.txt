@@ -1,3 +1,0 @@
-Admin;thong2;admin;none;none;none;none;none
-customer1;Customer1@;customer;781a821a-027e-450c-b762-63b2b7669460;Minh Thong;0909090909;customer1@gmail.com;321 ABC, bca, HCM
-customer2;Customer2@;customer;789a821a-027e-450c-b762-63b2b7669459;Minh Thong;0909090909;customer2@gmail.com;123 ABC, bca, HCM
