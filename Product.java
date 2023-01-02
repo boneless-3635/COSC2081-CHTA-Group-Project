@@ -1,11 +1,11 @@
 /*
-  RMIT University Vietnam
-  Course: COSC2081 Programming 1
-  Semester: 2022C
-  Assessment: Assignment 3
-  Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
-  ID: s3938278, s3930051, s3924667, s3938331
-  Acknowledgement:
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
 
 */
 
@@ -29,7 +29,7 @@ public class Product {
         this.category = category;
     }
 
-    public static void writeProduct() throws IOException {
+    public static void addProduct() throws IOException {
         while (true) {
             boolean errorFree = true;
             System.out.println("Create new product: ");
@@ -58,7 +58,7 @@ public class Product {
                 errorMessage += "Invalid email (must contains @ in email) \n";
                 errorFree = false;
             }
-            
+
             if (!errorFree) {
                 System.out.println(errorMessage);
             } else {
@@ -68,7 +68,7 @@ public class Product {
                 PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
                 pw.println(productID + ";" + productName + ";" + price + ";" + category);
                 pw.close();
-                System.out.println("Register successfully!");
+                System.out.println("Successfully added product");
                 break;
             }
             }

@@ -27,6 +27,39 @@ public class Main {
             System.out.println(admin); //print for testing
 
 
+            String[] options = {"add", "remove", "update", "get"};
+//            asks admin to choose the action
+            System.out.println("What would you like to do:");
+            System.out.println("Add a product (add)");
+            System.out.println("Remove a product (remove)");
+            System.out.println("Update price (update)");
+            System.out.println("Get information of all order by customer ID (get)");
+//            ADD MORE LATER!!
+
+//            no option is selected at first
+            boolean optionSelected = false;
+            String functionSelection = "";
+//            loop to keep prompting the user until the input is valid
+            while (!optionSelected) {
+                Scanner functionSelectorScanner = new Scanner(System.in);
+                functionSelection = functionSelectorScanner.next();
+
+//                loop through the available options to check if user input matches it
+                for (String function : options) {
+                    if (function.equals(functionSelection)) {
+                        optionSelected = true;
+                        break;
+                    }
+                }
+            }
+
+//            check which option was selected to display the required information
+            if (functionSelection.equals("add")) {
+                Product.addProduct();
+            }
+
+
+
         } else {
             //customer's events here
             Customer customer = (Customer) user;
