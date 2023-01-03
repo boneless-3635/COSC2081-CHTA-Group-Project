@@ -38,10 +38,10 @@ public class Main {
 
 //            no option is selected at first
             boolean optionSelected = false;
+            Scanner functionSelectorScanner = new Scanner(System.in);
             String functionSelection = "";
 //            loop to keep prompting the user until the input is valid
             while (!optionSelected) {
-                Scanner functionSelectorScanner = new Scanner(System.in);
                 functionSelection = functionSelectorScanner.next();
 
 //                loop through the available options to check if user input matches it
@@ -51,7 +51,8 @@ public class Main {
                         break;
                     }
                 }
-                
+
+//                show user when input is invalid
                 if (!optionSelected) {
                     System.out.println("Invalid option");
                 }
