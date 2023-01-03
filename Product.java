@@ -71,8 +71,12 @@ public class Product {
                 System.out.println("Successfully added product");
                 break;
             }
-            }
         }
+    }
+
+    public static void removeProduct() throws IOException {
+
+    }
 
     public static boolean validateInput(String userInput, String pattern) {
         Pattern validPattern = Pattern.compile(pattern);
