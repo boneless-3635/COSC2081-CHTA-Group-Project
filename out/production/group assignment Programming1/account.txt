@@ -1,2 +1,0 @@
-Admin;thong2;admin;none;none;none;none;none
-thong;thong1;customer;1232131;Tran Gia Minh Thong;090909;thong@gmail.com;123 Hai Ba Trung
