@@ -26,38 +26,38 @@ public class Customer extends User{
         while (true){
             System.out.println("Register here: ");
             String errorMessage = "Errors: \n";
-            Scanner userInput = new Scanner(java.lang.System.in);
-            java.lang.System.out.println("Username: ");
+            Scanner userInput = new Scanner(System.in);
+            System.out.println("Username (only letters and digits, length 1-15): ");
             String userName = userInput.nextLine();
-            java.lang.System.out.println("Password: ");
+            System.out.println("Password (at least 1 lower case, 1 upper case, 1 digit, 1 special characters, length 8-20): ");
             String password = userInput.nextLine();
-            java.lang.System.out.println("Full name: ");
+            System.out.println("Full name (only letters, at least 5 letters): ");
             String fullName = userInput.nextLine();
-            java.lang.System.out.println("Phone number: ");
+            System.out.println("Phone number (must start with 0, 10-11 digits): ");
             String phoneNumber = userInput.nextLine();
-            java.lang.System.out.println("Email: ");
+            System.out.println("Email (must contains @ in email): ");
             String email = userInput.nextLine();
-            java.lang.System.out.println("Address: ");
+            System.out.println("Address (at least 10 letters): ");
             String address = userInput.nextLine();
             if (!validateInput(userName, "^[a-zA-Z0-9 ]{1,15}$")){
-                errorMessage += "Invalid user name (only letters and digits, length 1-15) \n";
+                errorMessage += "Invalid user name \n";
             }
             if (!validateInput(password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,20}$")){
-                errorMessage += "Invalid password (at least 1 lower case, 1 upper case, 1 digit, 1 special characters, length 8-20) \n";
+                errorMessage += "Invalid password \n";
             }
             if (!validateInput(fullName, "^[a-zA-Z ]{5,}$")){
-                errorMessage += "Invalid full name (only letters, at least 5 letters) \n";
+                errorMessage += "Invalid full name \n";
             }
             if (!validateInput(phoneNumber, "^0[0-9]{9,10}$")){
-                errorMessage += "Invalid phone number (must start with 0, 10-11 digits) \n";
+                errorMessage += "Invalid phone number \n";
             }
             //not optimal email pattern
-            if (!validateInput(email, "^.+@.+$")){ //not done////
-                errorMessage += "Invalid email (must contains @ in email) \n";
+            if (!validateInput(email, "^.+@.+$")){
+                errorMessage += "Invalid email \n";
             }
             //not optimal address pattern
-            if (!validateInput(address, "^.{10,}$")){ //not done////
-                errorMessage += "Invalid address (at least 10 letters) \n";
+            if (!validateInput(address, "^.{10,}$")){
+                errorMessage += "Invalid address \n";
             }
 
             if (errorMessage != "Errors: \n"){
@@ -65,7 +65,8 @@ public class Customer extends User{
             } else {
                 String userId = UUID.randomUUID().toString(); //generate id for user
                 //write registered info to file
-                PrintWriter pw = new PrintWriter(new FileWriter("account.txt", true));
+                PrintWriter pw = null;
+                pw = new PrintWriter(new FileWriter("account.txt", true));
                 pw.println(userName + ";" + password + ";" + "customer" + ";" + userId + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address);
                 pw.close();
                 System.out.println("Register successfully!");
