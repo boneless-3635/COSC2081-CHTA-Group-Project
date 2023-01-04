@@ -1,1 +1,1 @@
-11dfed43-a004-4b0f-9f56-7436ba365bd7;Sofa;3000000;Living room
+9444fc2c-c789-4ddc-a655-7f42a7747d36,Sofa,3000000,Living room,0

@@ -20,13 +20,15 @@ public class Product {
     private final String id;
     private final String NAME;
     private int price;
-    private final String category;
+    private String category;
+    private int numberSold;
 
-    public Product(String id, String NAME, int price, String category) {
+    public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
         this.NAME = NAME;
         this.price = price;
         this.category = category;
+        this.numberSold = numberSold;
     }
 
     public static void addProduct() throws IOException {
@@ -76,7 +78,7 @@ public class Product {
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
                 PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
-                pw.println(productID + ";" + productName + ";" + price + ";" + category);
+                pw.println(productID + "," + productName + "," + price + "," + category + "," + 0);
                 pw.close();
                 System.out.println("Successfully added product");
                 break;
@@ -111,5 +113,17 @@ public class Product {
 
     public String getCategory() {
         return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getNumberSold() {
+        return numberSold;
+    }
+
+    public void setNumberSold(int numberSold) {
+        this.numberSold = numberSold;
     }
 }
