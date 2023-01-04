@@ -12,9 +12,11 @@ Acknowledgement:
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
-import java.util.UUID;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.regex.Pattern;
+
+import static java.lang.Integer.parseInt;
 
 public class Product {
     private final String id;
@@ -22,6 +24,7 @@ public class Product {
     private int price;
     private String category;
     private int numberSold;
+    private static ArrayList<Product> productArrayList;
 
     public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
@@ -29,6 +32,20 @@ public class Product {
         this.price = price;
         this.category = category;
         this.numberSold = numberSold;
+    }
+
+    public static void initializeProduct() throws IOException {
+
+        Scanner fileScanner = new Scanner(Paths.get("category.txt"));
+        while (fileScanner.hasNext()) {
+//            read per line and split line into array
+            List<String> productValues = Arrays.asList(fileScanner.nextLine().split(","));
+            for (int i = 0; i < productValues.size(); i++) {
+//                store products in arraylist
+                productArrayList.add(new Product(productValues.get(0), productValues.get(1),
+                        parseInt(productValues.get(2)), productValues.get(3), parseInt(productValues.get(4))));
+            }
+        }
     }
 
     public static void addProduct() throws IOException {
