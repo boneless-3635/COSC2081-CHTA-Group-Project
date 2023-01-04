@@ -25,23 +25,27 @@ public class Main {
             //admin's events here
             Admin admin = (Admin) user;
             System.out.println(admin); //print for testing
+//            Initializing content
+            Category.initializeCategory();
 
-
-            String[] options = {"add", "remove", "update", "get"};
+            String[] options = {"addpro", "remove", "update", "get", "addcat"};
 //            asks admin to choose the action
-            System.out.println("What would you like to do:");
-            System.out.println("Add a product (add)");
-            System.out.println("Remove a product (remove)");
-            System.out.println("Update price (update)");
-            System.out.println("Get information of all order by customer ID (get)");
+
+//            loop to keep prompting the user until the input is valid
+            while (true) {
+                System.out.println("What would you like to do:");
+                System.out.println("Add a product (addpro)");
+                System.out.println("Remove a product (remove)");
+                System.out.println("Update price (update)");
+                System.out.println("Get information of all order by customer ID (get)");
+                System.out.println("Add a product category(addcat)");
 //            ADD MORE LATER!!
 
 //            no option is selected at first
-            boolean optionSelected = false;
-            Scanner functionSelectorScanner = new Scanner(System.in);
-            String functionSelection = "";
-//            loop to keep prompting the user until the input is valid
-            while (!optionSelected) {
+                boolean optionSelected = false;
+                Scanner functionSelectorScanner = new Scanner(System.in);
+                String functionSelection = "";
+
                 functionSelection = functionSelectorScanner.next();
 
 //                loop through the available options to check if user input matches it
@@ -53,17 +57,20 @@ public class Main {
                 }
 
 //                show user when input is invalid
-                if (!optionSelected) {
+                if (functionSelection.equals("exit")) {
+                    break;
+                } else if (!optionSelected) {
                     System.out.println("Invalid option");
+                } else {
+//                    check which option was selected to display the required information
+                    if (functionSelection.equals("addpro")) {
+                        Product.addProduct();
+                    } else if (functionSelection.equals("addcat")) {
+                        Category.addCategory();
+                        Category.initializeCategory();
+                    }
                 }
             }
-
-//            check which option was selected to display the required information
-            if (functionSelection.equals("add")) {
-                Product.addProduct();
-            }
-
-
 
         } else {
             //customer's events here

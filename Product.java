@@ -32,6 +32,7 @@ public class Product {
     public static void addProduct() throws IOException {
         while (true) {
             boolean errorFree = true;
+            boolean categoryMatched = false;
             System.out.println("Create new product: ");
             String errorMessage = "Errors: \n";
             Scanner userInput = new Scanner(System.in);
@@ -54,8 +55,17 @@ public class Product {
                 errorFree = false;
             }
 
-            if (validateInput(category, "^.+@.+$")) {
-                errorMessage += "Invalid email (must contains @ in email) \n";
+//            Loop through the available categories to check if it matches
+            for (String function : Category.getCategoryArrayList()) {
+                if (function.equals(category)) {
+                    categoryMatched = true;
+                    break;
+                }
+            }
+
+//            If there is no match then add the error message and declare it not error free
+            if (!categoryMatched) {
+                errorMessage += "Category does not exist \n";
                 errorFree = false;
             }
 
