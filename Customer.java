@@ -14,7 +14,6 @@ public class Customer extends User{
 
     public Customer(String userName, String password, String id ,String fullName, String phoneNumber, String email, String address) {
         super(userName, password);
-//        this.ID = UUID.randomUUID().toString();
         this.ID = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
@@ -32,7 +31,7 @@ public class Customer extends User{
             while (true){
                 System.out.println("Username (only letters and digits, length 1-15): ");
                 userName = userInput.nextLine();
-                boolean seemUserName = checkUserNameUniqueness("account.txt", userName);
+                boolean seemUserName = checkUniqueness("account.txt", userName, 1); //index 1 is username
                 if (seemUserName){
                     System.out.println("Username already exists");
                 } else {
@@ -73,11 +72,18 @@ public class Customer extends User{
             if (errorMessage != "Errors: \n"){
                 System.out.println(errorMessage);
             } else {
-                String userId = UUID.randomUUID().toString(); //generate id for user
+                String userId;
+                while (true){
+                    userId = UUID.randomUUID().toString(); //generate id for user
+                    boolean seemUserId = checkUniqueness(userId, "account.txt", 0); //index 0 is id
+                    if (!seemUserId){
+                        break;
+                    }
+                }
                 //write registered info to file
                 PrintWriter pw = null;
                 pw = new PrintWriter(new FileWriter("account.txt", true));
-                pw.println(userName + ";" + password + ";" + "customer" + ";" + userId + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address);
+                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address);
                 pw.close();
                 System.out.println("Register successfully!");
                 registerLoop = false;
@@ -86,14 +92,13 @@ public class Customer extends User{
         }
     }
 
-    public static boolean checkUserNameUniqueness(String filePath, String userNameToCheck){
+    public static boolean checkUniqueness(String filePath, String stringToCheck, int indexToCheck){
         boolean alreadyExist = false;
         try (Scanner fileScanner = new Scanner(Paths.get(filePath))) {
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
-                StringTokenizer inReader = new StringTokenizer(line, ";");
-                String userName = inReader.nextToken();
-                if (userNameToCheck.equals(userName)){
+                String [] lineArray = line.split(";");
+                if (stringToCheck.equals(lineArray[indexToCheck])){
                     alreadyExist = true;
                     break;
                 }
