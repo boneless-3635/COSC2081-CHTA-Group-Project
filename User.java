@@ -23,19 +23,19 @@ public abstract class  User {
         String userNameFromUser = input.nextLine();
         java.lang.System.out.println("password: ");
         String passwordFromUser = input.nextLine();
-        String userName, password, role, id, fullName, phoneNumber, email, address; //declare variables and assign them to info in text file
+        String id, userName, password, role,fullName, phoneNumber, email, address; //declare variables and assign them to info in text file
         Scanner fileScanner = null;
         try {
             fileScanner = new Scanner(new File("account.txt"));
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
                 StringTokenizer inReader = new StringTokenizer(line, ";");
+                id = inReader.nextToken();
                 userName = inReader.nextToken();
                 password = inReader.nextToken();
 
                 if (userNameFromUser.equals(userName) && passwordFromUser.equals(password)){
                     role = inReader.nextToken();
-                    id = inReader.nextToken();
                     fullName = inReader.nextToken();
                     phoneNumber = inReader.nextToken();
                     email = inReader.nextToken();
