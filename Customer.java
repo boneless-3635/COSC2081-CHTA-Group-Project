@@ -1,8 +1,8 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 public class Customer extends User{
@@ -23,22 +23,32 @@ public class Customer extends User{
     }
 
     public static void register() throws IOException {
-        while (true){
+        boolean registerLoop = true;
+        while (registerLoop){
             System.out.println("Register here: ");
             String errorMessage = "Errors: \n";
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Username (only letters and digits, length 1-15): ");
-            String userName = userInput.nextLine();
+            String userName, password, fullName, phoneNumber, email, address; //declare necessary fields for registration
+            while (true){
+                System.out.println("Username (only letters and digits, length 1-15): ");
+                userName = userInput.nextLine();
+                boolean seemUserName = checkUserNameUniqueness("account.txt", userName);
+                if (seemUserName){
+                    System.out.println("Username already exists");
+                } else {
+                    break;
+                }
+            }
             System.out.println("Password (at least 1 lower case, 1 upper case, 1 digit, 1 special characters, length 8-20): ");
-            String password = userInput.nextLine();
+            password = userInput.nextLine();
             System.out.println("Full name (only letters, at least 5 letters): ");
-            String fullName = userInput.nextLine();
+            fullName = userInput.nextLine();
             System.out.println("Phone number (must start with 0, 10-11 digits): ");
-            String phoneNumber = userInput.nextLine();
+            phoneNumber = userInput.nextLine();
             System.out.println("Email (must contains @ in email): ");
-            String email = userInput.nextLine();
+            email = userInput.nextLine();
             System.out.println("Address (at least 10 letters): ");
-            String address = userInput.nextLine();
+            address = userInput.nextLine();
             if (!validateInput(userName, "^[a-zA-Z0-9 ]{1,15}$")){
                 errorMessage += "Invalid user name \n";
             }
@@ -70,8 +80,33 @@ public class Customer extends User{
                 pw.println(userName + ";" + password + ";" + "customer" + ";" + userId + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address);
                 pw.close();
                 System.out.println("Register successfully!");
+                registerLoop = false;
                 break;
             }
+        }
+    }
+
+    public static boolean checkUserNameUniqueness(String filePath, String userNameToCheck){
+        boolean alreadyExist = false;
+        try (Scanner fileScanner = new Scanner(Paths.get(filePath))) {
+            while (fileScanner.hasNext()){
+                String line = fileScanner.nextLine();
+                StringTokenizer inReader = new StringTokenizer(line, ";");
+                String userName = inReader.nextToken();
+                if (userNameToCheck.equals(userName)){
+                    alreadyExist = true;
+                    break;
+                }
+            }
+        }
+        catch (FileNotFoundException fileNotFoundException){
+            System.out.println("File path does not exist to read!");
+        }
+        catch (NoSuchElementException noSuchElementException){
+            System.out.println("Info in file is not formatted well!");
+        }
+        finally {
+            return alreadyExist;
         }
     }
 
