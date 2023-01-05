@@ -25,8 +25,9 @@ public class Main {
             //admin's events here
             Admin admin = (Admin) user;
             System.out.println(admin); //print for testing
-//            Initializing content
+//            Initialize content to access contents quickly from an object instead of reading from a file
             Category.initializeCategory();
+            Product.initializeProduct();
 
             String[] options = {"addpro", "remove", "update", "get", "addcat"};
 //            asks admin to choose the action
@@ -48,7 +49,8 @@ public class Main {
 
                 functionSelection = functionSelectorScanner.next();
 
-//                loop through the available options to check if user input matches it
+//                Loop through the available options to check if user input matches it
+//                When it matches, direct to the helper method
                 for (String function : options) {
                     if (function.equals(functionSelection)) {
                         optionSelected = true;
@@ -57,14 +59,13 @@ public class Main {
                 }
 
 //                show user when input is invalid
-                if (functionSelection.equals("exit")) {
-                    break;
-                } else if (!optionSelected) {
+                if (!optionSelected) {
                     System.out.println("Invalid option");
                 } else {
 //                    check which option was selected to display the required information
                     if (functionSelection.equals("addpro")) {
                         Product.addProduct();
+                        Product.initializeProduct();
                     } else if (functionSelection.equals("addcat")) {
                         Category.addCategory();
                         Category.initializeCategory();

@@ -24,7 +24,7 @@ public class Product {
     private int price;
     private String category;
     private int numberSold;
-    private static ArrayList<Product> productArrayList;
+    private static ArrayList<Product> productArrayList = new ArrayList<Product>();
 
     public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
@@ -36,15 +36,14 @@ public class Product {
 
     public static void initializeProduct() throws IOException {
 
-        Scanner fileScanner = new Scanner(Paths.get("category.txt"));
+        Scanner fileScanner = new Scanner(Paths.get("product.txt"));
         while (fileScanner.hasNext()) {
 //            read per line and split line into array
             List<String> productValues = Arrays.asList(fileScanner.nextLine().split(","));
-            for (int i = 0; i < productValues.size(); i++) {
+
 //                store products in arraylist
-                productArrayList.add(new Product(productValues.get(0), productValues.get(1),
-                        parseInt(productValues.get(2)), productValues.get(3), parseInt(productValues.get(4))));
-            }
+            productArrayList.add(new Product(productValues.get(0), productValues.get(1),
+                    parseInt(productValues.get(2)), productValues.get(3), parseInt(productValues.get(4))));
         }
     }
 
@@ -53,7 +52,7 @@ public class Product {
             boolean errorFree = true;
             boolean categoryMatched = false;
             System.out.println("Create new product: ");
-            String errorMessage = "Errors: \n";
+            StringBuilder errorMessage = new StringBuilder("Errors: \n");
             Scanner userInput = new Scanner(System.in);
             System.out.println("Product name: ");
             String productName = userInput.nextLine();
@@ -65,18 +64,26 @@ public class Product {
 
 //            input validating
             if (validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
-                errorMessage += "Invalid user name (only letters and digits, at least 3 characters) \n";
+                errorMessage.append("Invalid product name (only letters and digits, at least 3 characters) \n");
                 errorFree = false;
             }
 
+//            To check if product already existed, if it exists, error occurs
+            for (Product productLoop : productArrayList) {
+                if (productName.equals(productLoop.getNAME())) {
+                    errorMessage.append("Product already exists \n");
+                    errorFree = false;
+                }
+            }
+
             if (validateInput(String.valueOf(price), "^[0-9]{4,}$")) {
-                errorMessage += "Invalid price (must be at least 1000 VND) \n";
+                errorMessage.append("Invalid price (must be at least 1000 VND) \n");
                 errorFree = false;
             }
 
 //            Loop through the available categories to check if it matches
-            for (String function : Category.getCategoryArrayList()) {
-                if (function.equals(category)) {
+            for (String functionLoop : Category.getCategoryArrayList()) {
+                if (functionLoop.equals(category)) {
                     categoryMatched = true;
                     break;
                 }
@@ -84,7 +91,7 @@ public class Product {
 
 //            If there is no match then add the error message and declare it not error free
             if (!categoryMatched) {
-                errorMessage += "Category does not exist \n";
+                errorMessage.append("Category does not exist \n");
                 errorFree = false;
             }
 
@@ -142,5 +149,9 @@ public class Product {
 
     public void setNumberSold(int numberSold) {
         this.numberSold = numberSold;
+    }
+
+    public static ArrayList<Product> getProductArrayList() {
+        return productArrayList;
     }
 }
