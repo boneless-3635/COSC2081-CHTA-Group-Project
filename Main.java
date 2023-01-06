@@ -29,12 +29,12 @@ public class Main {
             Category.initializeCategory();
             Product.initializeProduct();
 
-            String[] options = {"addpro", "remove", "update", "get", "addcat"};
+            String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro"};
 //            asks admin to choose the action
 
 //            loop to keep prompting the user until the input is valid
             while (true) {
-                System.out.println("What would you like to do:");
+                System.out.println("What would you like to do (type exit to close the program):");
                 System.out.println("Add a product (addpro)");
                 System.out.println("Remove a product (remove)");
                 System.out.println("Update price (update)");
@@ -45,7 +45,7 @@ public class Main {
 //            no option is selected at first
                 boolean optionSelected = false;
                 Scanner functionSelectorScanner = new Scanner(System.in);
-                String functionSelection = "";
+                String functionSelection;
 
                 functionSelection = functionSelectorScanner.next();
 
@@ -58,17 +58,23 @@ public class Main {
                     }
                 }
 
-//                show user when input is invalid
-                if (!optionSelected) {
+//                exits the program when the user wants to
+                if (functionSelection.equals("exit")) {
+                    break;
+                } else if (!optionSelected) {
                     System.out.println("Invalid option");
                 } else {
 //                    check which option was selected to display the required information
-                    if (functionSelection.equals("addpro")) {
-                        Product.addProduct();
-                        Product.initializeProduct();
-                    } else if (functionSelection.equals("addcat")) {
-                        Category.addCategory();
-                        Category.initializeCategory();
+                    switch (functionSelection) {
+                        case "addpro":
+                            Product.addProduct();
+                            break;
+                        case "addcat":
+                            Category.addCategory();
+                            break;
+                        case "delpro":
+                            Product.removeProduct();
+                            break;
                     }
                 }
             }

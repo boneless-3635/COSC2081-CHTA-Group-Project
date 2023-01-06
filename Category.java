@@ -39,6 +39,7 @@ public class Category {
                 pw.println(categoryInput);
                 pw.close();
                 System.out.println("Successfully added category");
+                categoryArrayList.add(categoryInput);
                 break;
             }
         }
