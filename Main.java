@@ -75,6 +75,8 @@ public class Main {
                         case "delpro":
                             Product.removeProduct();
                             break;
+                        case "update":
+                            Product.updatePrice();
                     }
                 }
             }

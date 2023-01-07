@@ -9,6 +9,8 @@ Acknowledgement:
 https://stackoverflow.com/questions/64678515/how-to-delete-a-specific-row-from-a-csv-file-using-search-string
 https://www.geeksforgeeks.org/stream-filter-java-examples/
 https://www.youtube.com/watch?v=ij07fW5q4oo
+https://www.geeksforgeeks.org/try-with-resources-feature-in-java/
+https://www.tutorialspoint.com/how-to-overwrite-a-line-in-a-txt-file-using-java
 
 */
 
@@ -36,7 +38,7 @@ public class Product {
     }
 
     public static void initializeProduct() throws IOException {
-
+        productArrayList.clear();
         Scanner fileScanner = new Scanner(Paths.get("product.txt"));
         while (fileScanner.hasNext()) {
 //            read per line and split line into array
@@ -53,36 +55,40 @@ public class Product {
             boolean errorFree = true;
             boolean categoryMatched = false;
             System.out.println("Create new product: ");
-            StringBuilder errorMessage = new StringBuilder("Errors: \n");
+            StringBuilder errorMessage = new StringBuilder("Error: \n");
             Scanner userInput = new Scanner(System.in);
             System.out.println("Product name: ");
             String productName = userInput.nextLine();
-            System.out.println("Price: ");
-            int productPrice = userInput.nextInt();
-            userInput.nextLine();
-            System.out.println("Category: ");
-            String productCategory = userInput.nextLine();
 
-//            input validating
             if (validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
                 errorMessage.append("Invalid product name (only letters and digits, at least 3 characters) \n");
+                System.out.println(errorMessage);
                 errorFree = false;
             }
 
-//            To check if product already existed, if it exists, error occurs
+//            To check if product already existed because name is unique
             for (Product productLoop : productArrayList) {
                 if (productName.equals(productLoop.getNAME())) {
                     errorMessage.append("Product already exists \n");
+                    System.out.println(errorMessage);
                     errorFree = false;
+                    break;
                 }
             }
 
-            if (validateInput(String.valueOf(productPrice), "^[0-9]{4,}$")) {
+            System.out.println("Price: ");
+            int productPrice = userInput.nextInt();
+            userInput.nextLine();
+
+            if (validateInput(String.valueOf(productPrice), "^[0-9]$") && productPrice < 1000) {
                 errorMessage.append("Invalid price (must be at least 1000 VND) \n");
-                errorFree = false;
+                System.out.println(errorMessage);
             }
 
-//            Loop through the available categories to check if it matches
+            System.out.println("Category: ");
+            String productCategory = userInput.nextLine();
+
+//            Categories can only be chosen from ones that already exists
             for (String functionLoop : Category.getCategoryArrayList()) {
                 if (functionLoop.equals(productCategory)) {
                     categoryMatched = true;
@@ -90,15 +96,12 @@ public class Product {
                 }
             }
 
-//            If there is no match then add the error message and declare it not error free
             if (!categoryMatched) {
                 errorMessage.append("Category does not exist \n");
-                errorFree = false;
+                System.out.println(errorMessage);
             }
 
-            if (!errorFree) {
-                System.out.println(errorMessage);
-            } else {
+            if (errorFree) {
 //                    generate product id
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
@@ -106,23 +109,49 @@ public class Product {
                 pw.println(productID + "," + productName + "," + productPrice + "," + productCategory + "," + 0);
                 pw.close();
                 System.out.println("Successfully added product");
-                productArrayList.add(new Product(productID, productName, productPrice, productCategory, 0));
                 break;
             }
         }
+        initializeProduct();
     }
 
     public static void removeProduct() throws IOException {
+
+        System.out.println("Please enter the name of the product you want to delete: ");
+        rewriteFile("removeProduct");
+
+    }
+
+    public static void updatePrice() throws IOException {
+
+        System.out.println("Please enter the name of the product you want to update the price: ");
+        rewriteFile("updatePrice");
+
+    }
+
+    public static void rewriteFile(String function) throws IOException {
         while (true) {
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Please enter the name of the product you want to delete: ");
-            String productDelete = userInput.nextLine();
+            String productName = userInput.nextLine();
 
-//            Delete the product from the loop
-//            Using collection for concise code
-            productArrayList.removeIf(productLoop -> productDelete.equals(productLoop.getNAME()));
+            boolean productFound = false;
 
-//            Delete product from text file
+            while (true) {
+                for (Product productLoop : productArrayList) {
+                    if (productName.equals(productLoop.getNAME())) {
+                        productFound = true;
+                        break;
+                    }
+                }
+
+                if (!productFound) {
+                    System.out.println("Product not found\nPlease try again:");
+                    productName = userInput.nextLine();
+                } else {
+                    break;
+                }
+            }
+
             String targetFile = "product.txt";
             String tempFile = "temp.txt";
 
@@ -132,33 +161,51 @@ public class Product {
 //            We can't remove a row from a csv file with java. This means we have to create a new temp file,
 //            we then go through the original file. All the rows are copied over to the temp file and the
 //            "deleted" row is not copied over.
-            try {
-                PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
-                Scanner fileScanner = new Scanner(Paths.get(targetFile));
+            try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
+                 Scanner fileScanner = new Scanner(Paths.get(targetFile))) {
 
                 while (fileScanner.hasNext()) {
                     String line = fileScanner.nextLine();
                     List<String> productValues = Arrays.asList(line.split(","));
-                    if (!productDelete.equals(productValues.get(1))) {
-                        pw.println(line);
-                    } else {
-                        System.out.println("Delete success\n");
+//                    Function is removing a product
+                    if (function.equals("removeProduct")) {
+                        if (!productName.equals(productValues.get(1))) {
+                            pw.println(line);
+                        } else {
+                            System.out.println("Delete success\n");
+                        }
+//                        Function is updating the price
+                    } else if (function.equals("updatePrice")) {
+                        if (!productName.equals(productValues.get(1))) {
+                            pw.println(line);
+                        } else {
+                            while (true) {
+                                System.out.println("Please enter the new price of product " + productValues.get(1) + ":");
+                                String productNewPrice = userInput.nextLine();
+
+                                if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
+                                    System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" +
+                                            "Please enter the name of the product you want to update the price:");
+                                } else {
+                                    productValues.set(2, String.valueOf(productNewPrice));
+                                    pw.println(productValues.get(0) + "," + productValues.get(1) + "," + productValues.get(2)
+                                    + "," + productValues.get(3) + "," + productValues.get(4));
+                                    System.out.println("New price updated");
+                                    break;
+                                }
+                            }
+                        }
                     }
                 }
-
-                pw.close();
-
-                fileScanner.close();
-
-                oldFile.delete();
-                File dump = new File(targetFile);
-                newFile.renameTo(dump);
-
                 break;
             } catch (Exception e) {
                 System.out.println("Error");
+            } finally {
+                oldFile.delete();
+                newFile.renameTo(new File(targetFile));
             }
         }
+        initializeProduct();
     }
 
     public static boolean validateInput(String userInput, String pattern) {
