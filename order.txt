@@ -1,2 +1,5 @@
-orderid123;userid123;username;producta,productb; 1000;delivered;2023-02-06
-orderid321;userid321;username;productc,productd;2000;delivered;2023-02-06
+orderid123;userid123;username;producta,productb;1000;123 ABC Street HCM;delivered;2023-02-06
+orderid321;userid321;username;productc,productd;2000;321 BCA Street HCM;delivered;2023-02-06
+
+83e55838-c4f2-4d53-a839-c38da6cf8b76;abc123@;customer1;Sofa:2,Television:3;171
+0fe19a00-fcd0-49e4-9de5-4108d3418ea7;abc123@;customer1;Sofa:2,Television:2;126
