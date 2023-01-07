@@ -130,86 +130,84 @@ public class Product {
     }
 
     public static void rewriteFile(String function) throws IOException {
-        while (true) {
-            Scanner userInput = new Scanner(System.in);
-            String productName = userInput.nextLine();
+        Scanner userInput = new Scanner(System.in);
+        String productName = userInput.nextLine();
 
-            boolean productFound = false;
+        boolean productFound = false;
 
 //            Look for the product name
-            while (true) {
-                for (Product productLoop : productArrayList) {
-                    if (productName.equalsIgnoreCase(productLoop.getNAME())) {
-                        productFound = true;
-                        break;
-                    }
-                }
-
-                if (!productFound) {
-                    System.out.println("Product not found\nPlease try again:");
-                    productName = userInput.nextLine();
-                } else {
+        while (true) {
+            for (Product productLoop : productArrayList) {
+                if (productName.equalsIgnoreCase(productLoop.getNAME())) {
+                    productFound = true;
                     break;
                 }
             }
 
-            String targetFile = "product.txt";
-            String tempFile = "temp.txt";
+            if (!productFound) {
+                System.out.println("Product not found\nPlease try again:");
+                productName = userInput.nextLine();
+            } else {
+                break;
+            }
+        }
 
-            File oldFile = new File(targetFile);
-            File newFile = new File(tempFile);
+        String targetFile = "product.txt";
+        String tempFile = "temp.txt";
+
+        File oldFile = new File(targetFile);
+        File newFile = new File(tempFile);
 
 //            We can't remove a row from a csv file with java. This means we have to create a new temp file,
 //            we then go through the original file. All the rows are copied over to the temp file and the
 //            "deleted" row is not copied over. Similarly, updated price is changed in the array and written to the
 //            file from the array instead of copying over from the original file.
-            try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
-                 Scanner fileScanner = new Scanner(Paths.get(targetFile))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
+             Scanner fileScanner = new Scanner(Paths.get(targetFile))) {
 //                Read per line and separate the line into the array
-                while (fileScanner.hasNext()) {
-                    String line = fileScanner.nextLine();
-                    List<String> productValues = Arrays.asList(line.split(","));
+            while (fileScanner.hasNext()) {
+                String line = fileScanner.nextLine();
+                List<String> productValues = Arrays.asList(line.split(","));
 //                    Function to remove a product
-                    if (function.equals("removeProduct")) {
-                        if (!productName.equalsIgnoreCase(productValues.get(1))) {
-                            pw.println(line);
-                        } else {
-                            System.out.println("Delete success\n");
-                        }
+                if (function.equals("removeProduct")) {
+                    if (!productName.equalsIgnoreCase(productValues.get(1))) {
+                        pw.println(line);
+                    } else {
+                        System.out.println("Delete success\n");
+                    }
 //                        Function to update the price
-                    } else if (function.equals("updatePrice")) {
-                        if (!productName.equalsIgnoreCase(productValues.get(1))) {
-                            pw.println(line);
-                        } else {
-                            while (true) {
-                                System.out.println("Please enter the new price of product " + productValues.get(1) + ":");
-                                String productNewPrice = userInput.nextLine();
+                } else if (function.equals("updatePrice")) {
+                    if (!productName.equalsIgnoreCase(productValues.get(1))) {
+                        pw.println(line);
+                    } else {
+                        while (true) {
+                            System.out.println("Please enter the new price of product " + productValues.get(1) + ":");
+                            String productNewPrice = userInput.nextLine();
 //                                Validate input again
-                                if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
-                                    System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" +
-                                            "Please enter the name of the product you want to update the price:");
-                                } else {
+                            if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
+                                System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" +
+                                        "Please enter the name of the product you want to update the price:");
+                            } else {
 //                                    Writing the updated price product to the new file using the array
-                                    pw.println(productValues.get(0) + "," + productValues.get(1) + "," + productNewPrice
-                                    + "," + productValues.get(3) + "," + productValues.get(4));
-                                    System.out.println("New price updated");
-                                    break;
-                                }
+                                pw.println(productValues.get(0) + "," + productValues.get(1) + "," + productNewPrice
+                                + "," + productValues.get(3) + "," + productValues.get(4));
+                                System.out.println("New price updated");
+                                break;
                             }
                         }
                     }
                 }
-                break;
-            } catch (Exception ignored) {
-
-            } finally {
-//                Delete old file, rename new file to match old one
-                oldFile.delete();
-                newFile.renameTo(new File(targetFile));
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            oldFile.delete();
+            newFile.renameTo(new File(targetFile));
         }
-        initializeProduct();
-    }
+
+    initializeProduct();
+}
 
     public static boolean validateInput(String userInput, String pattern) {
         Pattern validPattern = Pattern.compile(pattern);

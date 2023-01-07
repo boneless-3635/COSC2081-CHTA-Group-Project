@@ -29,7 +29,7 @@ public class Main {
             Category.initializeCategory();
             Product.initializeProduct();
 
-            String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro"};
+            String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro", "delcat"};
 //            asks admin to choose the action
 
 //            loop to keep prompting the user until the input is valid
@@ -40,6 +40,7 @@ public class Main {
                 System.out.println("Update price (update)");
                 System.out.println("Get information of all order by customer ID (get)");
                 System.out.println("Add a product category(addcat)");
+                System.out.println("Remove a product category(delcat)");
 //            ADD MORE LATER!!
 
 //            no option is selected at first
@@ -77,6 +78,10 @@ public class Main {
                             break;
                         case "update":
                             Product.updatePrice();
+                            break;
+                        case "delcat":
+                            Category.removeCategory();
+                            break;
                     }
                 }
             }
