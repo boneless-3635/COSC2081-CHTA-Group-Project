@@ -117,7 +117,7 @@ public class Customer extends User{
 
     @Override
     public String toString(){
-        return String.format("username: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s", this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress());
+        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress());
     }
 
     @Override
