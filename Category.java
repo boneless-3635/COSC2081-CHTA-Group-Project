@@ -17,6 +17,7 @@ public class Category {
     }
 
     public static void initializeCategory() throws IOException {
+        categoryArrayList.clear();
         categoryArrayList = new ArrayList<String>();
         Scanner fileScanner = new Scanner(Paths.get("category.txt"));
         while (fileScanner.hasNext()) {
@@ -39,10 +40,10 @@ public class Category {
                 pw.println(categoryInput);
                 pw.close();
                 System.out.println("Successfully added category");
-                categoryArrayList.add(categoryInput);
                 break;
             }
         }
+        initializeCategory();
     }
 
     public static boolean validateInput(String userInput, String pattern) {
