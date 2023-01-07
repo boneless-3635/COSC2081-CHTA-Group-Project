@@ -68,7 +68,7 @@ public class Product {
 
 //            To check if product already existed because name is unique
             for (Product productLoop : productArrayList) {
-                if (productName.equals(productLoop.getNAME())) {
+                if (productName.equalsIgnoreCase(productLoop.getNAME())) {
                     errorMessage.append("Product already exists \n");
                     System.out.println(errorMessage);
                     errorFree = false;
@@ -90,7 +90,7 @@ public class Product {
 
 //            Categories can only be chosen from ones that already exists
             for (String functionLoop : Category.getCategoryArrayList()) {
-                if (functionLoop.equals(productCategory)) {
+                if (functionLoop.equalsIgnoreCase(productCategory)) {
                     categoryMatched = true;
                     break;
                 }
@@ -136,9 +136,10 @@ public class Product {
 
             boolean productFound = false;
 
+//            Look for the product name
             while (true) {
                 for (Product productLoop : productArrayList) {
-                    if (productName.equals(productLoop.getNAME())) {
+                    if (productName.equalsIgnoreCase(productLoop.getNAME())) {
                         productFound = true;
                         break;
                     }
@@ -160,35 +161,36 @@ public class Product {
 
 //            We can't remove a row from a csv file with java. This means we have to create a new temp file,
 //            we then go through the original file. All the rows are copied over to the temp file and the
-//            "deleted" row is not copied over.
+//            "deleted" row is not copied over. Similarly, updated price is changed in the array and written to the
+//            file from the array instead of copying over from the original file.
             try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
                  Scanner fileScanner = new Scanner(Paths.get(targetFile))) {
-
+//                Read per line and separate the line into the array
                 while (fileScanner.hasNext()) {
                     String line = fileScanner.nextLine();
                     List<String> productValues = Arrays.asList(line.split(","));
-//                    Function is removing a product
+//                    Function to remove a product
                     if (function.equals("removeProduct")) {
-                        if (!productName.equals(productValues.get(1))) {
+                        if (!productName.equalsIgnoreCase(productValues.get(1))) {
                             pw.println(line);
                         } else {
                             System.out.println("Delete success\n");
                         }
-//                        Function is updating the price
+//                        Function to update the price
                     } else if (function.equals("updatePrice")) {
-                        if (!productName.equals(productValues.get(1))) {
+                        if (!productName.equalsIgnoreCase(productValues.get(1))) {
                             pw.println(line);
                         } else {
                             while (true) {
                                 System.out.println("Please enter the new price of product " + productValues.get(1) + ":");
                                 String productNewPrice = userInput.nextLine();
-
+//                                Validate input again
                                 if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
                                     System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" +
                                             "Please enter the name of the product you want to update the price:");
                                 } else {
-                                    productValues.set(2, String.valueOf(productNewPrice));
-                                    pw.println(productValues.get(0) + "," + productValues.get(1) + "," + productValues.get(2)
+//                                    Writing the updated price product to the new file using the array
+                                    pw.println(productValues.get(0) + "," + productValues.get(1) + "," + productNewPrice
                                     + "," + productValues.get(3) + "," + productValues.get(4));
                                     System.out.println("New price updated");
                                     break;
@@ -198,9 +200,10 @@ public class Product {
                     }
                 }
                 break;
-            } catch (Exception e) {
-                System.out.println("Error");
+            } catch (Exception ignored) {
+
             } finally {
+//                Delete old file, rename new file to match old one
                 oldFile.delete();
                 newFile.renameTo(new File(targetFile));
             }
