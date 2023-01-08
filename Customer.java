@@ -1,9 +1,6 @@
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-import java.util.StringTokenizer;
-import java.util.UUID;
+import java.util.*;
 
 public class Customer extends User{
     private final String ID;
@@ -11,6 +8,8 @@ public class Customer extends User{
     private String phoneNumber;
     private String email;
     private String address;
+    private static ArrayList<Customer> customers = new ArrayList<>();
+
 
     public Customer(String userName, String password, String id ,String fullName, String phoneNumber, String email, String address) {
         super(userName, password);
@@ -19,6 +18,44 @@ public class Customer extends User{
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+    }
+
+    public static void initializeCustomers(){
+        Scanner fileScanner = null;
+        try {
+            fileScanner = new Scanner(new File("account.txt"));
+            while (fileScanner.hasNext()) {
+                //read per line and split line into array
+                List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";"));
+
+//                for (int i =0; i <accountFields.size(); i++){
+//                    System.out.println(accountFields.get(i));
+//                }
+
+                if (accountFields.get(3).equals("admin")){
+                    fileScanner.nextLine();
+                }
+
+                //store customer in arraylist. Notice that we will cast productNames to arraylist to fit with the constructor.
+                customers.add(new Customer(accountFields.get(1),
+                        accountFields.get(2),
+                        accountFields.get(0),
+                        accountFields.get(4),
+                        accountFields.get(5),
+                        accountFields.get(6),
+                        accountFields.get(7)
+                        ));
+            }
+        }
+        catch (FileNotFoundException fileNotFoundException){
+            System.out.println("File path does not exist to read!");
+        }
+        catch (NoSuchElementException noSuchElementException){
+            System.out.println("Info in file is not formatted well!");
+        }
+        finally {
+            fileScanner.close();
+        }
     }
 
     public static void register() throws IOException {
@@ -112,6 +149,45 @@ public class Customer extends User{
         }
         finally {
             return alreadyExist;
+        }
+    }
+
+    public void viewOrderByOrderID() {
+        String orderID;
+        Scanner scanner = new Scanner(System.in);
+        ArrayList<Order> orders;
+
+        System.out.println("Please enter order ID:");
+        orderID = scanner.nextLine();
+        orders = Order.getOrders();
+        for (Order order: orders){
+            if (order.getORDER_ID().equals(orderID)){
+                order.viewOrder();
+                System.out.println("----------");
+                break;
+            }
+        }
+    }
+
+    public void viewUserOrder() {
+        String customerID;
+        ArrayList<Order> orders;
+
+        customerID = this.getId();
+        orders = Order.getOrders();
+        for (Order order: orders){
+            if (order.getCUSTOMER_ID().equals(customerID)){
+                order.viewOrder();
+                System.out.println("----------");
+            }
+        }
+    }
+
+    public static void viewUserInfoById(String userID) throws FileNotFoundException {
+        for (Customer customer: customers){
+            if (userID.equals(customer.getId())){
+                System.out.println(customer.toString());
+            }
         }
     }
 

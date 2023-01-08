@@ -1,2 +1,3 @@
-orderid123;userid123;username;producta,productb; 1000;delivered;2023-02-06
+orderid123;userid123;username;producta:2,productb:3;1000;delivered;2023-02-06
+orderid445;userid123;username;product:100,productb:200;102200;delivered;2023-02-06
 orderid321;userid321;username;productc,productd;2000;delivered;2023-02-06

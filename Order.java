@@ -134,11 +134,27 @@ public class Order {
         }
     }
 
+    public void viewOrder(){
+        System.out.println(this.toString());
+    }
+
     @Override
     public String toString(){
         //turn arraylist of product name to string
         String productNames = String.join(", ", this.getProductNames());
-        return String.format("order id: %s \ncustomer id: %s \ncustomer name: %s \nproducts: %s \ntotal price: %.2f \nstatus: %s \ndate: %s", this.getORDER_ID(), this.CUSTOMER_ID, this.getCustomerName(), productNames, this.getTotalPrice(), this.getStatus(),this.getDate());
+        return String.format("order id: %s \n" +
+                "customer id: %s \n" +
+                "customer name: %s \n" +
+                "products: %s \ntotal price: %d \n" +
+                "status: %s \n" +
+                "date: %s",
+                this.getORDER_ID(),
+                this.getCUSTOMER_ID(),
+                this.getCustomerName(),
+                productNames,
+                this.getTotalPrice(),
+                this.getStatus(),
+                this.getDate());
     }
 
     //getter
