@@ -20,14 +20,16 @@ public class Main {
             }
         }
 
+//        Initialize here
+        Category.initializeCategory();
+        Product.initializeProduct();
+
         //check if that user is customer or admin, then downcast to relevant role
         if (user.isAdmin()){
             //admin's events here
             Admin admin = (Admin) user;
             System.out.println(admin); //print for testing
 //            Initialize content to access contents quickly from an object instead of reading from a file
-            Category.initializeCategory();
-            Product.initializeProduct();
 
             String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro", "delcat"};
 //            asks admin to choose the action
@@ -90,6 +92,8 @@ public class Main {
             //customer's events here
             Customer customer = (Customer) user;
             System.out.println(customer); //print for testing
+
+
         }
 
     }

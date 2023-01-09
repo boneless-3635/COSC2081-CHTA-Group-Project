@@ -7,10 +7,12 @@ Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
 ID: s3938278, s3930051, s3924667, s3938331
 Acknowledgement:
 https://stackoverflow.com/questions/64678515/how-to-delete-a-specific-row-from-a-csv-file-using-search-string
-https://www.geeksforgeeks.org/stream-filter-java-examples/
 https://www.youtube.com/watch?v=ij07fW5q4oo
-https://www.geeksforgeeks.org/try-with-resources-feature-in-java/
 https://www.tutorialspoint.com/how-to-overwrite-a-line-in-a-txt-file-using-java
+https://www.w3schools.com/java/java_regex.asp
+https://stackoverflow.com/questions/33443651/print-java-arrays-in-columns
+https://stackoverflow.com/questions/1883345/whats-up-with-javas-n-in-printf
+https://www.geeksforgeeks.org/pattern-compilestring-method-in-java-with-examples/
 
 */
 
@@ -28,6 +30,7 @@ public class Product {
     private String category;
     private int numberSold;
     private static final ArrayList<Product> productArrayList = new ArrayList<>();
+    private static ArrayList<Product> productFilteredArrayList = new ArrayList<>();
 
     public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
@@ -48,6 +51,8 @@ public class Product {
             productArrayList.add(new Product(productValues.get(0), productValues.get(1),
                     parseInt(productValues.get(2)), productValues.get(3), parseInt(productValues.get(4))));
         }
+
+        productFilteredArrayList = productArrayList;
     }
 
     public static void addProduct() throws IOException {
@@ -195,12 +200,83 @@ public class Product {
         return leastPopularProducts;
     }
 
-    public static void displayProducts() throws IOException {
-        System.out.println("Product name, Price (VND), Category, Number Sold");
-        for (Product productLoop : productArrayList) {
-            System.out.printf("%s, %,d, %s, %,d\n", productLoop.getNAME(), productLoop.getPrice(),
-                    productLoop.getCategory(), productLoop.getNumberSold());
+    public static void displayProducts() {
+        System.out.printf("%-20s%-20s%-20s%s%n", "Product name", "Price (VND)", "Category", "Number Sold");
+        if (!productFilteredArrayList.isEmpty()) {
+            for (Product productLoop : productFilteredArrayList) {
+                System.out.printf("%-20s%,-20d%-20s%,-20d%n", productLoop.getNAME(), productLoop.getPrice(),
+                        productLoop.getCategory(), productLoop.getNumberSold());
+            }
+        } else {
+            System.out.println("No products to display");
         }
+    }
+
+    public static void filterCategory() {
+        ArrayList<Product> tempProductArrayList  = new ArrayList<>();
+
+        while (true) {
+            boolean foundCategory = false;
+
+            System.out.println("Please enter the category you want to sort:");
+            Scanner userInput = new Scanner(System.in);
+            String inputCategory = userInput.nextLine();
+            for (String categoryLoop : Category.getCategoryArrayList()) {
+                if (inputCategory.equalsIgnoreCase(categoryLoop)) {
+                    foundCategory = true;
+                    for (Product productLoop : productFilteredArrayList) {
+                        if (inputCategory.equalsIgnoreCase(productLoop.getCategory())) {
+                            tempProductArrayList.add(productLoop);
+                        }
+                    }
+                    productFilteredArrayList = tempProductArrayList;
+                }
+            }
+
+            if (!foundCategory) {
+                System.out.println("No category found, please try again");
+            } else {
+                break;
+            }
+        }
+    }
+
+    public static void filterPrice() {
+        ArrayList<Product> tempProductArrayList  = new ArrayList<>();
+
+        while (true) {
+            Scanner userInput = new Scanner(System.in);
+            System.out.println("Please enter the lower price filter");
+            String lowerPrice = userInput.nextLine();
+
+            System.out.println("Please enter the upper price filter");
+            String upperPrice = userInput.nextLine();
+
+            if (validateInput(lowerPrice, "^[0-9 ]!+")){
+                if (validateInput(upperPrice, "^[0-9 ]!+")) {
+                    if (Integer.parseInt(lowerPrice) < Integer.parseInt(upperPrice)) {
+                        for (Product productLoop : productFilteredArrayList) {
+                            if (Integer.parseInt(lowerPrice) < productLoop.getPrice() &&
+                                    Integer.parseInt(upperPrice) > productLoop.getPrice()) {
+                                tempProductArrayList.add(productLoop);
+                            }
+                        }
+                        productFilteredArrayList = tempProductArrayList;
+                        break;
+                    } else {
+                        System.out.println("Invalid price, lower price limit must be smaller than upper price limit");
+                    }
+                } else {
+                    System.out.println("Invalid upper price (must be a number)");
+                }
+            } else {
+                System.out.println("Invalid lower price (must be a number)");
+            }
+        }
+    }
+
+    public static void clearFilterProduct() {
+        productFilteredArrayList = productArrayList;
     }
 
     public static boolean lookupProductName(String productName) {
