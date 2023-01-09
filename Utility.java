@@ -15,7 +15,7 @@ public class Utility {
         while (fileScanner.hasNext()) {
             String line = fileScanner.nextLine();
             String [] lineArray = line.split(",");
-            //split a line to array, then use index 0 storing id to take out the product need to be updated
+            //split a line to array, then use indexSource storing id or name to take out the product/order need to be updated
             if (lineArray[indexSource].equals(nameOrID)){
                 //after update the index with given value, turn in to string again
                 lineArray[indexNeedToUpdate] = String.valueOf(updateValue);
