@@ -196,7 +196,11 @@ public class Product {
     }
 
     public static void displayProducts() throws IOException {
-
+        System.out.println("Product name, Price (VND), Category, Number Sold");
+        for (Product productLoop : productArrayList) {
+            System.out.printf("%s, %,d, %s, %,d\n", productLoop.getNAME(), productLoop.getPrice(),
+                    productLoop.getCategory(), productLoop.getNumberSold());
+        }
     }
 
     public static boolean lookupProductName(String productName) {
