@@ -159,7 +159,7 @@ public class Product {
         initializeProduct();
     }
 
-    public static ArrayList<Product> getMostPopularProducts() throws IOException {
+    public static ArrayList<Product> getMostPopularProducts() {
         ArrayList<Product> mostPopularProducts = new ArrayList<>();
         int mostSold = productArrayList.get(0).getNumberSold();
         for (Product productLoop : productArrayList) {
@@ -175,6 +175,24 @@ public class Product {
         }
 
         return mostPopularProducts;
+    }
+
+    public static ArrayList<Product> getLeastPopularProducts() {
+        ArrayList<Product> leastPopularProducts = new ArrayList<>();
+        int leastSold = productArrayList.get(0).getNumberSold();
+        for (Product productLoop : productArrayList) {
+            if (leastSold > productLoop.getNumberSold()) {
+                leastSold = productLoop.getNumberSold();
+            }
+        }
+
+        for (Product productLoop : productArrayList) {
+            if (leastSold == productLoop.getNumberSold()) {
+                leastPopularProducts.add(productLoop);
+            }
+        }
+
+        return leastPopularProducts;
     }
 
     public static void displayProducts() throws IOException {
