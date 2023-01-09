@@ -161,10 +161,12 @@ public class Customer extends User{
         orderID = scanner.nextLine();
         orders = Order.getOrders();
         for (Order order: orders){
-            if (order.getORDER_ID().equals(orderID)){
+            if (order.getORDER_ID().equals(orderID) && order.getCUSTOMER_ID().equals(this.getId())){
                 order.viewOrder();
                 System.out.println("----------");
                 break;
+            }else {
+                System.out.println("This order is not belong to you.");
             }
         }
     }

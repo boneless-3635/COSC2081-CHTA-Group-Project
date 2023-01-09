@@ -69,6 +69,30 @@ public class Admin extends User{
         Customer.viewUserInfoById(cusID);
     }
 
+    public void viewAllOrderMadeInDay(){
+        Scanner scanner;
+        String day;
+        int count =0;
+        ArrayList<Order> orders;
+
+        scanner = new Scanner(System.in);
+        orders = Order.getOrders();
+        System.out.println("Input the day you want to check for all order:");
+        day = scanner.nextLine();
+
+        for (Order order: orders){
+            if (day.equals(order.getDate())){
+                count++;
+                order.viewOrder();
+                System.out.println("----------");
+            }
+        }
+
+        if (count==0){
+            System.out.println("No order made on this day.");
+        }
+    }
+
     
     @Override
     public String toString(){
