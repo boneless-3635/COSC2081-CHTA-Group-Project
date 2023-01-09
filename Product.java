@@ -118,16 +118,21 @@ public class Product {
     public static void removeProduct() throws IOException {
 
         System.out.println("Please enter the name of the product you want to delete: ");
-        rewriteFile("removeProduct");
-
+        Scanner userInput = new Scanner(System.in);
+        String productName = userInput.nextLine();
+        if (lookupProductName(productName)) {
+            Utility.deleteRowTextFile(productName, "product.txt");
+        } else {
+            removeProduct();
+        }
+        initializeProduct();
     }
 
     public static void updatePrice() throws IOException {
-
         System.out.println("Please enter the name of the product you want to update the price: ");
         Scanner userInput = new Scanner(System.in);
         String productName = userInput.nextLine();
-        if (lookupProductName(productName, userInput)) {
+        if (lookupProductName(productName)) {
             System.out.println("Please enter the new price of product " + productName + ":");
             String productNewPrice = userInput.nextLine();
             if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
@@ -135,13 +140,14 @@ public class Product {
             } else {
                 Utility.updateTextFile(productName, productNewPrice, 2, "product.txt");
             }
+        } else {
+            updatePrice();
         }
-
+        initializeProduct();
     }
 
-    public static boolean lookupProductName(String productName, Scanner userInput) {
+    public static boolean lookupProductName(String productName) {
         boolean productFound = false;
-
 //            Look for the product name
         while (true) {
             for (Product productLoop : productArrayList) {
@@ -152,8 +158,7 @@ public class Product {
             }
 
             if (!productFound) {
-                System.out.println("Product not found\nPlease try again:");
-                productName = userInput.nextLine();
+                System.out.println("Product not found");
             } else {
                 return true;
             }
