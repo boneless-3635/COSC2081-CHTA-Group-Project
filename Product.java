@@ -57,36 +57,34 @@ public class Product {
             System.out.println("Create new product: ");
             StringBuilder errorMessage = new StringBuilder("Error: \n");
             Scanner userInput = new Scanner(System.in);
+
             System.out.println("Product name: ");
             String productName = userInput.nextLine();
 
-            if (validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
-                errorMessage.append("Invalid product name (only letters and digits, at least 3 characters) \n");
-                System.out.println(errorMessage);
-                errorFree = false;
-            }
+            System.out.println("Price: ");
+            String productPrice = userInput.nextLine();
 
-//            To check if product already existed because name is unique
+            System.out.println("Category: ");
+            String productCategory = userInput.nextLine();
+
+            //            To check if product already existed because name is unique
             for (Product productLoop : productArrayList) {
                 if (productName.equalsIgnoreCase(productLoop.getNAME())) {
                     errorMessage.append("Product already exists \n");
-                    System.out.println(errorMessage);
                     errorFree = false;
                     break;
                 }
             }
 
-            System.out.println("Price: ");
-            int productPrice = userInput.nextInt();
-            userInput.nextLine();
-
-            if (validateInput(String.valueOf(productPrice), "^[0-9]$") && productPrice < 1000) {
-                errorMessage.append("Invalid price (must be at least 1000 VND) \n");
-                System.out.println(errorMessage);
+            if (validateInput(productPrice, "^[0-9]$+")) {
+                if (Integer.parseInt(productPrice) < 1000) {
+                    errorMessage.append("Invalid price (must be a number at least 1000 VND) \n");
+                    errorFree = false;
+                }
+            } else {
+                errorMessage.append("Invalid price (must be a number at least 1000 VND) \n");
+                errorFree = false;
             }
-
-            System.out.println("Category: ");
-            String productCategory = userInput.nextLine();
 
 //            Categories can only be chosen from ones that already exists
             for (String functionLoop : Category.getCategoryArrayList()) {
@@ -98,7 +96,7 @@ public class Product {
 
             if (!categoryMatched) {
                 errorMessage.append("Category does not exist \n");
-                System.out.println(errorMessage);
+                errorFree = false;
             }
 
             if (errorFree) {
@@ -110,6 +108,8 @@ public class Product {
                 pw.close();
                 System.out.println("Successfully added product");
                 break;
+            } else {
+                System.out.println(errorMessage);
             }
         }
         initializeProduct();
@@ -121,8 +121,9 @@ public class Product {
         Scanner userInput = new Scanner(System.in);
         String productName = userInput.nextLine();
         if (lookupProductName(productName)) {
-            Utility.deleteRowTextFile(productName, "product.txt");
+            Utility.deleteRowTextFile(productName,1, "product.txt");
         } else {
+            System.out.println("No product found, please try again");
             removeProduct();
         }
         initializeProduct();
@@ -133,14 +134,21 @@ public class Product {
         Scanner userInput = new Scanner(System.in);
         String productName = userInput.nextLine();
         if (lookupProductName(productName)) {
-            System.out.println("Please enter the new price of product " + productName + ":");
-            String productNewPrice = userInput.nextLine();
-            if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
-                System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" + "Please try again:");
-            } else {
-                Utility.updateTextFile(productName, productNewPrice, 2, "product.txt");
+            while (true) {
+                System.out.println("Please enter the new price of product " + productName + ":");
+                String productNewPrice = userInput.nextLine();
+
+                if (validateInput(productNewPrice, "^[0-9]$+")) {
+                    if (Integer.parseInt(productNewPrice) > 1000) {
+                        Utility.updateTextFile(productName, productNewPrice, 1, 2, "product.txt");
+                        break;
+                    }
+                } else {
+                    System.out.println("Error: Invalid price (must be a number at least 1000 VND)");
+                }
             }
         } else {
+            System.out.println("No product found, please try again");
             updatePrice();
         }
         initializeProduct();
@@ -149,19 +157,18 @@ public class Product {
     public static boolean lookupProductName(String productName) {
         boolean productFound = false;
 //            Look for the product name
-        while (true) {
-            for (Product productLoop : productArrayList) {
-                if (productName.equalsIgnoreCase(productLoop.getNAME())) {
-                    productFound = true;
-                    break;
-                }
+        for (Product productLoop : productArrayList) {
+            if (productName.equalsIgnoreCase(productLoop.getNAME())) {
+                productFound = true;
+                break;
             }
+        }
 
-            if (!productFound) {
-                System.out.println("Product not found");
-            } else {
-                return true;
-            }
+        if (!productFound) {
+            System.out.println("Product not found");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -247,7 +254,7 @@ public class Product {
 
     public static boolean validateInput(String userInput, String pattern) {
         Pattern validPattern = Pattern.compile(pattern);
-        return !validPattern.matcher(userInput).find();
+        return validPattern.matcher(userInput).find();
     }
 
     public String getId() {
