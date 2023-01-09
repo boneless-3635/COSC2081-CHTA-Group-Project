@@ -27,7 +27,7 @@ public class Product {
     private int price;
     private String category;
     private int numberSold;
-    private static ArrayList<Product> productArrayList = new ArrayList<>();
+    private static final ArrayList<Product> productArrayList = new ArrayList<>();
 
     public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
@@ -125,8 +125,39 @@ public class Product {
     public static void updatePrice() throws IOException {
 
         System.out.println("Please enter the name of the product you want to update the price: ");
-        rewriteFile("updatePrice");
+        Scanner userInput = new Scanner(System.in);
+        String productName = userInput.nextLine();
+        if (lookupProductName(productName, userInput)) {
+            System.out.println("Please enter the new price of product " + productName + ":");
+            String productNewPrice = userInput.nextLine();
+            if (validateInput(productNewPrice, "^[0-9]$") && Integer.parseInt(productNewPrice) < 1000) {
+                System.out.println("Error:\nInvalid price (must be a number at least 1000 VND)\n" + "Please try again:");
+            } else {
+                Utility.updateTextFile(productName, productNewPrice, 2, "product.txt");
+            }
+        }
 
+    }
+
+    public static boolean lookupProductName(String productName, Scanner userInput) {
+        boolean productFound = false;
+
+//            Look for the product name
+        while (true) {
+            for (Product productLoop : productArrayList) {
+                if (productName.equalsIgnoreCase(productLoop.getNAME())) {
+                    productFound = true;
+                    break;
+                }
+            }
+
+            if (!productFound) {
+                System.out.println("Product not found\nPlease try again:");
+                productName = userInput.nextLine();
+            } else {
+                return true;
+            }
+        }
     }
 
     public static void rewriteFile(String function) throws IOException {

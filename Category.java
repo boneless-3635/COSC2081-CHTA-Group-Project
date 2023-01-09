@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 public class Category {
     private String category;
-    private static ArrayList<String> categoryArrayList = new ArrayList<>();
+    private static final ArrayList<String> categoryArrayList = new ArrayList<>();
 
     public Category(String category) {
         this.category = category;
@@ -25,7 +25,6 @@ public class Category {
 
     public static void initializeCategory() throws IOException {
         categoryArrayList.clear();
-        categoryArrayList = new ArrayList<String>();
         Scanner fileScanner = new Scanner(Paths.get("category.txt"));
         while (fileScanner.hasNext()) {
             categoryArrayList.add(fileScanner.nextLine());
