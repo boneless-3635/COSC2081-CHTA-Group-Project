@@ -210,7 +210,10 @@ public class Order {
                             addOrderToFile(order);
                             //update numsold of products ordered
                             Product.updateNumSold(shoppingCart);
-                            //recall initializeOrders to update orders arraylist
+                            //update total pay for customer
+                            customer.updateTotalPay(order.getTotalPrice());
+                            //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
+                            Customer.initializeCustomers();
                             initializeOrders();
                             System.out.println("Placed order successfully!");
                         } else if (userConfirm.equalsIgnoreCase("cancel")){
@@ -237,7 +240,7 @@ public class Order {
     public String toString(){
         //turn array of productAndQuantity to string
         String productNamesAndQuantity = String.join(",", this.getProductNamesAndQuantity());
-        return String.format("order id: %s \ncustomer id: %s \ncustomer name: %s \nproducts: %s \ntotal price: %d \naddress: %s \nstatus: %s \ndate: %s", this.getORDER_ID(), this.CUSTOMER_ID, this.getCustomerName(), productNamesAndQuantity, this.getTotalPrice(),this.getCustomerAddress(), this.getStatus(),this.getDate());
+        return String.format("order id: %s \ncustomer id: %s \ncustomer name: %s \nproducts: %s \ntotal price: %d VND \naddress: %s \nstatus: %s \ndate: %s", this.getORDER_ID(), this.CUSTOMER_ID, this.getCustomerName(), productNamesAndQuantity, this.getTotalPrice(),this.getCustomerAddress(), this.getStatus(),this.getDate());
     }
 
     //getter for all and setter for some field

@@ -9,9 +9,10 @@ public class Customer extends User{
     private String email;
     private String address;
     private String membership;
+    private int totalPay;
     private static ArrayList<Customer> customers = new ArrayList<>();
     
-    public Customer(String userName, String password, String id ,String fullName, String phoneNumber, String email, String address, String membership) {
+    public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership) {
         super(userName, password);
         this.ID = id;
         this.fullName = fullName;
@@ -19,6 +20,7 @@ public class Customer extends User{
         this.email = email;
         this.address = address;
         this.membership = membership;
+        this.totalPay = 0;
     }
 
     public static void initializeCustomers(){
@@ -38,13 +40,14 @@ public class Customer extends User{
                 }
 
                 //store customer in arraylist. Notice that we will cast productNames to arraylist to fit with the constructor.
-                customers.add(new Customer(accountFields.get(1),
+                customers.add(new Customer(accountFields.get(0),
+                        accountFields.get(1),
                         accountFields.get(2),
-                        accountFields.get(0),
                         accountFields.get(4),
                         accountFields.get(5),
                         accountFields.get(6),
-                        accountFields.get(7)
+                        accountFields.get(7),
+                        accountFields.get(8)
                         ));
             }
         }
@@ -121,13 +124,24 @@ public class Customer extends User{
                 //write registered info to file
                 PrintWriter pw = null;
                 pw = new PrintWriter(new FileWriter("account.txt", true));
-                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address + ":" + "none");
+                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address + ":" + "none" + ";0");
                 pw.close();
                 System.out.println("Register successfully!");
                 registerLoop = false;
                 break;
             }
         }
+    }
+
+    public void updateTotalPay(int addPay) throws IOException {
+        int updateTotalPay = addPay + this.getTotalPay();
+        Utility.updateTextFile(
+                this.getUserName(),
+                Integer.toString(updateTotalPay),
+                1,
+                9,
+                "account.txt"
+        );
     }
 
     public static boolean checkUniqueness(String filePath, String stringToCheck, int indexToCheck){
@@ -161,14 +175,17 @@ public class Customer extends User{
         System.out.println("Please enter order ID:");
         orderID = scanner.nextLine();
         orders = Order.getOrders();
+        boolean validId = false;
         for (Order order: orders){
             if (order.getORDER_ID().equals(orderID) && order.getCUSTOMER_ID().equals(this.getId())){
+                validId = true;
                 order.viewOrder();
                 System.out.println("----------");
                 break;
-            }else {
-                System.out.println("This order is not belong to you.");
             }
+        }
+        if (!validId){
+            System.out.println("This order is not belong to you.");
         }
     }
 
@@ -244,4 +261,6 @@ public class Customer extends User{
     public String getMembership() {return membership;}
 
     public void setMembership(String membership) {this.membership = membership;}
+
+    public int getTotalPay() {return totalPay;}
 }
