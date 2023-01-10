@@ -86,47 +86,56 @@ public class Admin extends User {
     }
 
     public void checkMostPaidCustomer() throws FileNotFoundException {
-        HashMap<String, Integer> customerPaidlist;
-        ArrayList<Order> orders;
-        int value, largest;
-        String key, cusID = null;
+        ArrayList<Customer> customers;
+        int largest =0;
 
-        customerPaidlist = new HashMap<String, Integer>();
-        orders = Order.getOrders();
-        for (Order order: orders){
-            key = order.getCUSTOMER_ID();
-            value = order.getTotalPrice();
+        customers = Customer.getCustomers();
 
-            if (customerPaidlist.containsKey(key)) {
-                customerPaidlist.put(key, customerPaidlist.get(key) + value);
-            } else {
-                // add the key-value pair to the map
-                customerPaidlist.put(key, value);
-            }
-        }
-
-        largest = 0;
-        for (Map.Entry<String, Integer> entry :
-                customerPaidlist.entrySet()) {
-            if (entry.getValue()>largest){
-                largest = entry.getValue();
-                cusID = entry.getKey();
+        for (Customer customer: customers){
+            if (customer.getTotalPay()> largest){
+                largest =customer.getTotalPay();
             }
         }
         System.out.println("Most paid customer information:");
-        Customer.viewUserInfoById(cusID);
+        Customer.viewUserNameAndTotalPayByTotalPay(largest);
+    }
+
+    public void checkLeastPaidCustomer() throws FileNotFoundException {
+        ArrayList<Customer> customers;
+        int smallest =2147483647;
+
+        customers = Customer.getCustomers();
+
+        for (Customer customer: customers){
+            if (customer.getTotalPay() < smallest){
+                smallest =customer.getTotalPay();
+            }
+        }
+        System.out.println("Least paid customer information:");
+        Customer.viewUserNameAndTotalPayByTotalPay(smallest);
     }
 
     public void viewAllOrderMadeInDay(){
         Scanner scanner;
-        String day;
+        String day = "";
         int count =0;
         ArrayList<Order> orders;
+        Boolean isValid;
 
         scanner = new Scanner(System.in);
         orders = Order.getOrders();
+        isValid = false;
         System.out.println("Input the day you want to check for all order:");
-        day = scanner.nextLine();
+
+        while (!isValid){
+            day = scanner.nextLine();
+            if (validateInput(day, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
+                isValid = true;
+            }
+            else{
+                System.out.println("Wrong day format!!! Input the day you want to check for all order:");
+            }
+        }
 
         for (Order order: orders){
             if (day.equals(order.getDate())){

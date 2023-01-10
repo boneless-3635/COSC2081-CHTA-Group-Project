@@ -23,7 +23,19 @@ public class Customer extends User{
         this.totalPay = 0;
     }
 
+    public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership, int totalPay) {
+        super(userName, password);
+        this.ID = id;
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.membership = membership;
+        this.totalPay = totalPay;
+    }
+
     public static void initializeCustomers(){
+        customers.clear();
         Scanner fileScanner = null;
         try {
             fileScanner = new Scanner(new File("account.txt"));
@@ -36,7 +48,7 @@ public class Customer extends User{
 //                }
 
                 if (accountFields.get(3).equals("admin")){
-                    fileScanner.nextLine();
+                    continue;
                 }
 
                 //store customer in arraylist. Notice that we will cast productNames to arraylist to fit with the constructor.
@@ -47,7 +59,8 @@ public class Customer extends User{
                         accountFields.get(5),
                         accountFields.get(6),
                         accountFields.get(7),
-                        accountFields.get(8)
+                        accountFields.get(8),
+                        Integer.parseInt(accountFields.get(9))
                         ));
             }
         }
@@ -211,9 +224,27 @@ public class Customer extends User{
         }
     }
 
+    public static void viewUserInfoByTotalPay(int totalPay) throws FileNotFoundException {
+        for (Customer customer: customers){
+            if (totalPay == (customer.totalPay)){
+                System.out.println(customer.toString());
+            }
+        }
+    }
+
+    public static void viewUserNameAndTotalPayByTotalPay(int totalPay) throws FileNotFoundException {
+        for (Customer customer: customers){
+            if (totalPay == (customer.totalPay)){
+                System.out.println("Name: "+ customer.getUserName());
+                System.out.println("Total Pay: "+ customer.getTotalPay());
+                System.out.println("----------");
+            }
+        }
+    }
+
     @Override
     public String toString(){
-        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s \nmembership %s", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress(), this.getMembership());
+        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s \nmembership %s \ntotal Pay: %d \n----------\n", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress(), this.getMembership(), this.getTotalPay());
     }
 
     @Override
@@ -263,4 +294,8 @@ public class Customer extends User{
     public void setMembership(String membership) {this.membership = membership;}
 
     public int getTotalPay() {return totalPay;}
+
+    public static ArrayList<Customer> getCustomers() {
+        return customers;
+    }
 }

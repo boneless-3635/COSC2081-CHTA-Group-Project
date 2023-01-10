@@ -15,3 +15,4 @@ b9b8e513-798a-4eb0-b5e4-307040687f86;an;customer1;sofa:1;7000000;anAddress;deliv
 72ec0cef-0724-4fd2-802a-8d93525a75f3;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:1;6650000;321 ABC, bca, HCM;delivered;10-01-2023
 7315b38c-b2e3-4296-a465-88c0dea76be5;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:2;13300000;321 ABC, bca, HCM;delivered;10-01-2023
 53da2237-0cf1-4d4e-8ace-62db819c5e4c;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:3,television:1;57950000;321 ABC, bca, HCM;delivered;10-01-2023
+4f221305-e169-421c-95b6-c5518efed90c;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:99;6583;321 ABC, bca, HCM;delivered;10-01-2023
