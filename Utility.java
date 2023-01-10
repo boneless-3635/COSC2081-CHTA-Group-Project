@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Utility {
     public static void updateTextFile(String nameOrID, String updateValue, int indexSource, int indexNeedToUpdate,
-                                      String fileName) throws IOException 
+                                      String fileName) throws IOException {
 //        We can't remove a row from a csv file with java. This means we have to create an arrayList, we then
 //        go through the original file. All the rows are copied over to the arrayList and the "deleted" row is
 //        not copied over. Any editing is done in the arrayList. The arrayList is then written to the file.
