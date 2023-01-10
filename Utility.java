@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Utility {
     public static void updateTextFile(String nameOrID, String updateValue, int indexSource, int indexNeedToUpdate,
-                                      String fileName) throws IOException {
+                                      String fileName) throws IOException 
 //        We can't remove a row from a csv file with java. This means we have to create an arrayList, we then
 //        go through the original file. All the rows are copied over to the arrayList and the "deleted" row is
 //        not copied over. Any editing is done in the arrayList. The arrayList is then written to the file.
@@ -18,12 +18,12 @@ public class Utility {
         Scanner fileScanner = new Scanner(Paths.get(fileName));
         while (fileScanner.hasNext()) {
             String line = fileScanner.nextLine();
-            String [] lineArray = line.split(",");
+            String [] lineArray = line.split(";");
             //split a line to array, then use indexSource storing id or name to take out the product/order need to be updated
-            if (lineArray[indexSource].equalsIgnoreCase(nameOrID)){
+            if (lineArray[indexSource].equals(nameOrID)){
                 //after update the index with given value, turn in to string again
                 lineArray[indexNeedToUpdate] = String.valueOf(updateValue);
-                line = String.join(",", lineArray);
+                line = String.join(";", lineArray);
             }
             tempLines.add(line);
         }

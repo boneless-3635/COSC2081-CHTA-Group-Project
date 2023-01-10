@@ -47,7 +47,7 @@ public class Product {
         Scanner fileScanner = new Scanner(Paths.get("product.txt"));
         while (fileScanner.hasNext()) {
 //            read per line and split line into array
-            List<String> productValues = Arrays.asList(fileScanner.nextLine().split(","));
+            List<String> productValues = Arrays.asList(fileScanner.nextLine().split(";"));
 
 //                store products in arraylist
             productArrayList.add(new Product(productValues.get(0), productValues.get(1),
@@ -332,6 +332,18 @@ public class Product {
     public static boolean validateInput(String userInput, String pattern) {
         Pattern validPattern = Pattern.compile(pattern);
         return validPattern.matcher(userInput).find();
+    }
+
+    //create method for Hoang
+    public static void updateNumSold(Map<String, Integer>  shoppingCart) throws IOException {
+        for (String item : shoppingCart.keySet()){
+            for (Product product : Product.getProductArrayList()){
+                if (item.equalsIgnoreCase(product.getNAME())){
+                    int numSold = product.getNumberSold() + shoppingCart.get(item);
+                    Utility.updateTextFile(product.getNAME(), String.valueOf(numSold), 1, 4, "product.txt");
+                }
+            }
+        }
     }
 
     public String getId() {
