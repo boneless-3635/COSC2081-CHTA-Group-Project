@@ -15,6 +15,8 @@ https://stackoverflow.com/questions/1883345/whats-up-with-javas-n-in-printf
 https://www.geeksforgeeks.org/pattern-compilestring-method-in-java-with-examples/
 https://stackoverflow.com/questions/53201648/java-format-string-d-and-d
 https://stackoverflow.com/questions/11665884/how-can-i-parse-a-string-with-a-comma-thousand-separator-to-a-number
+https://www.javatpoint.com/java-string-replaceall
+https://www.geeksforgeeks.org/bubble-sort/
 
 */
 
@@ -32,7 +34,8 @@ public class Product {
     private String category;
     private int numberSold;
     private static final ArrayList<Product> productArrayList = new ArrayList<>();
-    private static ArrayList<Product> productFilteredArrayList = new ArrayList<>();
+    private static ArrayList<Product> productEditedArrayList = new ArrayList<>();
+
 
     public Product(String id, String NAME, int price, String category, int numberSold) {
         this.id = id;
@@ -54,7 +57,7 @@ public class Product {
                     parseInt(productValues.get(2)), productValues.get(3), parseInt(productValues.get(4))));
         }
 
-        productFilteredArrayList = productArrayList;
+        productEditedArrayList = productArrayList;
     }
 
     public static void addProduct() throws IOException {
@@ -152,6 +155,7 @@ public class Product {
                     if (getFilteredInt(productNewPrice) > 1000) {
                         Utility.updateTextFile(productName, productNewPrice.replaceAll(",", "")
                                 .replaceAll("\\s", ""), 1, 2, "product.txt");
+                        System.out.println("Successfully updated the price\n");
                         break;
                     }
                 } else {
@@ -202,35 +206,40 @@ public class Product {
     }
 
     public static void displayProducts() {
-        System.out.printf("%-20s%-20s%-20s%s%n", "Product name", "Price (VND)", "Category", "Number Sold");
-        if (!productFilteredArrayList.isEmpty()) {
-            for (Product productLoop : productFilteredArrayList) {
-                System.out.printf("%-20s%,-20d%-20s%,-20d%n", productLoop.getNAME(), productLoop.getPrice(),
-                        productLoop.getCategory(), productLoop.getNumberSold());
+//        The parameter is to display the chosen ArrayList which are the default(all products), filtered and sorted
+        System.out.printf("%-20s%-15s%20s%20s%n", "Product name", "Category", "Price (VND)", "Number Sold");
+        if (!productEditedArrayList.isEmpty()) {
+            for (Product productLoop : productEditedArrayList) {
+                System.out.printf("%-20s%-15s%,20d%,20d%n", productLoop.getNAME(), productLoop.getCategory(),
+                        productLoop.getPrice(),productLoop.getNumberSold());
             }
         } else {
             System.out.println("No products to display\n");
         }
     }
 
-    public static void filterCategory() {
+    public static void filterProductCategory() {
         ArrayList<Product> tempProductArrayList  = new ArrayList<>();
 
         while (true) {
             boolean foundCategory = false;
 
-            System.out.println("Please enter the category you want to sort:");
+            System.out.println("Please enter the category you want to filter:");
             Scanner userInput = new Scanner(System.in);
             String inputCategory = userInput.nextLine();
-            for (String categoryLoop : Category.getCategoryArrayList()) {
-                if (inputCategory.equalsIgnoreCase(categoryLoop)) {
-                    foundCategory = true;
-                    for (Product productLoop : productFilteredArrayList) {
-                        if (inputCategory.equalsIgnoreCase(productLoop.getCategory())) {
-                            tempProductArrayList.add(productLoop);
+            if (inputCategory.equalsIgnoreCase("none")) {
+                break;
+            } else {
+                for (String categoryLoop : Category.getCategoryArrayList()) {
+                    if (inputCategory.equalsIgnoreCase(categoryLoop)) {
+                        foundCategory = true;
+                        for (Product productLoop : productEditedArrayList) {
+                            if (inputCategory.equalsIgnoreCase(productLoop.getCategory())) {
+                                tempProductArrayList.add(productLoop);
+                            }
                         }
+                        productEditedArrayList = tempProductArrayList;
                     }
-                    productFilteredArrayList = tempProductArrayList;
                 }
             }
 
@@ -242,17 +251,17 @@ public class Product {
         }
     }
 
-    public static void filterPrice() {
+    public static void filterProductPrice() {
         ArrayList<Product> tempProductArrayList  = new ArrayList<>();
 
         while (true) {
             boolean UpperLimit = true;
 
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Please enter the lower price filter (type none for no lower price filter)");
+            System.out.println("Please enter the lower price filter (price/none)");
             String lowerPriceLimit = userInput.nextLine();
 
-            System.out.println("Please enter the upper price filter (type none for no upper price filter)");
+            System.out.println("Please enter the upper price filter (price/none)");
             String upperPriceLimit = userInput.nextLine();
 
 //            Let the user choose if there aren't any upper limits or lower limits
@@ -271,14 +280,14 @@ public class Product {
 //                    Lower limit has to be lower than upper limit
                     if (validateInput(upperPriceLimit, "[0-9 ]+")) {
                         if (getFilteredInt(lowerPriceLimit) < getFilteredInt(upperPriceLimit)) {
-                            for (Product productLoop : productFilteredArrayList) {
+                            for (Product productLoop : productEditedArrayList) {
                                 if (getFilteredInt(lowerPriceLimit) < productLoop.getPrice() &&
                                         getFilteredInt(upperPriceLimit) > productLoop.getPrice()) {
                                     tempProductArrayList.add(productLoop);
                                 }
                             }
 //                            Write the temporary ArrayList back into the filtered ArrayList
-                            productFilteredArrayList = tempProductArrayList;
+                            productEditedArrayList = tempProductArrayList;
                             break;
                         } else {
                             System.out.println("Invalid price, lower price limit must be smaller than upper price limit");
@@ -288,16 +297,61 @@ public class Product {
                     }
 //                    This case only happens when there ISN'T an upper limit
                 } else {
-                    for (Product productLoop : productFilteredArrayList) {
+                    for (Product productLoop : productEditedArrayList) {
                         if (getFilteredInt(lowerPriceLimit) < productLoop.getPrice()) {
                             tempProductArrayList.add(productLoop);
                         }
                     }
-                    productFilteredArrayList = tempProductArrayList;
+                    productEditedArrayList = tempProductArrayList;
                     break;
                 }
             } else {
                 System.out.println("Invalid lower price (must be a number)");
+            }
+        }
+    }
+
+    public static void sortProductPrice() {
+        while (true) {
+            System.out.println("Do you want to sort by ascending or descending price? (ascending/descending/none)");
+            Scanner userInput = new Scanner(System.in);
+            String userChoice = userInput.nextLine();
+
+            if (userChoice.equalsIgnoreCase("ascending")) {
+//                True for ascending, false for descending
+                bubbleSortPrice(true);
+                break;
+            } else if (userChoice.equalsIgnoreCase("descending")) {
+                bubbleSortPrice(false);
+                break;
+            } else if (userChoice.equalsIgnoreCase("none")) {
+                break;
+            } else {
+                System.out.println("Invalid choice, please try again");
+            }
+        }
+    }
+
+    public static void bubbleSortPrice(boolean ascending) {
+
+
+        for (int i = 0; i < productEditedArrayList.size() - 1; i++) {
+            for (int j = 0; j < productEditedArrayList.size() - i - 1; j++) {
+//                sort ascending
+                if (ascending) {
+                    if (productEditedArrayList.get(j).getPrice() > productEditedArrayList.get(j + 1).getPrice()) {
+                        Product temp = productEditedArrayList.get(j);
+                        productEditedArrayList.set(j, productEditedArrayList.get(j + 1));
+                        productEditedArrayList.set(j + 1, temp);
+                    }
+//                    sort descending
+                } else {
+                    if (productEditedArrayList.get(j).getPrice() < productEditedArrayList.get(j + 1).getPrice()) {
+                        Product temp = productEditedArrayList.get(j);
+                        productEditedArrayList.set(j, productEditedArrayList.get(j + 1));
+                        productEditedArrayList.set(j + 1, temp);
+                    }
+                }
             }
         }
     }
@@ -307,26 +361,19 @@ public class Product {
         return Integer.parseInt(intString.replaceAll(",", "").replaceAll("\\s", ""));
     }
 
-    public static void clearFilterProduct() {
-        productFilteredArrayList = productArrayList;
+    public static void resetProduct() {
+//        To remove all filters
+        productEditedArrayList = productArrayList;
     }
 
     public static boolean lookupProductName(String productName) {
-        boolean productFound = false;
 //            Look for the product name
         for (Product productLoop : productArrayList) {
             if (productName.equalsIgnoreCase(productLoop.getNAME())) {
-                productFound = true;
-                break;
+                return true;
             }
         }
-
-        if (!productFound) {
-            System.out.println("Product not found");
-            return false;
-        } else {
-            return true;
-        }
+        return false;
     }
 
     public static boolean validateInput(String userInput, String pattern) {
@@ -381,4 +428,9 @@ public class Product {
     public static ArrayList<Product> getProductArrayList() {
         return productArrayList;
     }
+
+    public static ArrayList<Product> getProductEditedArrayList() {
+        return productEditedArrayList;
+    }
+
 }

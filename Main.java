@@ -7,8 +7,8 @@ public class Main {
         User user;
         //login phase, enter 'yes' or 'no' to log in or register. Otherwise, ask again for valid input
         while (true) {
-            java.lang.System.out.println("Do you have account yet ? (yes/no)");
-            Scanner userInput = new Scanner(java.lang.System.in);
+            System.out.println("Do you have account yet ? (yes/no)");
+            Scanner userInput = new Scanner(System.in);
             String hadAccount = userInput.nextLine();
             if (hadAccount.equals("yes")){
                 user = User.login();
@@ -93,8 +93,12 @@ public class Main {
             Customer customer = (Customer) user;
             System.out.println(customer); //print for testing
 
-            Product.filterPrice();
-            Product.filterCategory();
+//            Product.filterProductPrice();
+//            Product.filterProductCategory();
+
+            Product.displayProducts();
+
+            Product.sortProductPrice();
             Product.displayProducts();
         }
 
