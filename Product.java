@@ -13,6 +13,8 @@ https://www.w3schools.com/java/java_regex.asp
 https://stackoverflow.com/questions/33443651/print-java-arrays-in-columns
 https://stackoverflow.com/questions/1883345/whats-up-with-javas-n-in-printf
 https://www.geeksforgeeks.org/pattern-compilestring-method-in-java-with-examples/
+https://stackoverflow.com/questions/53201648/java-format-string-d-and-d
+https://stackoverflow.com/questions/11665884/how-can-i-parse-a-string-with-a-comma-thousand-separator-to-a-number
 
 */
 
@@ -87,7 +89,7 @@ public class Product {
             }
 
             if (validateInput(productPrice, "[0-9 ]+")) {
-                if (Integer.parseInt(productPrice.replace(",", "")) < 1000) {
+                if (getFilteredInt(productPrice) < 1000) {
                     System.out.println("Invalid price (must be a number at least 1000 VND)");
                     errorFree = false;
                 }
@@ -114,8 +116,7 @@ public class Product {
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
                 PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
-                pw.println(productID + "," + productName + "," + Integer.parseInt(productPrice
-                        .replace(",", "")) + "," + productCategory + "," + 0);
+                pw.println(productID + "," + productName + "," + getFilteredInt(productPrice) + "," + productCategory + "," + 0);
                 pw.close();
                 System.out.println("Successfully added product\n");
                 break;
@@ -148,8 +149,9 @@ public class Product {
                 String productNewPrice = userInput.nextLine();
 
                 if (validateInput(productNewPrice, "[0-9 ]+")) {
-                    if (Integer.parseInt(productNewPrice.replace(",", "")) > 1000) {
-                        Utility.updateTextFile(productName, productNewPrice, 1, 2, "product.txt");
+                    if (getFilteredInt(productNewPrice) > 1000) {
+                        Utility.updateTextFile(productName, productNewPrice.replaceAll(",", "")
+                                .replaceAll("\\s", ""), 1, 2, "product.txt");
                         break;
                     }
                 } else {
@@ -268,12 +270,10 @@ public class Product {
 //                    This case only happens when there IS an upper limit
 //                    Lower limit has to be lower than upper limit
                     if (validateInput(upperPriceLimit, "[0-9 ]+")) {
-
-                        if (Integer.parseInt(lowerPriceLimit.replace(",", "")) <
-                                Integer.parseInt(upperPriceLimit.replace(",", ""))) {
+                        if (getFilteredInt(lowerPriceLimit) < getFilteredInt(upperPriceLimit)) {
                             for (Product productLoop : productFilteredArrayList) {
-                                if (Integer.parseInt(lowerPriceLimit.replace(",", "")) < productLoop.getPrice() &&
-                                        Integer.parseInt(upperPriceLimit.replace(",", "")) > productLoop.getPrice()) {
+                                if (getFilteredInt(lowerPriceLimit) < productLoop.getPrice() &&
+                                        getFilteredInt(upperPriceLimit) > productLoop.getPrice()) {
                                     tempProductArrayList.add(productLoop);
                                 }
                             }
@@ -289,7 +289,7 @@ public class Product {
 //                    This case only happens when there ISN'T an upper limit
                 } else {
                     for (Product productLoop : productFilteredArrayList) {
-                        if (Integer.parseInt(lowerPriceLimit.replace(",", "")) < productLoop.getPrice()) {
+                        if (getFilteredInt(lowerPriceLimit) < productLoop.getPrice()) {
                             tempProductArrayList.add(productLoop);
                         }
                     }
@@ -300,6 +300,11 @@ public class Product {
                 System.out.println("Invalid lower price (must be a number)");
             }
         }
+    }
+
+    public static int getFilteredInt(String intString) {
+//        Remove the whitespace and comma from the price
+        return Integer.parseInt(intString.replaceAll(",", "").replaceAll("\\s", ""));
     }
 
     public static void clearFilterProduct() {
