@@ -229,6 +229,10 @@ public class Order {
         }
     }
 
+    public void viewOrder(){
+        System.out.println(this.toString());
+    }
+
     @Override
     public String toString(){
         //turn array of productAndQuantity to string

@@ -1,3 +1,4 @@
-none;Admin;thong2;admin;none;none;none;none;none
-781a821a-027e-450c-b762-63b2b7669460;customer1;Customer1@;customer;Minh Thong;0909090909;customer1@gmail.com;321 ABC, bca, HCM;none
-789a821a-027e-450c-b762-63b2b7669459;customer2;Customer2@;customer;Minh Thong;0909090909;customer2@gmail.com;123 ABC, bca, HCM;none
+none;Admin;thong2;admin;none;none;none;none
+781a821a-027e-450c-b762-63b2b7669460;customer1;Customer1@;customer;Minh Thong;0909090909;customer1@gmail.com;321 ABC, bca, HCM
+789a821a-027e-450c-b762-63b2b7669459;customer2;Customer2@;customer;Minh Thong;0909090909;customer2@gmail.com;123 ABC, bca, HCM
+userid123;customer2;Customer2@;customer;Minh Thong;0909090909;customer2@gmail.com;123 ABC, bca, HCM
