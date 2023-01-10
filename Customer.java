@@ -8,16 +8,17 @@ public class Customer extends User{
     private String phoneNumber;
     private String email;
     private String address;
+    private String membership;
     private static ArrayList<Customer> customers = new ArrayList<>();
-
-
-    public Customer(String userName, String password, String id ,String fullName, String phoneNumber, String email, String address) {
+    
+    public Customer(String userName, String password, String id ,String fullName, String phoneNumber, String email, String address, String membership) {
         super(userName, password);
         this.ID = id;
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
+        this.membership = membership;
     }
 
     public static void initializeCustomers(){
@@ -120,7 +121,7 @@ public class Customer extends User{
                 //write registered info to file
                 PrintWriter pw = null;
                 pw = new PrintWriter(new FileWriter("account.txt", true));
-                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address);
+                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address + ":" + "none");
                 pw.close();
                 System.out.println("Register successfully!");
                 registerLoop = false;
@@ -195,7 +196,7 @@ public class Customer extends User{
 
     @Override
     public String toString(){
-        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress());
+        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s \nmembership %s", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress(), this.getMembership());
     }
 
     @Override
@@ -239,4 +240,8 @@ public class Customer extends User{
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getMembership() {return membership;}
+
+    public void setMembership(String membership) {this.membership = membership;}
 }

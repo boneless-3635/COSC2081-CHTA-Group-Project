@@ -20,26 +20,29 @@ public class Main {
             }
         }
 
+//        Initialize here
+        Category.initializeCategory();
+        Product.initializeProduct();
+
         //check if that user is customer or admin, then downcast to relevant role
         if (user.isAdmin()){
             //admin's events here
             Admin admin = (Admin) user;
             System.out.println(admin); //print for testing
 //            Initialize content to access contents quickly from an object instead of reading from a file
-            Category.initializeCategory();
-            Product.initializeProduct();
 
-            String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro"};
+            String[] options = {"addpro", "remove", "update", "get", "addcat", "delpro", "delcat"};
 //            asks admin to choose the action
 
 //            loop to keep prompting the user until the input is valid
             while (true) {
-                System.out.println("What would you like to do (type exit to close the program):");
+                System.out.println("What would you like to do (type exit to close the program)\n");
                 System.out.println("Add a product (addpro)");
                 System.out.println("Remove a product (remove)");
                 System.out.println("Update price (update)");
                 System.out.println("Get information of all order by customer ID (get)");
                 System.out.println("Add a product category(addcat)");
+                System.out.println("Remove a product category(delcat)");
 //            ADD MORE LATER!!
 
 //            no option is selected at first
@@ -77,6 +80,10 @@ public class Main {
                             break;
                         case "update":
                             Product.updatePrice();
+                            break;
+                        case "delcat":
+                            Category.removeCategory();
+                            break;
                     }
                 }
             }
@@ -85,6 +92,10 @@ public class Main {
             //customer's events here
             Customer customer = (Customer) user;
             System.out.println(customer); //print for testing
+
+            Product.filterPrice();
+            Product.filterCategory();
+            Product.displayProducts();
         }
 
     }

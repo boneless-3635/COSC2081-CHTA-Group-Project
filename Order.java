@@ -1,6 +1,7 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
+import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -10,38 +11,38 @@ public class Order {
     private final String ORDER_ID;
     private final String CUSTOMER_ID;
     private String customerName;
-    private String[] productNames;
+    private String[] productNamesAndQuantity;
     private int totalPrice;
+    private String customerAddress;
     private String status;
     private String date;
     private static ArrayList<Order> orders = new ArrayList<>();
 
-    public Order(String ORDER_ID, String CUSTOMER_ID, String customerName, String[] productNames, int totalPrice, String status, String date) {
+    public Order(String ORDER_ID, String CUSTOMER_ID, String customerName, String[] productNamesAndQuantity, int totalPrice, String customerAddress ,String status, String date) {
         this.ORDER_ID = ORDER_ID;
         this.CUSTOMER_ID = CUSTOMER_ID;
         this.customerName = customerName;
-        this.productNames = productNames;
+        this.productNamesAndQuantity = productNamesAndQuantity;
         this.status = status;
         this.totalPrice = totalPrice;
+        this.customerAddress = customerAddress;
         this.date = date;
     }
 
     public static void initializeOrders(){
+        orders.clear();
         Scanner fileScanner = null;
         try {
             fileScanner = new Scanner(new File("order.txt"));
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> orderFields = Arrays.asList(fileScanner.nextLine().split(";"));
-                for (int i =0; i <orderFields.size(); i++){
-                    System.out.println(orderFields.get(i));
-                }
 
-                //index 2 will store product names, convert them to array.
-                String [] productNames = orderFields.get(3).split(",") ;
+                //index 3 will store product names, convert them to array.
+                String [] productNamesAndQuantity = orderFields.get(3).split(",");
 
-                //store products in arraylist. Notice that we will cast productNames to arraylist to fit with the constructor.
-                orders.add(new Order(orderFields.get(0), orderFields.get(1), orderFields.get(2), productNames, Integer.parseInt(orderFields.get(4)), orderFields.get(5), orderFields.get(6)));
+                //store products in arraylist. Notice that we will cast productNamesAndQuantity to arraylist to fit with the constructor.
+                orders.add(new Order(orderFields.get(0), orderFields.get(1), orderFields.get(2), productNamesAndQuantity, Integer.parseInt(orderFields.get(4)), orderFields.get(5), orderFields.get(6), orderFields.get(7)));
             }
         }
         catch (FileNotFoundException fileNotFoundException){
@@ -55,11 +56,56 @@ public class Order {
         }
     }
 
-    public static void placeOrder(ArrayList <Product> availableProducts){
+    public static int calculateTotalPrice(Map<String, Integer>  productAndQuantityArray, Customer customer){
+        int totalPrice = 0;
+        double discount = 0;
+        for (String item : productAndQuantityArray.keySet()){
+            //loop through initialized products array to compare productName and take out its price
+            for (Product product : Product.getProductArrayList()){
+                if (item.equalsIgnoreCase(product.getNAME())){
+                    totalPrice += productAndQuantityArray.get(item) * product.getPrice();
+                }
+            }
+        }
+        //check customer's membership to discount
+        switch (customer.getMembership()){
+            case "Silver":
+                discount = 0.05;
+                break;
+            case "Gold":
+                discount = 0.1;
+                break;
+            case "Platinum":
+                discount = 0.15;
+                break;
+        }
+        totalPrice = (int) (totalPrice - totalPrice*discount);
+        return totalPrice;
+    }
+
+    public static void addOrderToFile(Order order) throws IOException {
+        //turn array of productAndQuantity to String to store to text file
+        String productNamesAndQuantity = String.join(",", order.getProductNamesAndQuantity());
+        PrintWriter pw = null;
+        pw = new PrintWriter(new FileWriter("order.txt", true));
+        pw.println(order.getORDER_ID() + ";"  + order.getCUSTOMER_ID() + ";" + order.getCustomerName() + ";" + productNamesAndQuantity + ";" + order.getTotalPrice() + ";" + order.getCustomerAddress() + ";" + order.getStatus() + ";" + order.getDate());
+        pw.close();
+    }
+
+    //specifically used for customer
+    public void display(String discountMessage){
+        System.out.printf("order id: %s \ncustomer id: %s \ncustomer name: %s \n", this.getORDER_ID(), this.getCUSTOMER_ID(), this.getCustomerName());
+        for (String productAndNum : this.getProductNamesAndQuantity()){
+            System.out.println(productAndNum);
+        }
+        System.out.printf("total price: %d %s\naddress: %s \ndate: %s \n", this.getTotalPrice(), discountMessage, this.getCustomerAddress(), this.getDate());
+    }
+
+    public static void placeOrder(Customer customer) throws IOException {
         boolean keepAdding = true;
         String enteredProduct="";
+        String discountMessage="";
         int enteredQuantity=0;
-        int originalTotalPrice = 0;
         Scanner userInput = new Scanner(System.in);
         //initialize dictionary to store product and its quantity
         Map<String, Integer> shoppingCart = new HashMap<String, Integer>();
@@ -69,17 +115,13 @@ public class Order {
             boolean validProductInput = false;
             boolean validQuantity = false;
 
-            //initialize variable to assign product's price
-            int productPrice=0;
-
             //prompt user to enter valid products
             while (!validProductInput){
                 System.out.println("Enter product to add into order:");
                 enteredProduct = userInput.nextLine();
-                for (Product availableProduct : availableProducts){
-                    if (enteredProduct.equals(availableProduct.getNAME())){
+                for (Product availableProduct : Product.getProductArrayList()){
+                    if (enteredProduct.equalsIgnoreCase(availableProduct.getNAME())){
                         validProductInput = true;
-                        productPrice = availableProduct.getPrice();
                         break;
                     }
                 }
@@ -105,10 +147,10 @@ public class Order {
                 }
             }
 
-            //add to cart and calculate total price. Check if entered product is already in dictionary or not. If yes, increase number of that product in cart
+            //add to cart. Check if entered product is already in dictionary or not. If yes, increase number of that product in cart
             boolean alreadyExist = false;
             for (String item : shoppingCart.keySet()){
-                if (enteredProduct.equals(item)){
+                if (enteredProduct.equalsIgnoreCase(item)){
                     alreadyExist = true;
                     shoppingCart.put(item, shoppingCart.get(item) + enteredQuantity);
                 }
@@ -116,20 +158,73 @@ public class Order {
             if (!alreadyExist){
                 shoppingCart.put(enteredProduct, enteredQuantity);
             }
-            originalTotalPrice += (productPrice * enteredQuantity);
             System.out.println("Added to order.");
 
             //test to ask user add more or not
-            System.out.println("Add more?");
-            String addMore = userInput.nextLine();
-            if (addMore.equals("no")){
-                keepAdding = false;
-                System.out.println("Details of your order:");
-                for (String item : shoppingCart.keySet()){
-                    System.out.println(item + ": " + shoppingCart.get(item));
+            boolean validAnswer = false;
+            while (!validAnswer){
+                System.out.println("Add more? (yes/no)");
+                String addMore = userInput.nextLine();
+                if (addMore.equalsIgnoreCase("no")){
+                    validAnswer = true;
+                    keepAdding = false;
+                    //check customer's membership to display discount messase
+                    switch (customer.getMembership()){
+                        case "Silver":
+                            discountMessage += "(discount by 5%)";
+                            break;
+                        case "Gold":
+                            discountMessage += "(discount by 10%)";
+                            break;
+                        case "Platinum":
+                            discountMessage += "(discount by 15%)";
+                            break;
+                    }
+                    int totalPrice = Order.calculateTotalPrice(shoppingCart, customer);
+
+                    String orderId = UUID.randomUUID().toString(); //generate id for order
+                    //we will process the dictionary productNameAndQuantity, turn it to string with to format "product:quantity,product:quantity,..."
+                    String productNameAndQuantity = "";
+                    for (String item : shoppingCart.keySet()){
+                        productNameAndQuantity += item + ":" + shoppingCart.get(item) + ",";
+                    }
+                    productNameAndQuantity = productNameAndQuantity.substring(0, productNameAndQuantity.length() - 1); //get rid of the last comma
+                    //turn the string to array to create object
+                    String [] productAndQuantityArray = productNameAndQuantity.split(",");
+                    //create current date and turn it to string with format "dd-mm-yyyy"
+                    LocalDate date = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy");
+                    String formattedString = date.format(formatter);
+                    //create object and print the order for customer
+                    Order order = new Order(orderId, customer.getId(), customer.getUserName(), productAndQuantityArray, totalPrice, customer.getAddress(), "delivered", formattedString);
+                    System.out.println("Details of your order:");
+                    order.display(discountMessage);
+
+                    boolean confirmAnswer = false;
+                    while (!confirmAnswer){
+                        System.out.println("Please confirm to place order (confirm/cancel):");
+                        String userConfirm = userInput.nextLine();
+                        if (userConfirm.equalsIgnoreCase("confirm")){
+                            confirmAnswer = true;
+                            //save new order to initialized arraylist and text file
+                            addOrderToFile(order);
+                            //update numsold of products ordered
+                            Product.updateNumSold(shoppingCart);
+                            //recall initializeOrders to update orders arraylist
+                            initializeOrders();
+                            System.out.println("Placed order successfully!");
+                        } else if (userConfirm.equalsIgnoreCase("cancel")){
+                            confirmAnswer = true;
+                            System.out.println("Canceled your order.");
+                        } else {
+                            System.out.println("Invalid answer!");
+                        }
+                    }
+                } else if (addMore.equalsIgnoreCase("yes")){
+                    validAnswer = true;
+                } else {
+                    System.out.println("Invalid answer!");
                 }
-                System.out.println("total price: " + originalTotalPrice + "VND");
-                //TESTING LOOKS GUD, HAVENT HAD SAVE TO FILE CODE.
             }
         }
     }
@@ -140,37 +235,29 @@ public class Order {
 
     @Override
     public String toString(){
-        //turn arraylist of product name to string
-        String productNames = String.join(", ", this.getProductNames());
-        return String.format("order id: %s \n" +
-                "customer id: %s \n" +
-                "customer name: %s \n" +
-                "products: %s \ntotal price: %d \n" +
-                "status: %s \n" +
-                "date: %s",
-                this.getORDER_ID(),
-                this.getCUSTOMER_ID(),
-                this.getCustomerName(),
-                productNames,
-                this.getTotalPrice(),
-                this.getStatus(),
-                this.getDate());
+        //turn array of productAndQuantity to string
+        String productNamesAndQuantity = String.join(",", this.getProductNamesAndQuantity());
+        return String.format("order id: %s \ncustomer id: %s \ncustomer name: %s \nproducts: %s \ntotal price: %d \naddress: %s \nstatus: %s \ndate: %s", this.getORDER_ID(), this.CUSTOMER_ID, this.getCustomerName(), productNamesAndQuantity, this.getTotalPrice(),this.getCustomerAddress(), this.getStatus(),this.getDate());
     }
 
-    //getter
+    //getter for all and setter for some field
     public String getORDER_ID() { return ORDER_ID; }
 
     public String getCUSTOMER_ID() { return CUSTOMER_ID; }
 
-    public String[] getProductNames() { return productNames; }
+    public String[] getProductNamesAndQuantity() { return productNamesAndQuantity; }
 
     public String getCustomerName(){ return customerName; }
 
     public String getStatus() { return status; }
+
+    public void setStatus(String status){ this.status = status; }
 
     public int getTotalPrice() { return totalPrice; }
 
     public String getDate() { return date; }
 
     public static ArrayList<Order> getOrders() { return orders; }
+
+    public String getCustomerAddress() { return customerAddress; }
 }

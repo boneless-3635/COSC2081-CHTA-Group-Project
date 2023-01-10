@@ -1,2 +1,4 @@
 Living room
 Bedroom
+Bathroom
+Kitchen
