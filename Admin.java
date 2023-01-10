@@ -3,35 +3,54 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.remainderUnsigned;
 
 public class Admin extends User {
     public Admin(String userName, String password) {
         super(userName, password);
     }
 
+    //havent check if user enter unexisting order id, do it later
     public void changeOrderStatus(ArrayList <Order> orders) throws IOException {
         Scanner userInput = new Scanner(System.in);
         System.out.println("Enter order id you want to change status to PAID");
         String orderId = userInput.nextLine();
-        boolean validId = false;
-        boolean notPaid = false;
-        for (Order order : orders){
-            if (orderId.equals(order.getORDER_ID()) && order.getStatus().equals("delivered")){
-                order.setStatus("PAID");
-                Scanner fileScanner = new Scanner(Paths.get("order.txt"));
-                ArrayList<String> tempOrderArray = new ArrayList<String>();
-                while (fileScanner.hasNext()) {
-                    String line = fileScanner.nextLine();
-                    System.out.println(line);
-                }
-                validId = true;
-                notPaid = true;
-                break;
+        Utility.updateTextFile(orderId, "PAID", 0, 6, "order.txt");
+    }
+
+    public int calculateTotalRevenue(){
+        int totalRevenue = 0;
+        for (Order order : Order.getOrders()){
+            totalRevenue += order.getTotalPrice();
+        }
+        return totalRevenue;
+    }
+
+    public int calculateTotalRevenue(String date){
+        int totalRevenue = 0;
+        for (Order order : Order.getOrders()){
+            if (order.getDate().equals(date)){
+                totalRevenue += order.getTotalPrice();
             }
         }
-        if (validId && notPaid){
-            System.out.println("Changed order having id: " + orderId + " to PAID successfully!");
+        return totalRevenue;
+    }
+
+    public int calculateTotalRevenueWithDateValidate(){
+        int totalRevenue = 0;
+        Scanner userInput = new Scanner(System.in);
+        boolean validDateInput = false;
+        while (!validDateInput){
+            System.out.println("Enter date to view revenue (dd-mm-yyy): ");
+            String dateInput = userInput.nextLine();
+            if (validateInput(dateInput, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
+                totalRevenue = calculateTotalRevenue(dateInput);
+                validDateInput = true;
+            } else {
+                System.out.println("Invalid date input, try again!");
+            }
         }
+        return totalRevenue;
     }
 
     @Override
