@@ -60,6 +60,6 @@ public class Admin extends User {
 
     @Override
     public String toString(){
-        return "you are admin";
+        return "Admin account\n";
     }
 }
