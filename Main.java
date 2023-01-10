@@ -36,7 +36,7 @@ public class Main {
 
 //            loop to keep prompting the user until the input is valid
             while (true) {
-                System.out.println("What would you like to do (type exit to close the program):");
+                System.out.println("What would you like to do (type exit to close the program)\n");
                 System.out.println("Add a product (addpro)");
                 System.out.println("Remove a product (remove)");
                 System.out.println("Update price (update)");
@@ -93,7 +93,9 @@ public class Main {
             Customer customer = (Customer) user;
             System.out.println(customer); //print for testing
 
-
+            Product.filterPrice();
+            Product.filterCategory();
+            Product.displayProducts();
         }
 
     }

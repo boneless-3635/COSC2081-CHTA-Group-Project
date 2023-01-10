@@ -60,7 +60,7 @@ public abstract class  User {
             fileScanner.close();
         }
         if (loggedIn){
-            System.out.println("Logged in successfully!");
+            System.out.println("Logged in successfully!\n");
         } else{
             System.out.println("Log in fail!");
         }

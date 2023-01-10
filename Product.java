@@ -59,8 +59,8 @@ public class Product {
         while (true) {
             boolean errorFree = true;
             boolean categoryMatched = false;
-            System.out.println("Create new product: ");
-            StringBuilder errorMessage = new StringBuilder("Error: \n");
+            System.out.println("\nCreate a new product:\n");
+
             Scanner userInput = new Scanner(System.in);
 
             System.out.println("Product name: ");
@@ -73,26 +73,26 @@ public class Product {
             String productCategory = userInput.nextLine();
 
             if (!validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
-                errorMessage.append("Invalid user name (only letters and digits, at least 3 characters)");
+                System.out.println("Invalid user name (only letters and digits, at least 3 characters)");
                 errorFree = false;
             }
 
             //            To check if product already existed because name is unique
             for (Product productLoop : productArrayList) {
                 if (productName.equalsIgnoreCase(productLoop.getNAME())) {
-                    errorMessage.append("Product already exists");
+                    System.out.println("Product already exists");
                     errorFree = false;
                     break;
                 }
             }
 
-            if (validateInput(productPrice, "^[0-9 ]$+")) {
-                if (Integer.parseInt(productPrice) < 1000) {
-                    errorMessage.append("Invalid price (must be a number at least 1000 VND)");
+            if (validateInput(productPrice, "[0-9 ]+")) {
+                if (Integer.parseInt(productPrice.replace(",", "")) < 1000) {
+                    System.out.println("Invalid price (must be a number at least 1000 VND)");
                     errorFree = false;
                 }
             } else {
-                errorMessage.append("Invalid price (must be a number at least 1000 VND)");
+                System.out.println("Invalid price (must be a number at least 1000 VND1)");
                 errorFree = false;
             }
 
@@ -105,7 +105,7 @@ public class Product {
             }
 
             if (!categoryMatched) {
-                errorMessage.append("Category does not exist");
+                System.out.println("Category not found");
                 errorFree = false;
             }
 
@@ -114,12 +114,11 @@ public class Product {
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
                 PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
-                pw.println(productID + "," + productName + "," + productPrice + "," + productCategory + "," + 0);
+                pw.println(productID + "," + productName + "," + Integer.parseInt(productPrice
+                        .replace(",", "")) + "," + productCategory + "," + 0);
                 pw.close();
-                System.out.println("Successfully added product");
+                System.out.println("Successfully added product\n");
                 break;
-            } else {
-                System.out.println(errorMessage+"\n");
             }
         }
         initializeProduct();
@@ -148,8 +147,8 @@ public class Product {
                 System.out.println("Please enter the new price of product " + productName + ":");
                 String productNewPrice = userInput.nextLine();
 
-                if (validateInput(productNewPrice, "^[0-9]$+")) {
-                    if (Integer.parseInt(productNewPrice) > 1000) {
+                if (validateInput(productNewPrice, "[0-9 ]+")) {
+                    if (Integer.parseInt(productNewPrice.replace(",", "")) > 1000) {
                         Utility.updateTextFile(productName, productNewPrice, 1, 2, "product.txt");
                         break;
                     }
@@ -208,7 +207,7 @@ public class Product {
                         productLoop.getCategory(), productLoop.getNumberSold());
             }
         } else {
-            System.out.println("No products to display");
+            System.out.println("No products to display\n");
         }
     }
 
@@ -245,29 +244,57 @@ public class Product {
         ArrayList<Product> tempProductArrayList  = new ArrayList<>();
 
         while (true) {
+            boolean UpperLimit = true;
+
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Please enter the lower price filter");
-            String lowerPrice = userInput.nextLine();
+            System.out.println("Please enter the lower price filter (type none for no lower price filter)");
+            String lowerPriceLimit = userInput.nextLine();
 
-            System.out.println("Please enter the upper price filter");
-            String upperPrice = userInput.nextLine();
+            System.out.println("Please enter the upper price filter (type none for no upper price filter)");
+            String upperPriceLimit = userInput.nextLine();
 
-            if (validateInput(lowerPrice, "^[0-9 ]!+")){
-                if (validateInput(upperPrice, "^[0-9 ]!+")) {
-                    if (Integer.parseInt(lowerPrice) < Integer.parseInt(upperPrice)) {
-                        for (Product productLoop : productFilteredArrayList) {
-                            if (Integer.parseInt(lowerPrice) < productLoop.getPrice() &&
-                                    Integer.parseInt(upperPrice) > productLoop.getPrice()) {
-                                tempProductArrayList.add(productLoop);
+//            Let the user choose if there aren't any upper limits or lower limits
+            if (lowerPriceLimit.equalsIgnoreCase("none")) {
+                lowerPriceLimit = "0";
+            }
+
+            if (upperPriceLimit.equalsIgnoreCase("none")) {
+                UpperLimit = false;
+            }
+
+//            Validate the inputs first
+            if (validateInput(lowerPriceLimit, "[0-9 ]+")){
+                if (UpperLimit) {
+//                    This case only happens when there IS an upper limit
+//                    Lower limit has to be lower than upper limit
+                    if (validateInput(upperPriceLimit, "[0-9 ]+")) {
+
+                        if (Integer.parseInt(lowerPriceLimit.replace(",", "")) <
+                                Integer.parseInt(upperPriceLimit.replace(",", ""))) {
+                            for (Product productLoop : productFilteredArrayList) {
+                                if (Integer.parseInt(lowerPriceLimit.replace(",", "")) < productLoop.getPrice() &&
+                                        Integer.parseInt(upperPriceLimit.replace(",", "")) > productLoop.getPrice()) {
+                                    tempProductArrayList.add(productLoop);
+                                }
                             }
+//                            Write the temporary ArrayList back into the filtered ArrayList
+                            productFilteredArrayList = tempProductArrayList;
+                            break;
+                        } else {
+                            System.out.println("Invalid price, lower price limit must be smaller than upper price limit");
                         }
-                        productFilteredArrayList = tempProductArrayList;
-                        break;
                     } else {
-                        System.out.println("Invalid price, lower price limit must be smaller than upper price limit");
+                        System.out.println("Invalid upper price (must be a number)");
                     }
+//                    This case only happens when there ISN'T an upper limit
                 } else {
-                    System.out.println("Invalid upper price (must be a number)");
+                    for (Product productLoop : productFilteredArrayList) {
+                        if (Integer.parseInt(lowerPriceLimit.replace(",", "")) < productLoop.getPrice()) {
+                            tempProductArrayList.add(productLoop);
+                        }
+                    }
+                    productFilteredArrayList = tempProductArrayList;
+                    break;
                 }
             } else {
                 System.out.println("Invalid lower price (must be a number)");

@@ -45,7 +45,7 @@ public class Category {
                 PrintWriter pw = new PrintWriter(new FileWriter("category.txt", true));
                 pw.println(categoryInput);
                 pw.close();
-                System.out.println("Successfully added category");
+                System.out.println("Successfully added category\n");
                 break;
             }
         }
