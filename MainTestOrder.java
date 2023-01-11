@@ -19,6 +19,8 @@ public class MainTestOrder {
         admin.checkMostPaidCustomer();
         admin.checkLeastPaidCustomer();
         admin.viewAllOrderMadeInDay();
+        Product a = new Product("7abb3aff-c469-4a8b-b924-b8a7454c4fa1","Blanket",1480000,"Bedroom",1);
+
 
 //        Customer customer = new Customer("customer1", "Abc123#", "abc123@", "Minh Thong", "0909090909", "thong@gmail.com", "abc123 hcm","Silver");
 //        Order.placeOrder(customer);

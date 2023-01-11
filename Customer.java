@@ -202,7 +202,7 @@ public class Customer extends User{
         }
     }
 
-    public void viewUserOrder() {
+    public void viewMyOrder() {
         String customerID;
         ArrayList<Order> orders;
 
@@ -211,32 +211,6 @@ public class Customer extends User{
         for (Order order: orders){
             if (order.getCUSTOMER_ID().equals(customerID)){
                 order.viewOrder();
-                System.out.println("----------");
-            }
-        }
-    }
-
-    public static void viewUserInfoById(String userID) throws FileNotFoundException {
-        for (Customer customer: customers){
-            if (userID.equals(customer.getId())){
-                System.out.println(customer.toString());
-            }
-        }
-    }
-
-    public static void viewUserInfoByTotalPay(int totalPay) throws FileNotFoundException {
-        for (Customer customer: customers){
-            if (totalPay == (customer.totalPay)){
-                System.out.println(customer.toString());
-            }
-        }
-    }
-
-    public static void viewUserNameAndTotalPayByTotalPay(int totalPay) throws FileNotFoundException {
-        for (Customer customer: customers){
-            if (totalPay == (customer.totalPay)){
-                System.out.println("Name: "+ customer.getUserName());
-                System.out.println("Total Pay: "+ customer.getTotalPay());
                 System.out.println("----------");
             }
         }

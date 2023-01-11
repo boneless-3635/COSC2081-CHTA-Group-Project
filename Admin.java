@@ -97,7 +97,7 @@ public class Admin extends User {
             }
         }
         System.out.println("Most paid customer information:");
-        Customer.viewUserNameAndTotalPayByTotalPay(largest);
+        this.viewUserNameAndTotalPayByTotalPay(largest);
     }
 
     public void checkLeastPaidCustomer() throws FileNotFoundException {
@@ -112,7 +112,7 @@ public class Admin extends User {
             }
         }
         System.out.println("Least paid customer information:");
-        Customer.viewUserNameAndTotalPayByTotalPay(smallest);
+        this.viewUserNameAndTotalPayByTotalPay(smallest);
     }
 
     public void viewAllOrderMadeInDay(){
@@ -150,6 +150,31 @@ public class Admin extends User {
         }
     }
 
+    public static void viewUserInfoById(String userID) throws FileNotFoundException {
+        for (Customer customer: Customer.getCustomers()){
+            if (userID.equals(customer.getId())){
+                System.out.println(customer.toString());
+            }
+        }
+    }
+
+    public static void viewUserInfoByTotalPay(int totalPay) throws FileNotFoundException {
+        for (Customer customer: Customer.getCustomers()){
+            if (totalPay == (customer.getTotalPay())){
+                System.out.println(customer.toString());
+            }
+        }
+    }
+
+    public static void viewUserNameAndTotalPayByTotalPay(int totalPay) throws FileNotFoundException {
+        for (Customer customer: Customer.getCustomers()){
+            if (totalPay == (customer.getTotalPay())){
+                System.out.println("Name: "+ customer.getUserName());
+                System.out.println("Total Pay: "+ customer.getTotalPay());
+                System.out.println("----------");
+            }
+        }
+    }
     
     @Override
     public String toString(){
