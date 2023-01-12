@@ -14,13 +14,13 @@ public class Utility {
 //        not copied over. Any editing is done in the arrayList. The arrayList is then written to the file.
 
         //temporary arraylist to store lines
-        ArrayList<String> tempLines = new ArrayList<String>();
+        ArrayList<String> tempLines = new ArrayList<>();
         Scanner fileScanner = new Scanner(Paths.get(fileName));
         while (fileScanner.hasNext()) {
             String line = fileScanner.nextLine();
             String [] lineArray = line.split(";");
             //split a line to array, then use indexSource storing id or name to take out the product/order need to be updated
-            if (lineArray[indexSource].equals(nameOrID)){
+            if (lineArray[indexSource].equalsIgnoreCase(nameOrID)){
                 //after update the index with given value, turn in to string again
                 lineArray[indexNeedToUpdate] = String.valueOf(updateValue);
                 line = String.join(";", lineArray);
@@ -38,7 +38,7 @@ public class Utility {
 
     public static void deleteRowTextFile(String nameOrID, int indexSource, String fileName) throws IOException {
         //temporary arraylist to store lines
-        ArrayList<String> tempLines = new ArrayList<String>();
+        ArrayList<String> tempLines = new ArrayList<>();
         Scanner fileScanner = new Scanner(Paths.get(fileName));
         while (fileScanner.hasNext()) {
             String line = fileScanner.nextLine();

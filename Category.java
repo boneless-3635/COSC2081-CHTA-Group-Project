@@ -52,7 +52,7 @@ public class Category {
         initializeCategory();
     }
 
-    public static void removeCategory() {
+    public static void removeCategory() throws IOException {
         System.out.println("Please enter the category name you want to delete:");
         Scanner userInput = new Scanner(System.in);
         String categoryDelete = userInput.nextLine();
@@ -75,32 +75,9 @@ public class Category {
                 break;
             }
         }
+        Utility.deleteRowTextFile(categoryDelete, 0, "category.txt");
 
-        String targetFile = "category.txt";
-        String tempFile = "temp.txt";
-
-        File oldFile = new File(targetFile);
-        File newFile = new File(tempFile);
-
-        //        Refer to product class for explanation
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(tempFile, true)));
-             Scanner fileScanner = new Scanner(Paths.get(targetFile))) {
-            //                Read per line and separate the line into the array
-            while (fileScanner.hasNext()) {
-                String categoryLine = fileScanner.nextLine();
-                //                    Function to remove a product
-                if (!categoryLine.equalsIgnoreCase(categoryDelete)) {
-                    pw.println(categoryLine);
-                } else {
-                    System.out.println("Delete success\n");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            oldFile.delete();
-            newFile.renameTo(new File(targetFile));
-        }
+        Utility.updateTextFile(categoryDelete, "None", 3, 3, "product.txt");
     }
 
     public static boolean validateInput(String userInput, String pattern) {
