@@ -227,7 +227,7 @@ public class Product {
             System.out.println("Please enter the category you want to filter:");
             Scanner userInput = new Scanner(System.in);
             String inputCategory = userInput.nextLine();
-            if (inputCategory.equalsIgnoreCase("none")) {
+            if (inputCategory.equalsIgnoreCase("no")) {
                 break;
             } else {
                 for (String categoryLoop : Category.getCategoryArrayList()) {
@@ -258,18 +258,18 @@ public class Product {
             boolean UpperLimit = true;
 
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Please enter the lower price filter (price/none)");
+            System.out.println("Please enter the lower price filter (price/no)");
             String lowerPriceLimit = userInput.nextLine();
 
-            System.out.println("Please enter the upper price filter (price/none)");
+            System.out.println("Please enter the upper price filter (price/no)");
             String upperPriceLimit = userInput.nextLine();
 
 //            Let the user choose if there aren't any upper limits or lower limits
-            if (lowerPriceLimit.equalsIgnoreCase("none")) {
+            if (lowerPriceLimit.equalsIgnoreCase("no")) {
                 lowerPriceLimit = "0";
             }
 
-            if (upperPriceLimit.equalsIgnoreCase("none")) {
+            if (upperPriceLimit.equalsIgnoreCase("no")) {
                 UpperLimit = false;
             }
 
@@ -313,7 +313,7 @@ public class Product {
 
     public static void sortProductPrice() {
         while (true) {
-            System.out.println("Do you want to sort by ascending or descending price? (ascending/descending/none)");
+            System.out.println("Do you want to sort by ascending or descending price? (ascending/descending/no)");
             Scanner userInput = new Scanner(System.in);
             String userChoice = userInput.nextLine();
 
@@ -324,7 +324,7 @@ public class Product {
             } else if (userChoice.equalsIgnoreCase("descending")) {
                 bubbleSortPrice(false);
                 break;
-            } else if (userChoice.equalsIgnoreCase("none")) {
+            } else if (userChoice.equalsIgnoreCase("no")) {
                 break;
             } else {
                 System.out.println("Invalid choice, please try again");
