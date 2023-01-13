@@ -38,7 +38,7 @@ public class Category {
             System.out.println("Please enter the name of the category you want to add: ");
             String categoryInput = userInput.nextLine();
 
-            if (validateInput(categoryInput, "^[a-zA-Z ]{3,}$")) {
+            if (Utility.validateInput(categoryInput, "^[a-zA-Z ]{3,}$")) {
                 System.out.println("Invalid category name. Text only and it has to be at least 3 characters");
             } else {
                 new Category(categoryInput);
@@ -78,11 +78,6 @@ public class Category {
         Utility.deleteRowTextFile(categoryDelete, 0, "category.txt");
 
         Utility.updateTextFile(categoryDelete, "None", 3, 3, "product.txt");
-    }
-
-    public static boolean validateInput(String userInput, String pattern) {
-        Pattern validPattern = Pattern.compile(pattern);
-        return !validPattern.matcher(userInput).find();
     }
 
     public String getCategory() {
