@@ -59,11 +59,6 @@ public class Admin extends User {
         return totalRevenue;
     }
 
-    @Override
-    public boolean isAdmin (){
-        return true;
-    }
-
     public void getAllOrderByCustomerId(){
         String customerID;
         Scanner scanner = new Scanner(System.in);
@@ -175,9 +170,32 @@ public class Admin extends User {
             }
         }
     }
-    
+
+    public void removeCustomer() throws IOException {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter customer ID to remove");
+        String customerIDInput = input.nextLine();
+        boolean isExist = false;
+        for (Customer customer : Customer.getCustomers()){
+            if (customer.getId().equals(customerIDInput.toLowerCase())){
+                isExist = true;
+            }
+        }
+        if (!isExist){
+            System.out.println("Customer ID does not exist!");
+        } else {
+            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "customer.txt");
+            System.out.println("remove customer successfully!");
+            Customer.initializeCustomers();
+        }
+    }
+
     @Override
     public String toString(){
         return "Admin account\n";
+    }
+    @Override
+    public boolean isAdmin (){
+        return true;
     }
 }
