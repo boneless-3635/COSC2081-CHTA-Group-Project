@@ -49,7 +49,7 @@ public class Admin extends User {
         while (!validDateInput){
             System.out.println("Enter date to view revenue (dd-mm-yyy): ");
             String dateInput = userInput.nextLine();
-            if (validateInput(dateInput, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
+            if (Utility.validateInput(dateInput, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
                 totalRevenue = calculateTotalRevenue(dateInput);
                 validDateInput = true;
             } else {
@@ -124,7 +124,7 @@ public class Admin extends User {
 
         while (!isValid){
             day = scanner.nextLine();
-            if (validateInput(day, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
+            if (Utility.validateInput(day, "^(0[1-9]|[12][0-9]|3[01])\\-(0[1-9]|1[012])\\-\\d{4}$")){
                 isValid = true;
             }
             else{

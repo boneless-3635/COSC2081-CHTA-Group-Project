@@ -102,24 +102,24 @@ public class Customer extends User{
             email = userInput.nextLine();
             System.out.println("Address (at least 10 letters): ");
             address = userInput.nextLine();
-            if (!validateInput(userName, "^[a-zA-Z0-9 ]{1,15}$")){
+            if (!Utility.validateInput(userName, "^[a-zA-Z0-9 ]{1,15}$")){
                 errorMessage += "Invalid user name \n";
             }
-            if (!validateInput(password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,20}$")){
+            if (!Utility.validateInput(password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,20}$")){
                 errorMessage += "Invalid password \n";
             }
-            if (!validateInput(fullName, "^[a-zA-Z ]{5,}$")){
+            if (!Utility.validateInput(fullName, "^[a-zA-Z ]{5,}$")){
                 errorMessage += "Invalid full name \n";
             }
-            if (!validateInput(phoneNumber, "^0[0-9]{9,10}$")){
+            if (!Utility.validateInput(phoneNumber, "^0[0-9]{9,10}$")){
                 errorMessage += "Invalid phone number \n";
             }
             //not optimal email pattern
-            if (!validateInput(email, "^.+@.+$")){
+            if (!Utility.validateInput(email, "^.+@.+$")){
                 errorMessage += "Invalid email \n";
             }
             //not optimal address pattern
-            if (!validateInput(address, "^.{10,}$")){
+            if (!Utility.validateInput(address, "^.{10,}$")){
                 errorMessage += "Invalid address \n";
             }
 

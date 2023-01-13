@@ -96,7 +96,7 @@ public class Product {
                     errorFree = false;
                 }
             } else {
-                System.out.println("Invalid price (must be a number at least 1000 VND1)");
+                System.out.println("Invalid price (must be a number at least 1000 VND)");
                 errorFree = false;
             }
 

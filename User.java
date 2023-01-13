@@ -68,17 +68,6 @@ public abstract class  User {
         return user;
     }
 
-    public static boolean validateInput(String userInput, String pattern){
-        boolean valid;
-        Pattern validPattern = Pattern.compile(pattern);
-        if (validPattern.matcher(userInput).find()){
-            valid = true;
-        } else {
-            valid = false;
-        }
-        return valid;
-    }
-
     public abstract boolean isAdmin();
 
     //getter n setter

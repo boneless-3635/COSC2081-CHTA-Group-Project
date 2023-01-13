@@ -72,7 +72,7 @@ public class Utility {
 
     public static boolean validateInput(String userInput, String pattern) {
         Pattern validPattern = Pattern.compile(pattern);
-        return !validPattern.matcher(userInput).find();
+        return validPattern.matcher(userInput).find();
 //        Returns true if the string matches the regex
     }
 }
