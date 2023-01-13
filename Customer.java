@@ -41,7 +41,7 @@ public class Customer extends User{
             fileScanner = new Scanner(new File("account.txt"));
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
-                List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";"));
+                List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
 //                for (int i =0; i <accountFields.size(); i++){
 //                    System.out.println(accountFields.get(i));
@@ -137,7 +137,7 @@ public class Customer extends User{
                 //write registered info to file
                 PrintWriter pw = null;
                 pw = new PrintWriter(new FileWriter("account.txt", true));
-                pw.println(userId + ";" + userName + ";" + password + ";" + "customer" + ";" + fullName + ";" + phoneNumber + ";" + email + ";" + address + ":" + "none" + ";0");
+                pw.println(userId + ";;;" + userName + ";;;" + password + ";;;" + "customer" + ";;;" + fullName + ";;;" + phoneNumber + ";;;" + email + ";;;" + address + ";;;" + "none" + ";;;0");
                 pw.close();
                 System.out.println("Register successfully!");
                 registerLoop = false;
@@ -162,7 +162,7 @@ public class Customer extends User{
         try (Scanner fileScanner = new Scanner(Paths.get(filePath))) {
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
-                String [] lineArray = line.split(";");
+                String [] lineArray = line.split(";;;");
                 if (stringToCheck.equals(lineArray[indexToCheck])){
                     alreadyExist = true;
                     break;

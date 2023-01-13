@@ -36,7 +36,7 @@ public class Order {
             fileScanner = new Scanner(new File("order.txt"));
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
-                List<String> orderFields = Arrays.asList(fileScanner.nextLine().split(";"));
+                List<String> orderFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
                 //index 3 will store product names, convert them to array.
                 String [] productNamesAndQuantity = orderFields.get(3).split(",");
@@ -88,7 +88,7 @@ public class Order {
         String productNamesAndQuantity = String.join(",", order.getProductNamesAndQuantity());
         PrintWriter pw = null;
         pw = new PrintWriter(new FileWriter("order.txt", true));
-        pw.println(order.getORDER_ID() + ";"  + order.getCUSTOMER_ID() + ";" + order.getCustomerName() + ";" + productNamesAndQuantity + ";" + order.getTotalPrice() + ";" + order.getCustomerAddress() + ";" + order.getStatus() + ";" + order.getDate());
+        pw.println(order.getORDER_ID() + ";;;"  + order.getCUSTOMER_ID() + ";;;" + order.getCustomerName() + ";;;" + productNamesAndQuantity + ";;;" + order.getTotalPrice() + ";;;" + order.getCustomerAddress() + ";;;" + order.getStatus() + ";;;" + order.getDate());
         pw.close();
     }
 

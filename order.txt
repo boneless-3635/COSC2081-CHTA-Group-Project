@@ -1,18 +1,18 @@
-orderid123;userid123;username;producta,productb;1000;123 ABC Street HCM;delivered;06-02-2023
-orderid321;userid321;username;productc,productd;2000;321 BCA Street HCM;delivered;06-02-2023
-1b28c7d1-32be-4eef-bee5-b931b2325006;abc123@;customer1;Sofa:1,Television:2;3000;abc123 hcm;delivered;08-01-2023
-16de822a-65d7-4932-aa6d-2fedfebea24e;abc123@;customer1;Sofa:2,Television:1;4000;abc123 hcm;PAID;09-01-2023
-521f9ea0-3f5a-4c11-99cc-6000ed1c9d8e;abc123@;customer1;sofa:2,television:1;43700000;abc123 hcm;delivered;09-01-2023
-93065f14-82ed-4aeb-b36e-076c669b991f;abc123@;customer1;sofa:1,television:1;40850000;abc123 hcm;delivered;09-01-2023
-e26e82c9-4dac-419e-ba68-c762fff36cea;an;customer1;sofa:1,television:1;40850000;abc123 hcm;delivered;09-01-2023
-b006f830-3585-4df9-bc26-37edcaa969d1;an;customer1;sofa:1,television:1;40850000;abc123 hcm;delivered;09-01-2023
-b3710793-e057-452a-8e17-b1ca85b6655f;an;cutomer1;Sofa:1;7000000;anAddress;delivered;10-01-2023
-22e9d01f-61b5-41b2-8ea3-7146b00e23bb;an;customer1;SOfa:1;7000000;anAddress;delivered;10-01-2023
-057881ac-138f-479e-9303-0e7401900f2c;an;customer1;Sofa:1;7000000;anAddress;delivered;10-01-2023
-74cd5cb1-d419-4c35-983a-fa2d6d57103d;an;customer1;SOfa:1;7000000;anAddress;delivered;10-01-2023
-b9b8e513-798a-4eb0-b5e4-307040687f86;an;customer1;sofa:1;7000000;anAddress;delivered;10-01-2023
-31097e22-2fb5-4059-b641-962d000e3718;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:1;6650000;321 ABC, bca, HCM;delivered;10-01-2023
-72ec0cef-0724-4fd2-802a-8d93525a75f3;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:1;6650000;321 ABC, bca, HCM;delivered;10-01-2023
-7315b38c-b2e3-4296-a465-88c0dea76be5;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:2;13300000;321 ABC, bca, HCM;delivered;10-01-2023
-53da2237-0cf1-4d4e-8ace-62db819c5e4c;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:3,television:1;57950000;321 ABC, bca, HCM;delivered;10-01-2023
-4f221305-e169-421c-95b6-c5518efed90c;781a821a-027e-450c-b762-63b2b7669460;customer1;sofa:99;6583;321 ABC, bca, HCM;delivered;10-01-2023
+orderid123;;;userid123;;;username;;;producta,productb;;;1000;;;123 ABC Street HCM;;;delivered;;;06-02-2023
+orderid321;;;userid321;;;username;;;productc,productd;;;2000;;;321 BCA Street HCM;;;delivered;;;06-02-2023
+1b28c7d1-32be-4eef-bee5-b931b2325006;;;abc123@;;;customer1;;;Sofa:1,Television:2;;;3000;;;abc123 hcm;;;delivered;;;08-01-2023
+16de822a-65d7-4932-aa6d-2fedfebea24e;;;abc123@;;;customer1;;;Sofa:2,Television:1;;;4000;;;abc123 hcm;;;PAID;;;09-01-2023
+521f9ea0-3f5a-4c11-99cc-6000ed1c9d8e;;;abc123@;;;customer1;;;sofa:2,television:1;;;43700000;;;abc123 hcm;;;delivered;;;09-01-2023
+93065f14-82ed-4aeb-b36e-076c669b991f;;;abc123@;;;customer1;;;sofa:1,television:1;;;40850000;;;abc123 hcm;;;delivered;;;09-01-2023
+e26e82c9-4dac-419e-ba68-c762fff36cea;;;an;;;customer1;;;sofa:1,television:1;;;40850000;;;abc123 hcm;;;delivered;;;09-01-2023
+b006f830-3585-4df9-bc26-37edcaa969d1;;;an;;;customer1;;;sofa:1,television:1;;;40850000;;;abc123 hcm;;;delivered;;;09-01-2023
+b3710793-e057-452a-8e17-b1ca85b6655f;;;an;;;cutomer1;;;Sofa:1;;;7000000;;;anAddress;;;delivered;;;10-01-2023
+22e9d01f-61b5-41b2-8ea3-7146b00e23bb;;;an;;;customer1;;;SOfa:1;;;7000000;;;anAddress;;;delivered;;;10-01-2023
+057881ac-138f-479e-9303-0e7401900f2c;;;an;;;customer1;;;Sofa:1;;;7000000;;;anAddress;;;delivered;;;10-01-2023
+74cd5cb1-d419-4c35-983a-fa2d6d57103d;;;an;;;customer1;;;SOfa:1;;;7000000;;;anAddress;;;delivered;;;10-01-2023
+b9b8e513-798a-4eb0-b5e4-307040687f86;;;an;;;customer1;;;sofa:1;;;7000000;;;anAddress;;;delivered;;;10-01-2023
+31097e22-2fb5-4059-b641-962d000e3718;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:1;;;6650000;;;321 ABC, bca, HCM;;;delivered;;;10-01-2023
+72ec0cef-0724-4fd2-802a-8d93525a75f3;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:1;;;6650000;;;321 ABC, bca, HCM;;;delivered;;;10-01-2023
+7315b38c-b2e3-4296-a465-88c0dea76be5;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:2;;;13300000;;;321 ABC, bca, HCM;;;delivered;;;10-01-2023
+53da2237-0cf1-4d4e-8ace-62db819c5e4c;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:3,television:1;;;57950000;;;321 ABC, bca, HCM;;;delivered;;;10-01-2023
+4f221305-e169-421c-95b6-c5518efed90c;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:99;;;6583;;;321 ABC, bca, HCM;;;delivered;;;10-01-2023

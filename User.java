@@ -29,7 +29,7 @@ public abstract class  User {
             fileScanner = new Scanner(new File("account.txt"));
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
-                StringTokenizer inReader = new StringTokenizer(line, ";");
+                StringTokenizer inReader = new StringTokenizer(line, ";;;");
                 id = inReader.nextToken();
                 userName = inReader.nextToken();
                 password = inReader.nextToken();
