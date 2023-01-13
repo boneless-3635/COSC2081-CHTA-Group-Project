@@ -23,7 +23,6 @@ https://www.geeksforgeeks.org/bubble-sort/
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
@@ -77,7 +76,7 @@ public class Product {
             System.out.println("Category: ");
             String productCategory = userInput.nextLine();
 
-            if (!validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
+            if (!Utility.validateInput(productName, "^[a-zA-Z0-9 ]{3,}$")) {
                 System.out.println("Invalid user name (only letters and digits, at least 3 characters)");
                 errorFree = false;
             }
@@ -91,7 +90,7 @@ public class Product {
                 }
             }
 
-            if (validateInput(productPrice, "[0-9 ]+")) {
+            if (Utility.validateInput(productPrice, "[0-9 ]+")) {
                 if (getFilteredInt(productPrice) < 1000) {
                     System.out.println("Invalid price (must be a number at least 1000 VND)");
                     errorFree = false;
@@ -152,7 +151,7 @@ public class Product {
                 System.out.println("Please enter the new price of product " + productName + ":");
                 String productNewPrice = userInput.nextLine();
 
-                if (validateInput(productNewPrice, "[0-9 ]+")) {
+                if (Utility.validateInput(productNewPrice, "[0-9 ]+")) {
                     if (getFilteredInt(productNewPrice) > 1000) {
                         Utility.updateTextFile(productName, String.valueOf(getFilteredInt(productNewPrice)), 1, 2, "product.txt");
                         System.out.println("Successfully updated the price\n");
@@ -273,12 +272,12 @@ public class Product {
                 UpperLimit = false;
             }
 
-//            Validate the inputs first
-            if (validateInput(lowerPriceLimit, "[0-9 ]+")){
+//            Utility.validate the inputs first
+            if (Utility.validateInput(lowerPriceLimit, "[0-9 ]+")){
                 if (UpperLimit) {
 //                    This case only happens when there IS an upper limit
 //                    Lower limit has to be lower than upper limit
-                    if (validateInput(upperPriceLimit, "[0-9 ]+")) {
+                    if (Utility.validateInput(upperPriceLimit, "[0-9 ]+")) {
                         if (getFilteredInt(lowerPriceLimit) < getFilteredInt(upperPriceLimit)) {
                             for (Product productLoop : productEditedArrayList) {
                                 if (getFilteredInt(lowerPriceLimit) < productLoop.getPrice() &&
@@ -374,11 +373,6 @@ public class Product {
             }
         }
         return false;
-    }
-
-    public static boolean validateInput(String userInput, String pattern) {
-        Pattern validPattern = Pattern.compile(pattern);
-        return validPattern.matcher(userInput).find();
     }
 
     //create method for Hoang

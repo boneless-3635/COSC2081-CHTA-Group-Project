@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Utility {
     public static void updateTextFile(String nameOrID, String updateValue, int indexSource, int indexNeedToUpdate,
@@ -67,5 +68,10 @@ public class Utility {
             pw.println(line);
         }
         pw.close();
+    }
+
+    public static boolean validateInput(String userInput, String pattern) {
+        Pattern validPattern = Pattern.compile(pattern);
+        return !validPattern.matcher(userInput).find();
     }
 }
