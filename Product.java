@@ -50,7 +50,7 @@ public class Product {
         Scanner fileScanner = new Scanner(Paths.get("product.txt"));
         while (fileScanner.hasNext()) {
 //            read per line and split line into array
-            List<String> productValues = Arrays.asList(fileScanner.nextLine().split(";"));
+            List<String> productValues = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
 //                store products in arraylist
             productArrayList.add(new Product(productValues.get(0), productValues.get(1),
@@ -119,7 +119,8 @@ public class Product {
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
                 PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
-                pw.println(productID + "," + productName + "," + getFilteredInt(productPrice) + "," + productCategory + "," + 0);
+                pw.println(productID + ";;;" + productName + ";;;" + getFilteredInt(productPrice) +
+                        ";;;" + productCategory + ";;;" + 0);
                 pw.close();
                 System.out.println("Successfully added product\n");
                 break;
@@ -153,8 +154,7 @@ public class Product {
 
                 if (validateInput(productNewPrice, "[0-9 ]+")) {
                     if (getFilteredInt(productNewPrice) > 1000) {
-                        Utility.updateTextFile(productName, productNewPrice.replaceAll(",", "")
-                                .replaceAll("\\s", ""), 1, 2, "product.txt");
+                        Utility.updateTextFile(productName, String.valueOf(getFilteredInt(productNewPrice)), 1, 2, "product.txt");
                         System.out.println("Successfully updated the price\n");
                         break;
                     }
