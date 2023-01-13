@@ -16,12 +16,23 @@ public class Admin extends User {
         super(userName, password);
     }
 
-    //havent check if user enter unexisting order id, do it later
     public void changeOrderStatus(ArrayList <Order> orders) throws IOException {
         Scanner userInput = new Scanner(System.in);
         System.out.println("Enter order id you want to change status to PAID");
-        String orderId = userInput.nextLine();
-        Utility.updateTextFile(orderId, "PAID", 0, 6, "order.txt");
+        String orderIdInput = userInput.nextLine();
+        //check if user enter existing order id or not first, if yes then execute updateTextFile
+        boolean isExist = false;
+        for (Order order : Order.getOrders()){
+            if (orderIdInput.equalsIgnoreCase(order.getORDER_ID())){
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist){
+            System.out.println("Order ID does not exist, quit the procedure!");
+        } else {
+            Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "order.txt");
+        }
     }
 
     public int calculateTotalRevenue(){
