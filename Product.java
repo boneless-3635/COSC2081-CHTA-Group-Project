@@ -206,7 +206,8 @@ public class Product {
 
     public static void displayProducts() {
 //        The parameter is to display the chosen ArrayList which are the default(all products), filtered and sorted
-        System.out.printf("%-20s%-15s%20s%20s%n", "Product name", "Category", "Price (VND)", "Number Sold");
+        System.out.printf("%n%-20s%-15s%20s%20s%n", "Product name", "Category", "Price (VND)", "Number Sold");
+        System.out.println("---------------------------------------------------------------------------");
         if (!productEditedArrayList.isEmpty()) {
             for (Product productLoop : productEditedArrayList) {
                 System.out.printf("%-20s%-15s%,20d%,20d%n", productLoop.getNAME(), productLoop.getCategory(),
@@ -223,10 +224,10 @@ public class Product {
         while (true) {
             boolean foundCategory = false;
 
-            System.out.println("Please enter the category you want to filter:");
+            System.out.println("Please enter the category you want to filter: (category/x)");
             Scanner userInput = new Scanner(System.in);
             String inputCategory = userInput.nextLine();
-            if (inputCategory.equalsIgnoreCase("no")) {
+            if (inputCategory.equalsIgnoreCase("x")) {
                 break;
             } else {
                 for (String categoryLoop : Category.getCategoryArrayList()) {
@@ -257,18 +258,18 @@ public class Product {
             boolean UpperLimit = true;
 
             Scanner userInput = new Scanner(System.in);
-            System.out.println("Please enter the lower price filter (price/no)");
+            System.out.println("Please enter the lower price filter (price/x)");
             String lowerPriceLimit = userInput.nextLine();
 
-            System.out.println("Please enter the upper price filter (price/no)");
+            System.out.println("Please enter the upper price filter (price/x)");
             String upperPriceLimit = userInput.nextLine();
 
 //            Let the user choose if there aren't any upper limits or lower limits
-            if (lowerPriceLimit.equalsIgnoreCase("no")) {
+            if (lowerPriceLimit.equalsIgnoreCase("x")) {
                 lowerPriceLimit = "0";
             }
 
-            if (upperPriceLimit.equalsIgnoreCase("no")) {
+            if (upperPriceLimit.equalsIgnoreCase("x")) {
                 UpperLimit = false;
             }
 
@@ -312,18 +313,18 @@ public class Product {
 
     public static void sortProductPrice() {
         while (true) {
-            System.out.println("Do you want to sort by ascending or descending price? (ascending/descending/no)");
+            System.out.println("Do you want to sort by ascending or descending price? (asc/des/x)");
             Scanner userInput = new Scanner(System.in);
             String userChoice = userInput.nextLine();
 
-            if (userChoice.equalsIgnoreCase("ascending")) {
+            if (userChoice.equalsIgnoreCase("asc")) {
 //                True for ascending, false for descending
                 bubbleSortPrice(true);
                 break;
-            } else if (userChoice.equalsIgnoreCase("descending")) {
+            } else if (userChoice.equalsIgnoreCase("des")) {
                 bubbleSortPrice(false);
                 break;
-            } else if (userChoice.equalsIgnoreCase("no")) {
+            } else if (userChoice.equalsIgnoreCase("x")) {
                 break;
             } else {
                 System.out.println("Invalid choice, please try again");

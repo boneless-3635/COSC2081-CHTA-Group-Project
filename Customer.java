@@ -1,5 +1,7 @@
 import java.io.*;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Customer extends User{
@@ -215,10 +217,128 @@ public class Customer extends User{
             }
         }
     }
+    public void viewTodaysOrder(){
+        int count =0;
+        ArrayList<Order> orders = Order.getOrders();
+
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy");
+        String today = date.format(formatter);
+
+        System.out.println("<Today's order>");
+        for (Order order: orders){
+            if (order.getCUSTOMER_ID().equals(this.ID)&&today.equals(order.getDate())){
+                count++;
+                order.viewOrder();
+                System.out.println("----------");
+            }
+        }
+        if (count==0){
+            System.out.println("No order is made today.");
+        }
+    }
+
+    public void editAddress() {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("<Edit address>\nEnter new address (at least 10 letters):");
+        String address = input.nextLine();
+
+        if (!Utility.validateInput(address, "^.{10,}$")){
+            System.out.println("Invalid address input");
+        } else {
+            this.setAddress(address);
+            System.out.println("New address is updated!");
+        }
+    }
+    public void editEmail() {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("<Edit email>\nEnter new email:");
+        String email = input.nextLine();
+
+        if (!Utility.validateInput(email, "^.+@.+$")){
+            System.out.println("Invalid email input");
+        } else {
+            this.setAddress(address);
+            System.out.println("New email is updated!");
+        }
+    }
+    public void editPhone() {
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("<Edit phone number>\nEnter new phone number (start with 0, 10-11 numbers):");
+        String phone = input.nextLine();
+
+        if (!Utility.validateInput(phone, "^0[0-9]{9,10}$")){
+            System.out.println("Invalid phone number input");
+        } else {
+            this.setPhoneNumber(phone);
+            System.out.println("New phone number is updated!");
+        }
+    }
+
+    public static void listMembers() {
+        System.out.println("\n<View all members>\n----------");
+        for (Customer customer: customers) {
+            System.out.println(customer);
+            System.out.println("----------");
+        }
+    }
+
+    public void updateMembership() throws IOException {
+        Scanner accounts = new Scanner(new File("account.txt"));
+        while (accounts.hasNext()) {
+            String[] info = accounts.nextLine().split(";;;");
+            if (info[1].equals(this.ID)) {
+                this.totalPay = Integer.parseInt(info[9]);
+                if (5000000<this.totalPay&&this.totalPay<=10000000) {
+                    this.setMembership("Silver");
+                }
+                else if (10000000<this.totalPay&&this.totalPay<=25000000) {
+                    this.setMembership("Gold");
+                }
+                else if (25000000<this.totalPay) {
+                    this.setMembership("Platinum");
+                }
+                info[8] = this.membership;
+                break;
+            }
+        }
+    }
+
+    public static void membershipNumbers() throws IOException {
+        int regular=0, silver=0, gold=0, platinum=0;
+        System.out.println("\n<View all members>\n----------");
+        for (Customer customer: customers) {
+            System.out.println(customer);
+            System.out.println("----------");
+        }
+        Scanner accounts = new Scanner(new File("account.txt"));
+        while (accounts.hasNext()) {
+            String[] info = accounts.nextLine().split(";;;");
+            if (info[8].equals("Silver")) {
+                silver++;
+            }
+            else if (info[8].equals("Gold")) {
+                gold++;
+            }
+            else if (info[8].equals("Platinum")) {
+                platinum++;
+            }
+            else {
+                regular++;
+            }
+        }
+        accounts.close();
+        System.out.println("<Membership count>");
+        System.out.println(regular+" Regular _ "+silver+" Silver _ "+gold+" Gold _ "+platinum+" Platinum");
+    }
+
 
     @Override
     public String toString(){
-        return String.format("userid: %s \nusername: %s \nfull name: %s \nphone: %s \nemail: %s \naddress %s \nmembership %s \ntotal Pay: %d \n----------\n", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress(), this.getMembership(), this.getTotalPay());
+        return String.format("User ID: %s \nUsername: %s \nFull name: %s \nPhone: %s \nEmail: %s \nAddress: %s \nMembership: %s \nTotal Pay: %d", this.getId(), this.getUserName(), this.getFullName(), this.getPhoneNumber(), this.getEmail(), this.getAddress(), this.getMembership(), this.getTotalPay());
     }
 
     @Override

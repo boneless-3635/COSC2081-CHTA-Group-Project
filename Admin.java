@@ -32,6 +32,7 @@ public class Admin extends User {
             System.out.println("Order ID does not exist, quit the procedure!");
         } else {
             Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "order.txt");
+            System.out.println("Order status is changed successfully to PAID!");
         }
     }
 
@@ -41,6 +42,15 @@ public class Admin extends User {
             totalRevenue += order.getTotalPrice();
         }
         return totalRevenue;
+    }
+
+    public void viewAllOrders() {
+        ArrayList<Order> orders = Order.getOrders();
+        System.out.println("<View all orders>");
+        for (Order order: orders){
+            order.viewOrder();
+            System.out.println("----------");
+        }
     }
 
     public int calculateTotalRevenue(String date){

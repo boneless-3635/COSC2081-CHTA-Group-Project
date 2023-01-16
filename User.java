@@ -19,9 +19,10 @@ public abstract class  User {
         User user = null;
         boolean loggedIn = false;
         Scanner input = new Scanner(System.in);
-        java.lang.System.out.println("username: ");
+        System.out.println("\n<Login page>");
+        java.lang.System.out.println("Username: ");
         String userNameFromUser = input.nextLine();
-        java.lang.System.out.println("password: ");
+        java.lang.System.out.println("Password: ");
         String passwordFromUser = input.nextLine();
         String id, userName, password, role,fullName, phoneNumber, email, address, membership; //declare variables and assign them to info in text file
         Scanner fileScanner = null;
@@ -61,7 +62,7 @@ public abstract class  User {
             fileScanner.close();
         }
         if (loggedIn){
-            System.out.println("Logged in successfully!\n");
+            System.out.println("Logged in successfully!");
         } else{
             System.out.println("Log in fail!");
         }
