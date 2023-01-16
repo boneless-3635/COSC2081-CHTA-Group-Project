@@ -5,7 +5,7 @@ Semester: 2022C
 Assessment: Assignment 3
 Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
 ID: s3938278, s3930051, s3924667, s3938331
-Acknowledgement:
+Acknowledgement: none
 */
 
 import java.util.ArrayList;
