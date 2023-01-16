@@ -29,4 +29,4 @@ ce77c55c-201a-486e-bc6e-8909defe67b0;;;customer1;;;Customer1@;;;sofa:2;;;1330000
 271783dd-6457-4286-b356-3a605a19e64b;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:2;;;13300000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
 3a22109b-b8db-44f9-9691-b661cee32991;;;6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;sofa:1;;;6300000;;;christina home;;;delivered;;;16-01-2023
 24170754-5769-4bbc-b3e3-b79b92113b0c;;;6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;sofa:1;;;5950000;;;christina home;;;delivered;;;16-01-2023
-f42bd1a2-042f-4b6a-8f26-d76ce9e92e95;;;6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;sofa:1;;;5950000;;;christina home;;;delivered;;;16-01-2023
+f42bd1a2-042f-4b6a-8f26-d76ce9e92e95;;;6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;sofa:1;;;5950000;;;christina home;;;PAID;;;16-01-2023

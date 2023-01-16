@@ -118,8 +118,7 @@ public class Main {
                                         break;
                                     }
                                 case "9":
-                                    ArrayList<Order> orders = Order.getOrders();
-                                    admin.changeOrderStatus(orders);
+                                    admin.changeOrderStatus();
                                     System.out.println("(Enter '0' to go back)");
                                     if (input.nextLine().equals("0")) {
                                         break;
