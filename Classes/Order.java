@@ -212,11 +212,11 @@ public class Order {
                             //update num sold of products ordered
                             Product.updateNumSold(shoppingCart);
                             //update total pay for customer
-                            System.out.println(customer.getUserName());
                             customer.updateTotalPay(order.getTotalPrice());
                             customer.updateMembership();
                             //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
                             Customer.initializeCustomers();
+                            Order.initializeOrders();
                             System.out.println("Placed order successfully!");
                         } else if (userConfirm.equalsIgnoreCase("cancel")){
                             confirmAnswer = true;

@@ -3,3 +3,4 @@ none;;;Admin;;;Thong123!;;;admin;;;none;;;none;;;none;;;none;;;none;;;0
 789a821a-027e-450c-b762-63b2b7669459;;;customer2;;;Customer2@;;;customer;;;Minh Thong;;;0909090909;;;customer2@gmail.com;;;123 ABC, bca, HCM;;;none;;;6583
 6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;Christina1@;;;customer;;;Christina Yoo;;;0123456789;;;chris@dfkjsdlfjlsfjjsd;;;dsfksjdlkfjlsdj;;;Platinum;;;38200000
 32390e61-5c22-488d-9777-bd8ccac50b11;;;christinaa;;;Christinaa1@;;;customer;;;Christina;;;0101010101;;;dfaksdf@dfsdfsd;;;dsfasdfsdf;;;none;;;0
+9f4ade60-3b93-4e25-9207-937bdc3ac283;;;demoaccount;;;Demoaccount1!;;;customer;;;Hoang;;;0983475294;;;demoaccount1@gmail.com;;;2803 demo street ho chi minh city;;;Gold;;;10325000
