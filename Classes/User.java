@@ -32,7 +32,9 @@ public abstract class  User {
         String userNameFromUser = input.nextLine();
         java.lang.System.out.println("Password: ");
         String passwordFromUser = input.nextLine();
-        String id, userName, password, role,fullName, phoneNumber, email, address, membership; //declare variables and assign them to info in text file
+
+        String id, userName, password, role,fullName, phoneNumber, email, address, membership;
+        //declare variables and assign them to info in text file 
         int totalPay;
         Scanner fileScanner = null;
         try {
