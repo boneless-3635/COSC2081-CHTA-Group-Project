@@ -27,12 +27,12 @@ import java.util.*;
 import static java.lang.Integer.parseInt;
 
 public class Product {
-    private final String id;
-    private final String name;
-    private final int price;
-    private final String category;
-    private final int numberSold;
-    private static final ArrayList<Product> productArrayList = new ArrayList<>();
+    private String id;
+    private String name;
+    private int price;
+    private String category;
+    private int numberSold;
+    private static ArrayList<Product> productArrayList = new ArrayList<>();
     private static ArrayList<Product> productEditedArrayList = new ArrayList<>();
 
 
