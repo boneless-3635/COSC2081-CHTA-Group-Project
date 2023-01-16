@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("-----------------------------------------------------");
-        System.out.println("COSC2081 GROUP ASSIGNMENT\nSTORE ORDER MANAGEMENT SYSTEM\nInstructor: Mr. Tom Huynh & Dr. Phong Ngo");
+        System.out.println("COSC2081 GROUP ASSIGNMENT\nSTORE ORDER MANAGEMENT SYSTEM\nInstructor: Mr. Tom Huynh");
         System.out.println("Group: Group CHTA");
         System.out.println("s3938278, Nguyen Quoc An\ns3930051, Pham Minh Hoang\ns3924667, Tran Gia Minh Thong\ns3938331, Yoo Christina");
         System.out.println("-----------------------------------------------------\n");

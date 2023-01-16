@@ -336,10 +336,10 @@ public class Customer extends User{
         while (accounts.hasNext()) {
             String[] info = accounts.nextLine().split(";;;");
             switch (info[8]) {
-                case "Silver" -> silver++;
-                case "Gold" -> gold++;
-                case "Platinum" -> platinum++;
-                default -> regular++;
+                case "Silver" : silver++;
+                case "Gold" : gold++;
+                case "Platinum" : platinum++;
+                default : regular++;
             }
         }
         accounts.close();
