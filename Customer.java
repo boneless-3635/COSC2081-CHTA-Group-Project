@@ -1,3 +1,14 @@
+/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -13,17 +24,6 @@ public class Customer extends User{
     private String membership;
     private int totalPay;
     private static ArrayList<Customer> customers = new ArrayList<>();
-    
-    public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership) {
-        super(userName, password);
-        this.ID = id;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.membership = membership;
-        this.totalPay = 0;
-    }
 
     public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership, int totalPay) {
         super(userName, password);
@@ -157,6 +157,7 @@ public class Customer extends User{
                 9,
                 "account.txt"
         );
+        this.updateMembership();
     }
 
     public static boolean checkUniqueness(String filePath, String stringToCheck, int indexToCheck){
@@ -278,34 +279,46 @@ public class Customer extends User{
         }
     }
 
-    public static void listMembers() {
+    public static void listMembers() throws IOException {
         System.out.println("\n<View all members>\n----------");
         for (Customer customer: customers) {
+            customer.updateMembership();
             System.out.println(customer);
             System.out.println("----------");
         }
     }
 
     public void updateMembership() throws IOException {
-        Scanner accounts = new Scanner(new File("account.txt"));
+        ArrayList<String> tempLines = new ArrayList<>();
+        String membershipUpdate;
+        Scanner accounts = new Scanner(Paths.get("account.txt"));
         while (accounts.hasNext()) {
-            String[] info = accounts.nextLine().split(";;;");
-            if (info[1].equals(this.ID)) {
-                this.totalPay = Integer.parseInt(info[9]);
-                if (5000000<this.totalPay&&this.totalPay<=10000000) {
-                    this.setMembership("Silver");
+            String line = accounts.nextLine();
+            String[] lineArray = line.split(";;;");
+            if (lineArray[1].equalsIgnoreCase(this.getUserName())) {
+                int pay = Integer.parseInt(lineArray[9]);
+                if (5000000 < pay && pay <= 10000000) {
+                    membershipUpdate = "Silver";
+                } else if (10000000 < pay && pay <= 25000000) {
+                    membershipUpdate = "Gold";
+                } else if (25000000 < pay) {
+                    membershipUpdate = "Platinum";
+                } else {
+                    membershipUpdate = "none";
                 }
-                else if (10000000<this.totalPay&&this.totalPay<=25000000) {
-                    this.setMembership("Gold");
-                }
-                else if (25000000<this.totalPay) {
-                    this.setMembership("Platinum");
-                }
-                info[8] = this.membership;
-                break;
+                lineArray[8] = membershipUpdate;
+                line = String.join(";;;", lineArray);
             }
+            tempLines.add(line);
         }
+        accounts.close();
+        PrintWriter pw = new PrintWriter(new FileWriter("account.txt"));
+        for (String line : tempLines) {
+            pw.println(line);
+        }
+        pw.close();
     }
+
 
     public static void membershipNumbers() throws IOException {
         int regular=0, silver=0, gold=0, platinum=0;

@@ -1,3 +1,13 @@
+/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -25,6 +35,7 @@ public abstract class  User {
         java.lang.System.out.println("Password: ");
         String passwordFromUser = input.nextLine();
         String id, userName, password, role,fullName, phoneNumber, email, address, membership; //declare variables and assign them to info in text file
+        int totalPay;
         Scanner fileScanner = null;
         try {
             fileScanner = new Scanner(new File("account.txt"));
@@ -42,10 +53,11 @@ public abstract class  User {
                     email = inReader.nextToken();
                     address = inReader.nextToken();
                     membership = inReader.nextToken();
+                    totalPay = Integer.parseInt(inReader.nextToken());
 
                     loggedIn = true;
                     if (role.equals("customer")){
-                        user = new Customer( id, userName, password, fullName, phoneNumber, email, address, membership);
+                        user = new Customer( id, userName, password, fullName, phoneNumber, email, address, membership, totalPay);
                     } else if (role.equals("admin")){
                         user = new Admin(userName, password);
                     }

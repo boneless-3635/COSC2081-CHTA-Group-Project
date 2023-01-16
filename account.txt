@@ -2,5 +2,5 @@ none;;;Admin;;;thong2;;;admin;;;none;;;none;;;none;;;none;;;none;;;0
 781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;Customer1@;;;customer;;;Minh Thong;;;0909090909;;;customer1@gmail.com;;;321 ABC, bca, HCM;;;Silver;;;13300000
 789a821a-027e-450c-b762-63b2b7669459;;;customer2;;;Customer2@;;;customer;;;Minh Thong;;;0909090909;;;customer2@gmail.com;;;123 ABC, bca, HCM;;;none;;;6583
 userid123;;;customer2;;;Customer2@;;;customer;;;Minh Thong;;;0909090909;;;customer2@gmail.com;;;123 ABC, bca, HCM;;;Gold;;;0
-6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;Christina1@;;;customer;;;Christina Yoo;;;0123456789;;;christina@email.com;;;christina home;;;none;;;20000000
+6c67365a-9122-4d82-a0d0-0063035e302c;;;christina;;;Christina1@;;;customer;;;Christina Yoo;;;0123456789;;;christina@email.com;;;christina home;;;Gold;;;20000000
 32390e61-5c22-488d-9777-bd8ccac50b11;;;christinaa;;;Christinaa1@;;;customer;;;Christina;;;0101010101;;;dfaksdf@dfsdfsd;;;dsfasdfsdf;;;none;;;0

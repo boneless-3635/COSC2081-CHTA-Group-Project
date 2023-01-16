@@ -1,3 +1,13 @@
+/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -211,6 +221,7 @@ public class Order {
                             //update total pay for customer
                             System.out.println(customer.getUserName());
                             customer.updateTotalPay(order.getTotalPrice());
+                            customer.updateMembership();
                             //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
                             Customer.initializeCustomers();
                             initializeOrders();
