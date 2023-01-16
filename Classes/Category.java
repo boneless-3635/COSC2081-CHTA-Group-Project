@@ -71,6 +71,9 @@ public class Category {
         Utility.deleteRowTextFile(categoryDelete, 0, "Database/category.txt");
 
         Utility.updateTextFile(categoryDelete, "None", 3, 3, "Database/product.txt");
+
+        initializeCategory();
+        Product.initializeProduct();
     }
 
     public static ArrayList<String> getCategoryArrayList() {

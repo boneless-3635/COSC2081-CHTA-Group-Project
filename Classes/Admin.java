@@ -34,6 +34,7 @@ public class Admin extends User {
         } else {
             Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "Database/order.txt");
             System.out.println("Order status is changed successfully to PAID!");
+            Order.initializeOrders();
         }
     }
 

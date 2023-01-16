@@ -3,3 +3,5 @@ Bedroom
 Bathroom
 Kitchen
 Garden
+Pool
+living room
