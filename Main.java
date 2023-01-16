@@ -138,14 +138,14 @@ public class Main {
                                         switch (input.nextLine()) {
                                             case "1":
                                                 System.out.println("\n<The total revenue of the store>");
-                                                System.out.println(admin.calculateTotalRevenue());
+                                                System.out.printf("%,d VND%n", admin.calculateTotalRevenue());
                                                 System.out.println("(Enter '0' to go back)");
                                                 if (input.nextLine().equals("0")) {
                                                     break;
                                                 }
                                             case "2":
                                                 System.out.println("\n<The revenue of a day>");
-                                                System.out.println(admin.calculateTotalRevenueWithDateValidate());
+                                                System.out.printf("%,d VND%n",admin.calculateTotalRevenueWithDateValidate());
                                                 System.out.println("(Enter '0' to go back)");
                                                 if (input.nextLine().equals("0")) {
                                                     break;
@@ -165,7 +165,7 @@ public class Main {
                                                 }
                                             case "4":
                                                 System.out.println("\n<Least popular product>");
-                                                ArrayList<Product> leastPopularProducts = Product.getMostPopularProducts();
+                                                ArrayList<Product> leastPopularProducts = Product.getLeastPopularProducts();
                                                 System.out.printf("%n%-20s%-15s%20s%20s%n", "Product name", "Category", "Price (VND)", "Number Sold");
                                                 System.out.println("---------------------------------------------------------------------------");
                                                 for (Product product: leastPopularProducts) {

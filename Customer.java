@@ -322,11 +322,6 @@ public class Customer extends User{
 
     public static void membershipNumbers() throws IOException {
         int regular=0, silver=0, gold=0, platinum=0;
-        System.out.println("\n<View all members>\n----------");
-        for (Customer customer: customers) {
-            System.out.println(customer);
-            System.out.println("----------");
-        }
         Scanner accounts = new Scanner(new File("account.txt"));
         while (accounts.hasNext()) {
             String[] info = accounts.nextLine().split(";;;");
