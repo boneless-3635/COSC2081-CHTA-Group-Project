@@ -124,7 +124,6 @@ public class Main {
                                         break;
                                     }
                                 case "10":
-                                    label0:
                                     while (true) {
                                         System.out.println("\n< View statistics page >");
                                         System.out.println("1. View total revenue");
@@ -240,7 +239,6 @@ public class Main {
                             System.out.println("(Enter the according number to proceed)");
                             switch (input.nextLine()) {
                                 case "1":
-                                    label3:
                                     while (true) {
                                         System.out.println("\n< Product page options >");
                                         System.out.println("1. View all products");

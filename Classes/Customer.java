@@ -36,20 +36,14 @@ public class Customer extends User{
         this.totalPay = totalPay;
     }
 
-    public static void initializeCustomers(){
+    public static void initializeCustomers() {
         customers.clear();
-        Scanner fileScanner = null;
-        try {
-            fileScanner = new Scanner(new File("Database/account.txt"));
+        try (Scanner fileScanner = new Scanner(new File("Database/account.txt"))) {
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
-//                for (int i =0; i <accountFields.size(); i++){
-//                    System.out.println(accountFields.get(i));
-//                }
-
-                if (accountFields.get(3).equals("admin")){
+                if (accountFields.get(3).equals("admin")) {
                     continue;
                 }
 
@@ -63,17 +57,12 @@ public class Customer extends User{
                         accountFields.get(7),
                         accountFields.get(8),
                         Integer.parseInt(accountFields.get(9))
-                        ));
+                ));
             }
-        }
-        catch (FileNotFoundException fileNotFoundException){
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("File path does not exist to read!");
-        }
-        catch (NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             System.out.println("Info in file is not formatted well!");
-        }
-        finally {
-            fileScanner.close();
         }
     }
 
@@ -346,17 +335,11 @@ public class Customer extends User{
         Scanner accounts = new Scanner(new File("Database/account.txt"));
         while (accounts.hasNext()) {
             String[] info = accounts.nextLine().split(";;;");
-            if (info[8].equals("Silver")) {
-                silver++;
-            }
-            else if (info[8].equals("Gold")) {
-                gold++;
-            }
-            else if (info[8].equals("Platinum")) {
-                platinum++;
-            }
-            else {
-                regular++;
+            switch (info[8]) {
+                case "Silver" -> silver++;
+                case "Gold" -> gold++;
+                case "Platinum" -> platinum++;
+                default -> regular++;
             }
         }
         accounts.close();
@@ -384,37 +367,25 @@ public class Customer extends User{
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getMembership() {return membership;}
 
-    public void setMembership(String membership) {this.membership = membership;}
 
     public int getTotalPay() {return totalPay;}
 
