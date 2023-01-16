@@ -1,9 +1,19 @@
+package Classes;/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static java.lang.Integer.parseInt;
+
 
 public class Order {
     private final String ORDER_ID;
@@ -29,28 +39,21 @@ public class Order {
 
     public static void initializeOrders(){
         orders.clear();
-        Scanner fileScanner = null;
-        try {
-            fileScanner = new Scanner(new File("order.txt"));
+        try (Scanner fileScanner = new Scanner(new File("Database/order.txt"))) {
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> orderFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
                 //index 3 will store product names, convert them to array.
-                String [] productNamesAndQuantity = orderFields.get(3).split(",");
+                String[] productNamesAndQuantity = orderFields.get(3).split(",");
 
                 //store products in arraylist. Notice that we will cast productNamesAndQuantity to arraylist to fit with the constructor.
                 orders.add(new Order(orderFields.get(0), orderFields.get(1), orderFields.get(2), productNamesAndQuantity, Integer.parseInt(orderFields.get(4)), orderFields.get(5), orderFields.get(6), orderFields.get(7)));
             }
-        }
-        catch (FileNotFoundException fileNotFoundException){
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("File path does not exist to read!");
-        }
-        catch (NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             System.out.println("Info in file is not formatted well!");
-        }
-        finally {
-            fileScanner.close();
         }
     }
 
@@ -84,8 +87,8 @@ public class Order {
     public static void addOrderToFile(Order order) throws IOException {
         //turn array of productAndQuantity to String to store to text file
         String productNamesAndQuantity = String.join(",", order.getProductNamesAndQuantity());
-        PrintWriter pw = null;
-        pw = new PrintWriter(new FileWriter("order.txt", true));
+        PrintWriter pw;
+        pw = new PrintWriter(new FileWriter("Database/order.txt", true));
         pw.println(order.getORDER_ID() + ";;;"  + order.getCUSTOMER_ID() + ";;;" + order.getCustomerName() + ";;;" + productNamesAndQuantity + ";;;" + order.getTotalPrice() + ";;;" + order.getCustomerAddress() + ";;;" + order.getStatus() + ";;;" + order.getDate());
         pw.close();
     }
@@ -211,9 +214,9 @@ public class Order {
                             //update total pay for customer
                             System.out.println(customer.getUserName());
                             customer.updateTotalPay(order.getTotalPrice());
+                            customer.updateMembership();
                             //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
                             Customer.initializeCustomers();
-                            initializeOrders();
                             System.out.println("Placed order successfully!");
                         } else if (userConfirm.equalsIgnoreCase("cancel")){
                             confirmAnswer = true;

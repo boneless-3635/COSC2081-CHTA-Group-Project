@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -19,7 +19,7 @@ public class Category {
 
     public static void initializeCategory() throws IOException {
         categoryArrayList.clear();
-        Scanner fileScanner = new Scanner(Paths.get("category.txt"));
+        Scanner fileScanner = new Scanner(Paths.get("Database/category.txt"));
         while (fileScanner.hasNext()) {
             categoryArrayList.add(fileScanner.nextLine());
         }
@@ -33,7 +33,7 @@ public class Category {
             String categoryInput = userInput.nextLine();
 
             if (Utility.validateInput(categoryInput, "^[a-zA-Z ]{3,}$")) {
-                PrintWriter pw = new PrintWriter(new FileWriter("category.txt", true));
+                PrintWriter pw = new PrintWriter(new FileWriter("Database/category.txt", true));
                 pw.println(categoryInput);
                 pw.close();
                 System.out.println("Successfully added category\n");
@@ -68,9 +68,9 @@ public class Category {
                 break;
             }
         }
-        Utility.deleteRowTextFile(categoryDelete, 0, "category.txt");
+        Utility.deleteRowTextFile(categoryDelete, 0, "Database/category.txt");
 
-        Utility.updateTextFile(categoryDelete, "None", 3, 3, "product.txt");
+        Utility.updateTextFile(categoryDelete, "None", 3, 3, "Database/product.txt");
     }
 
     public static ArrayList<String> getCategoryArrayList() {

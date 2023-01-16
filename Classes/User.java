@@ -1,10 +1,18 @@
+package Classes;/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 public abstract class  User {
     private String userName;
@@ -24,12 +32,13 @@ public abstract class  User {
         String userNameFromUser = input.nextLine();
         java.lang.System.out.println("Password: ");
         String passwordFromUser = input.nextLine();
-        //declare variables and assign them to info in text file
+
         String id, userName, password, role,fullName, phoneNumber, email, address, membership;
+        //declare variables and assign them to info in text file 
         int totalPay;
         Scanner fileScanner = null;
         try {
-            fileScanner = new Scanner(new File("account.txt"));
+            fileScanner = new Scanner(new File("Database/account.txt"));
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
                 StringTokenizer inReader = new StringTokenizer(line, ";;;");

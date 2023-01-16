@@ -1,3 +1,14 @@
+package Classes;/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -13,17 +24,6 @@ public class Customer extends User{
     private String membership;
     private int totalPay;
     private static ArrayList<Customer> customers = new ArrayList<>();
-    
-    public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership) {
-        super(userName, password);
-        this.ID = id;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.address = address;
-        this.membership = membership;
-        this.totalPay = 0;
-    }
 
     public Customer(String id , String userName, String password,String fullName, String phoneNumber, String email, String address, String membership, int totalPay) {
         super(userName, password);
@@ -36,20 +36,14 @@ public class Customer extends User{
         this.totalPay = totalPay;
     }
 
-    public static void initializeCustomers(){
+    public static void initializeCustomers() {
         customers.clear();
-        Scanner fileScanner = null;
-        try {
-            fileScanner = new Scanner(new File("account.txt"));
+        try (Scanner fileScanner = new Scanner(new File("Database/account.txt"))) {
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
 
-//                for (int i =0; i <accountFields.size(); i++){
-//                    System.out.println(accountFields.get(i));
-//                }
-
-                if (accountFields.get(3).equals("admin")){
+                if (accountFields.get(3).equals("admin")) {
                     continue;
                 }
 
@@ -63,17 +57,12 @@ public class Customer extends User{
                         accountFields.get(7),
                         accountFields.get(8),
                         Integer.parseInt(accountFields.get(9))
-                        ));
+                ));
             }
-        }
-        catch (FileNotFoundException fileNotFoundException){
+        } catch (FileNotFoundException fileNotFoundException) {
             System.out.println("File path does not exist to read!");
-        }
-        catch (NoSuchElementException noSuchElementException){
+        } catch (NoSuchElementException noSuchElementException) {
             System.out.println("Info in file is not formatted well!");
-        }
-        finally {
-            fileScanner.close();
         }
     }
 
@@ -87,7 +76,7 @@ public class Customer extends User{
             while (true){
                 System.out.println("Username (only letters and digits, length 1-15): ");
                 userName = userInput.nextLine();
-                boolean seemUserName = checkUniqueness("account.txt", userName, 1); //index 1 is username
+                boolean seemUserName = checkUniqueness("Database/account.txt", userName, 1); //index 1 is username
                 if (seemUserName){
                     System.out.println("Username already exists");
                 } else {
@@ -131,14 +120,14 @@ public class Customer extends User{
                 String userId;
                 while (true){
                     userId = UUID.randomUUID().toString(); //generate id for user
-                    boolean seemUserId = checkUniqueness(userId, "account.txt", 0); //index 0 is id
+                    boolean seemUserId = checkUniqueness(userId, "Database/account.txt", 0); //index 0 is id
                     if (!seemUserId){
                         break;
                     }
                 }
                 //write registered info to file
                 PrintWriter pw = null;
-                pw = new PrintWriter(new FileWriter("account.txt", true));
+                pw = new PrintWriter(new FileWriter("Database/account.txt", true));
                 pw.println(userId + ";;;" + userName + ";;;" + password + ";;;" + "customer" + ";;;" + fullName + ";;;" + phoneNumber + ";;;" + email + ";;;" + address + ";;;" + "none" + ";;;0");
                 pw.close();
                 System.out.println("Register successfully!");
@@ -155,8 +144,9 @@ public class Customer extends User{
                 Integer.toString(updateTotalPay),
                 1,
                 9,
-                "account.txt"
+                "Database/account.txt"
         );
+        this.updateMembership();
     }
 
     public static boolean checkUniqueness(String filePath, String stringToCheck, int indexToCheck){
@@ -200,7 +190,7 @@ public class Customer extends User{
             }
         }
         if (!validId){
-            System.out.println("This order is not belong to you.");
+            System.out.println("This order does not belong to you.");
         }
     }
 
@@ -238,7 +228,7 @@ public class Customer extends User{
         }
     }
 
-    public void editAddress() {
+    public void editAddress() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit address>\nEnter new address (at least 10 letters):");
@@ -247,11 +237,18 @@ public class Customer extends User{
         if (!Utility.validateInput(address, "^.{10,}$")){
             System.out.println("Invalid address input");
         } else {
-            this.setAddress(address);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    address,
+                    1,
+                    7,
+                    "Database/account.txt"
+            );
             System.out.println("New address is updated!");
         }
+        Customer.initializeCustomers();
     }
-    public void editEmail() {
+    public void editEmail() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit email>\nEnter new email:");
@@ -260,11 +257,18 @@ public class Customer extends User{
         if (!Utility.validateInput(email, "^.+@.+$")){
             System.out.println("Invalid email input");
         } else {
-            this.setAddress(address);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    email,
+                    1,
+                    6,
+                    "Database/account.txt"
+            );
             System.out.println("New email is updated!");
         }
+        Customer.initializeCustomers();
     }
-    public void editPhone() {
+    public void editPhone() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit phone number>\nEnter new phone number (start with 0, 10-11 numbers):");
@@ -273,61 +277,69 @@ public class Customer extends User{
         if (!Utility.validateInput(phone, "^0[0-9]{9,10}$")){
             System.out.println("Invalid phone number input");
         } else {
-            this.setPhoneNumber(phone);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    phone,
+                    1,
+                    5,
+                    "Database/account.txt"
+            );
             System.out.println("New phone number is updated!");
         }
+        Customer.initializeCustomers();
     }
 
-    public static void listMembers() {
+    public static void listMembers() throws IOException {
         System.out.println("\n<View all members>\n----------");
         for (Customer customer: customers) {
+            customer.updateMembership();
             System.out.println(customer);
             System.out.println("----------");
         }
     }
 
     public void updateMembership() throws IOException {
-        Scanner accounts = new Scanner(new File("account.txt"));
+        ArrayList<String> tempLines = new ArrayList<>();
+        String membershipUpdate;
+        Scanner accounts = new Scanner(Paths.get("Database/account.txt"));
         while (accounts.hasNext()) {
-            String[] info = accounts.nextLine().split(";;;");
-            if (info[1].equals(this.ID)) {
-                this.totalPay = Integer.parseInt(info[9]);
-                if (5000000<this.totalPay&&this.totalPay<=10000000) {
-                    this.setMembership("Silver");
+            String line = accounts.nextLine();
+            String[] lineArray = line.split(";;;");
+            if (lineArray[1].equalsIgnoreCase(this.getUserName())) {
+                int pay = Integer.parseInt(lineArray[9]);
+                if (5000000 < pay && pay <= 10000000) {
+                    membershipUpdate = "Silver";
+                } else if (10000000 < pay && pay <= 25000000) {
+                    membershipUpdate = "Gold";
+                } else if (25000000 < pay) {
+                    membershipUpdate = "Platinum";
+                } else {
+                    membershipUpdate = "none";
                 }
-                else if (10000000<this.totalPay&&this.totalPay<=25000000) {
-                    this.setMembership("Gold");
-                }
-                else if (25000000<this.totalPay) {
-                    this.setMembership("Platinum");
-                }
-                info[8] = this.membership;
-                break;
+                lineArray[8] = membershipUpdate;
+                line = String.join(";;;", lineArray);
             }
+            tempLines.add(line);
         }
+        accounts.close();
+        PrintWriter pw = new PrintWriter(new FileWriter("Database/account.txt"));
+        for (String line : tempLines) {
+            pw.println(line);
+        }
+        pw.close();
     }
+
 
     public static void membershipNumbers() throws IOException {
         int regular=0, silver=0, gold=0, platinum=0;
-        System.out.println("\n<View all members>\n----------");
-        for (Customer customer: customers) {
-            System.out.println(customer);
-            System.out.println("----------");
-        }
-        Scanner accounts = new Scanner(new File("account.txt"));
+        Scanner accounts = new Scanner(new File("Database/account.txt"));
         while (accounts.hasNext()) {
             String[] info = accounts.nextLine().split(";;;");
-            if (info[8].equals("Silver")) {
-                silver++;
-            }
-            else if (info[8].equals("Gold")) {
-                gold++;
-            }
-            else if (info[8].equals("Platinum")) {
-                platinum++;
-            }
-            else {
-                regular++;
+            switch (info[8]) {
+                case "Silver" -> silver++;
+                case "Gold" -> gold++;
+                case "Platinum" -> platinum++;
+                default -> regular++;
             }
         }
         accounts.close();
@@ -355,37 +367,25 @@ public class Customer extends User{
         return fullName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
+
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getMembership() {return membership;}
 
-    public void setMembership(String membership) {this.membership = membership;}
 
     public int getTotalPay() {return totalPay;}
 

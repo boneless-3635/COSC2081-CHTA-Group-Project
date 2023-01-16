@@ -1,4 +1,13 @@
-import java.io.FileNotFoundException;
+package Classes;/*
+RMIT University Vietnam
+Course: COSC2081 Programming 1
+Semester: 2022C
+Assessment: Assignment 3
+Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
+ID: s3938278, s3930051, s3924667, s3938331
+Acknowledgement:
+*/
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.IOException;
@@ -8,7 +17,7 @@ public class Admin extends User {
         super(userName, password);
     }
 
-    public void changeOrderStatus(ArrayList <Order> orders) throws IOException {
+    public void changeOrderStatus() throws IOException {
         Scanner userInput = new Scanner(System.in);
         System.out.println("Enter order id you want to change status to PAID");
         String orderIdInput = userInput.nextLine();
@@ -23,7 +32,7 @@ public class Admin extends User {
         if (!isExist){
             System.out.println("Order ID does not exist, quit the procedure!");
         } else {
-            Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "order.txt");
+            Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "Database/order.txt");
             System.out.println("Order status is changed successfully to PAID!");
         }
     }
@@ -93,7 +102,7 @@ public class Admin extends User {
         }
     }
 
-    public void checkMostPaidCustomer() throws FileNotFoundException {
+    public void checkMostPaidCustomer() {
         ArrayList<Customer> customers;
         int largest =0;
 
@@ -105,10 +114,10 @@ public class Admin extends User {
             }
         }
         System.out.println("Most paid customer information:");
-        this.viewUserNameAndTotalPayByTotalPay(largest);
+        viewUserNameAndTotalPayByTotalPay(largest);
     }
 
-    public void checkLeastPaidCustomer() throws FileNotFoundException {
+    public void checkLeastPaidCustomer() {
         ArrayList<Customer> customers;
         int smallest =2147483647;
 
@@ -120,7 +129,7 @@ public class Admin extends User {
             }
         }
         System.out.println("Least paid customer information:");
-        this.viewUserNameAndTotalPayByTotalPay(smallest);
+        viewUserNameAndTotalPayByTotalPay(smallest);
     }
 
     public void viewAllOrderMadeInDay(){
@@ -128,7 +137,7 @@ public class Admin extends User {
         String day = "";
         int count =0;
         ArrayList<Order> orders;
-        Boolean isValid;
+        boolean isValid;
 
         scanner = new Scanner(System.in);
         orders = Order.getOrders();
@@ -158,23 +167,23 @@ public class Admin extends User {
         }
     }
 
-    public static void viewUserInfoById(String userID) throws FileNotFoundException {
+    public static void viewUserInfoById(String userID) {
         for (Customer customer: Customer.getCustomers()){
             if (userID.equals(customer.getId())){
-                System.out.println(customer.toString());
+                System.out.println(customer);
             }
         }
     }
 
-    public static void viewUserInfoByTotalPay(int totalPay) throws FileNotFoundException {
+    public static void viewUserInfoByTotalPay(int totalPay) {
         for (Customer customer: Customer.getCustomers()){
             if (totalPay == (customer.getTotalPay())){
-                System.out.println(customer.toString());
+                System.out.println(customer);
             }
         }
     }
 
-    public static void viewUserNameAndTotalPayByTotalPay(int totalPay) throws FileNotFoundException {
+    public static void viewUserNameAndTotalPayByTotalPay(int totalPay) {
         for (Customer customer: Customer.getCustomers()){
 
 
@@ -194,12 +203,13 @@ public class Admin extends User {
         for (Customer customer : Customer.getCustomers()){
             if (customer.getId().equals(customerIDInput.toLowerCase())){
                 isExist = true;
+                break;
             }
         }
         if (!isExist){
             System.out.println("Customer ID does not exist!");
         } else {
-            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "account.txt");
+            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "Database/account.txt");
             Customer.initializeCustomers();
         }
     }

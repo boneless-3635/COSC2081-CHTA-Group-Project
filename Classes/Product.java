@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -46,7 +46,7 @@ public class Product {
 
     public static void initializeProduct() throws IOException {
         productArrayList.clear();
-        Scanner fileScanner = new Scanner(Paths.get("product.txt"));
+        Scanner fileScanner = new Scanner(Paths.get("Database/product.txt"));
         while (fileScanner.hasNext()) {
 //            read per line and split line into array
             List<String> productValues = Arrays.asList(fileScanner.nextLine().split(";;;"));
@@ -117,7 +117,7 @@ public class Product {
 //                    generate product id
                 String productID = UUID.randomUUID().toString();
 //                    write info to file
-                PrintWriter pw = new PrintWriter(new FileWriter("product.txt", true));
+                PrintWriter pw = new PrintWriter(new FileWriter("Database/product.txt", true));
                 pw.println(productID + ";;;" + productName + ";;;" + getFilteredInt(productPrice) +
                         ";;;" + productCategory + ";;;" + 0);
                 pw.close();
@@ -134,7 +134,7 @@ public class Product {
         Scanner userInput = new Scanner(System.in);
         String productName = userInput.nextLine();
         if (lookupProductName(productName)) {
-            Utility.deleteRowTextFile(productName,1, "product.txt");
+            Utility.deleteRowTextFile(productName,1, "Database/product.txt");
         } else {
             System.out.println("No product found, please try again");
             removeProduct();
@@ -153,7 +153,7 @@ public class Product {
 
                 if (Utility.validateInput(productNewPrice, "[0-9 ]+")) {
                     if (getFilteredInt(productNewPrice) > 1000) {
-                        Utility.updateTextFile(productName, String.valueOf(getFilteredInt(productNewPrice)), 1, 2, "product.txt");
+                        Utility.updateTextFile(productName, String.valueOf(getFilteredInt(productNewPrice)), 1, 2, "Database/product.txt");
                         System.out.println("Successfully updated the price\n");
                         break;
                     }
@@ -382,7 +382,7 @@ public class Product {
             for (Product product : productArrayList){
                 if (item.equalsIgnoreCase(product.getName())){
                     int numSold = product.getNumberSold() + shoppingCart.get(item);
-                    Utility.updateTextFile(product.getName(), String.valueOf(numSold), 1, 4, "product.txt");
+                    Utility.updateTextFile(product.getName(), String.valueOf(numSold), 1, 4, "Database/product.txt");
                 }
             }
         }
