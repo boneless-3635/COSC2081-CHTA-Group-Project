@@ -24,7 +24,9 @@ public abstract class  User {
         String userNameFromUser = input.nextLine();
         java.lang.System.out.println("Password: ");
         String passwordFromUser = input.nextLine();
-        String id, userName, password, role,fullName, phoneNumber, email, address, membership; //declare variables and assign them to info in text file
+        //declare variables and assign them to info in text file
+        String id, userName, password, role,fullName, phoneNumber, email, address, membership;
+        int totalPay;
         Scanner fileScanner = null;
         try {
             fileScanner = new Scanner(new File("account.txt"));
@@ -42,10 +44,11 @@ public abstract class  User {
                     email = inReader.nextToken();
                     address = inReader.nextToken();
                     membership = inReader.nextToken();
+                    totalPay = Integer.parseInt(inReader.nextToken());
 
                     loggedIn = true;
                     if (role.equals("customer")){
-                        user = new Customer( id, userName, password, fullName, phoneNumber, email, address, membership);
+                        user = new Customer( id, userName, password, fullName, phoneNumber, email, address, membership, totalPay);
                     } else if (role.equals("admin")){
                         user = new Admin(userName, password);
                     }
