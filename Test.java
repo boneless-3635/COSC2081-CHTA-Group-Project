@@ -177,8 +177,8 @@ public class Test {
                                                 Product.initializeProduct();
                                                 Product.displayProducts();
                                                 System.out.println("(Enter '0' to go back)");
-                                                if (input.next().equals("0")) {
-                                                    continue label3;
+                                                if (input.nextLine().equals("0")) {
+                                                    break;
                                                 }
                                             case "2":
                                                 Product.resetProduct();

@@ -1,15 +1,7 @@
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
-
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.remainderUnsigned;
 
 public class Admin extends User {
     public Admin(String userName, String password) {
@@ -184,6 +176,8 @@ public class Admin extends User {
 
     public static void viewUserNameAndTotalPayByTotalPay(int totalPay) throws FileNotFoundException {
         for (Customer customer: Customer.getCustomers()){
+
+
             if (totalPay == (customer.getTotalPay())){
                 System.out.println("Name: "+ customer.getUserName());
                 System.out.println("Total Pay: "+ customer.getTotalPay());
@@ -205,8 +199,7 @@ public class Admin extends User {
         if (!isExist){
             System.out.println("Customer ID does not exist!");
         } else {
-            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "customer.txt");
-            System.out.println("remove customer successfully!");
+            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "account.txt");
             Customer.initializeCustomers();
         }
     }

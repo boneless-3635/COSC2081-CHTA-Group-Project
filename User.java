@@ -45,7 +45,7 @@ public abstract class  User {
 
                     loggedIn = true;
                     if (role.equals("customer")){
-                        user = new Customer(userName, password, id,fullName, phoneNumber, email, address, membership);
+                        user = new Customer( id, userName, password, fullName, phoneNumber, email, address, membership);
                     } else if (role.equals("admin")){
                         user = new Admin(userName, password);
                     }

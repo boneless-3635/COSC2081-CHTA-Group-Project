@@ -5,6 +5,7 @@ public class MainTestOrder {
         Product.initializeProduct();
         Customer.initializeCustomers();
         Order.initializeOrders();
+
         Customer an = new Customer("781a821a-027e-450c-b762-63b2b7669460","customer1","Customer1@","Minh Thong","0909090909","customer1@gmail.com","321 ABC, bca, HCM", "Silver");
 //        Order.placeOrder(an);
 //        System.out.println("----------");
@@ -16,6 +17,7 @@ public class MainTestOrder {
 //
         Admin admin = new Admin("admin","admin1");
 //        admin.getAllOrderByCustomerId();
+        admin.removeCustomer();
         admin.checkMostPaidCustomer();
         admin.checkLeastPaidCustomer();
         admin.viewAllOrderMadeInDay();

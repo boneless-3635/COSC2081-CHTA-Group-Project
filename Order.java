@@ -206,9 +206,10 @@ public class Order {
                             confirmAnswer = true;
                             //save new order to initialized arraylist and text file
                             addOrderToFile(order);
-                            //update numsold of products ordered
+                            //update num sold of products ordered
                             Product.updateNumSold(shoppingCart);
                             //update total pay for customer
+                            System.out.println(customer.getUserName());
                             customer.updateTotalPay(order.getTotalPrice());
                             //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
                             Customer.initializeCustomers();

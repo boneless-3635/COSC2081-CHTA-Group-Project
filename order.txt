@@ -19,3 +19,11 @@ b9b8e513-798a-4eb0-b5e4-307040687f86;;;an;;;customer1;;;sofa:1;;;7000000;;;anAdd
 71942bc6-cece-4676-b89a-ed27a80dd72e;;;christina;;;Christina1@;;;sofa:1;;;7000000;;;christina home;;;delivered;;;16-01-2023
 1a477b52-d40c-46ed-bbf9-8adf90939bfe;;;christina;;;Christina1@;;;television:1;;;40000000;;;christina home;;;delivered;;;16-01-2023
 b2b35fb4-ffcd-4a20-841a-2c71e3d16ca9;;;christina;;;Christina1@;;;Sofa:1;;;7000000;;;christina home;;;delivered;;;16-01-2023
+06f4fedd-5393-43ad-9fa6-6829ff8d6568;;;customer1;;;Customer1@;;;Pillow:1;;;47500;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+3d4fca35-4fa1-44d4-b579-840d67632ab3;;;customer1;;;Customer1@;;;sofa:1;;;6650000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+ea930aee-a76d-4558-8fee-f487abcf9393;;;customer1;;;Customer1@;;;sofa:2;;;13300000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+b1ed1ec1-1d65-4d38-a625-dee1d8704f36;;;customer2;;;Customer2@;;;sofa:2;;;12600000;;;123 ABC, bca, HCM;;;delivered;;;16-01-2023
+ce77c55c-201a-486e-bc6e-8909defe67b0;;;customer1;;;Customer1@;;;sofa:2;;;13300000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+875dc853-6be2-4fb9-bfd4-f229ada26941;;;customer1;;;Customer1@;;;sofa:1;;;6650000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+7615a512-c0f4-404f-a7f8-266ce92cde04;;;customer1;;;Customer1@;;;sofa:1;;;6650000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023
+271783dd-6457-4286-b356-3a605a19e64b;;;781a821a-027e-450c-b762-63b2b7669460;;;customer1;;;sofa:2;;;13300000;;;321 ABC, bca, HCM;;;delivered;;;16-01-2023

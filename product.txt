@@ -1,4 +1,4 @@
-9444fc2c-c789-4ddc-a655-7f42a7747d36;;;Sofa;;;7000000;;;Living room;;;115
+9444fc2c-c789-4ddc-a655-7f42a7747d36;;;Sofa;;;7000000;;;Living room;;;122
 795e150e-2e8d-494f-9d24-d2fee3fd9b08;;;Television;;;40000000;;;Living room;;;3
 955e2a3d-b691-450c-bc90-1d2fcf6ae0ee;;;Cabinet;;;3500000;;;Living room;;;6
 1aec947f-dbe9-4d73-b5fb-11d00d8f6a28;;;Spoon;;;40000;;;Kitchen;;;5
@@ -6,4 +6,4 @@ bdfea62b-5a9e-4301-8e90-83855f44d758;;;Mattress;;;20000000;;;Bedroom;;;6
 8d437ced-fd89-482e-9d75-84d00c6a6da1;;;Sink;;;30400000;;;Bathroom;;;3
 7abb3aff-c469-4a8b-b924-b8a7454c4fa1;;;Blanket;;;1480000;;;Bedroom;;;1
 df1d894e-29b6-4e90-886f-6e17b11ef0e2;;;Toothbrush;;;20000;;;Bathroom;;;2
-eeb9a2c6-b307-40ff-94f4-8e06d82fa35a;;;Pillow;;;400000;;;Bedroom;;;1
+eeb9a2c6-b307-40ff-94f4-8e06d82fa35a;;;Pillow;;;50000;;;Bedroom;;;2
