@@ -28,17 +28,17 @@ import static java.lang.Integer.parseInt;
 
 public class Product {
     private final String id;
-    private final String NAME;
-    private int price;
-    private String category;
-    private int numberSold;
+    private final String name;
+    private final int price;
+    private final String category;
+    private final int numberSold;
     private static final ArrayList<Product> productArrayList = new ArrayList<>();
     private static ArrayList<Product> productEditedArrayList = new ArrayList<>();
 
 
-    public Product(String id, String NAME, int price, String category, int numberSold) {
+    public Product(String id, String name, int price, String category, int numberSold) {
         this.id = id;
-        this.NAME = NAME;
+        this.name = name;
         this.price = price;
         this.category = category;
         this.numberSold = numberSold;
@@ -83,7 +83,7 @@ public class Product {
 
             //            To check if product already existed because name is unique
             for (Product productLoop : productArrayList) {
-                if (productName.equalsIgnoreCase(productLoop.getNAME())) {
+                if (productName.equalsIgnoreCase(productLoop.getName())) {
                     System.out.println("Product already exists");
                     errorFree = false;
                     break;
@@ -210,7 +210,7 @@ public class Product {
         System.out.println("---------------------------------------------------------------------------");
         if (!productEditedArrayList.isEmpty()) {
             for (Product productLoop : productEditedArrayList) {
-                System.out.printf("%-20s%-15s%,20d%,20d%n", productLoop.getNAME(), productLoop.getCategory(),
+                System.out.printf("%-20s%-15s%,20d%,20d%n", productLoop.getName(), productLoop.getCategory(),
                         productLoop.getPrice(),productLoop.getNumberSold());
             }
         } else {
@@ -369,7 +369,7 @@ public class Product {
     public static boolean lookupProductName(String productName) {
 //            Look for the product name
         for (Product productLoop : productArrayList) {
-            if (productName.equalsIgnoreCase(productLoop.getNAME())) {
+            if (productName.equalsIgnoreCase(productLoop.getName())) {
                 return true;
             }
         }
@@ -379,53 +379,33 @@ public class Product {
     //create method for Hoang
     public static void updateNumSold(Map<String, Integer>  shoppingCart) throws IOException {
         for (String item : shoppingCart.keySet()){
-            for (Product product : Product.getProductArrayList()){
-                if (item.equalsIgnoreCase(product.getNAME())){
+            for (Product product : productArrayList){
+                if (item.equalsIgnoreCase(product.getName())){
                     int numSold = product.getNumberSold() + shoppingCart.get(item);
-                    Utility.updateTextFile(product.getNAME(), String.valueOf(numSold), 1, 4, "product.txt");
+                    Utility.updateTextFile(product.getName(), String.valueOf(numSold), 1, 4, "product.txt");
                 }
             }
         }
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getNAME() {
-        return NAME;
+    public String getName() {
+        return name;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public String getCategory() {
         return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public int getNumberSold() {
         return numberSold;
     }
 
-    public void setNumberSold(int numberSold) {
-        this.numberSold = numberSold;
-    }
-
     public static ArrayList<Product> getProductArrayList() {
         return productArrayList;
-    }
-
-    public static ArrayList<Product> getProductEditedArrayList() {
-        return productEditedArrayList;
     }
 
 }

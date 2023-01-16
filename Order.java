@@ -1,9 +1,7 @@
 import java.io.*;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
@@ -62,7 +60,7 @@ public class Order {
         for (String item : productAndQuantityArray.keySet()){
             //loop through initialized products array to compare productName and take out its price
             for (Product product : Product.getProductArrayList()){
-                if (item.equalsIgnoreCase(product.getNAME())){
+                if (item.equalsIgnoreCase(product.getName())){
                     totalPrice += productAndQuantityArray.get(item) * product.getPrice();
                 }
             }
@@ -120,7 +118,7 @@ public class Order {
                 System.out.println("Enter product to add into order:");
                 enteredProduct = userInput.nextLine();
                 for (Product availableProduct : Product.getProductArrayList()){
-                    if (enteredProduct.equalsIgnoreCase(availableProduct.getNAME())){
+                    if (enteredProduct.equalsIgnoreCase(availableProduct.getName())){
                         validProductInput = true;
                         break;
                     }

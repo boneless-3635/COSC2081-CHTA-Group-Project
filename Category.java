@@ -13,15 +13,9 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class Category {
-    private String category;
     private static final ArrayList<String> categoryArrayList = new ArrayList<>();
-
-    public Category(String category) {
-        this.category = category;
-    }
 
     public static void initializeCategory() throws IOException {
         categoryArrayList.clear();
@@ -39,14 +33,13 @@ public class Category {
             String categoryInput = userInput.nextLine();
 
             if (Utility.validateInput(categoryInput, "^[a-zA-Z ]{3,}$")) {
-                System.out.println("Invalid category name. Text only and it has to be at least 3 characters");
-            } else {
-                new Category(categoryInput);
                 PrintWriter pw = new PrintWriter(new FileWriter("category.txt", true));
                 pw.println(categoryInput);
                 pw.close();
                 System.out.println("Successfully added category\n");
                 break;
+            } else {
+                System.out.println("Invalid category name. Text only and it has to be at least 3 characters");
             }
         }
         initializeCategory();
@@ -69,7 +62,7 @@ public class Category {
             }
 
             if (!categoryFound) {
-                System.out.println("Product not found\nPlease try again:");
+                System.out.println("Category not found\nPlease try again:");
                 categoryDelete = userInput.nextLine();
             } else {
                 break;
@@ -78,14 +71,6 @@ public class Category {
         Utility.deleteRowTextFile(categoryDelete, 0, "category.txt");
 
         Utility.updateTextFile(categoryDelete, "None", 3, 3, "product.txt");
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public static ArrayList<String> getCategoryArrayList() {
