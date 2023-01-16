@@ -8,6 +8,8 @@ ID: s3938278, s3930051, s3924667, s3938331
 Acknowledgement:
 */
 
+import Classes.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -297,7 +299,11 @@ public class Main {
                                     }
                                 case "6":
                                     System.out.println("\n<My information>");
-                                    System.out.println(customer);
+                                    for (Customer cus: Customer.getCustomers()) {
+                                        if (cus.getUserName().equalsIgnoreCase(customer.getUserName())) {
+                                            System.out.println(cus);
+                                        }
+                                    }
                                     System.out.println("(Enter '0' to go back to main menu)");
                                     if (input.nextLine().equals("0")) {
                                         break;

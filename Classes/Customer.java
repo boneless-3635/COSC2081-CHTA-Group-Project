@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -40,7 +40,7 @@ public class Customer extends User{
         customers.clear();
         Scanner fileScanner = null;
         try {
-            fileScanner = new Scanner(new File("account.txt"));
+            fileScanner = new Scanner(new File("Database/account.txt"));
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> accountFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
@@ -87,7 +87,7 @@ public class Customer extends User{
             while (true){
                 System.out.println("Username (only letters and digits, length 1-15): ");
                 userName = userInput.nextLine();
-                boolean seemUserName = checkUniqueness("account.txt", userName, 1); //index 1 is username
+                boolean seemUserName = checkUniqueness("Database/account.txt", userName, 1); //index 1 is username
                 if (seemUserName){
                     System.out.println("Username already exists");
                 } else {
@@ -131,14 +131,14 @@ public class Customer extends User{
                 String userId;
                 while (true){
                     userId = UUID.randomUUID().toString(); //generate id for user
-                    boolean seemUserId = checkUniqueness(userId, "account.txt", 0); //index 0 is id
+                    boolean seemUserId = checkUniqueness(userId, "Database/account.txt", 0); //index 0 is id
                     if (!seemUserId){
                         break;
                     }
                 }
                 //write registered info to file
                 PrintWriter pw = null;
-                pw = new PrintWriter(new FileWriter("account.txt", true));
+                pw = new PrintWriter(new FileWriter("Database/account.txt", true));
                 pw.println(userId + ";;;" + userName + ";;;" + password + ";;;" + "customer" + ";;;" + fullName + ";;;" + phoneNumber + ";;;" + email + ";;;" + address + ";;;" + "none" + ";;;0");
                 pw.close();
                 System.out.println("Register successfully!");
@@ -155,7 +155,7 @@ public class Customer extends User{
                 Integer.toString(updateTotalPay),
                 1,
                 9,
-                "account.txt"
+                "Database/account.txt"
         );
         this.updateMembership();
     }
@@ -201,7 +201,7 @@ public class Customer extends User{
             }
         }
         if (!validId){
-            System.out.println("This order is not belong to you.");
+            System.out.println("This order does not belong to you.");
         }
     }
 
@@ -239,7 +239,7 @@ public class Customer extends User{
         }
     }
 
-    public void editAddress() {
+    public void editAddress() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit address>\nEnter new address (at least 10 letters):");
@@ -248,11 +248,18 @@ public class Customer extends User{
         if (!Utility.validateInput(address, "^.{10,}$")){
             System.out.println("Invalid address input");
         } else {
-            this.setAddress(address);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    address,
+                    1,
+                    7,
+                    "Database/account.txt"
+            );
             System.out.println("New address is updated!");
         }
+        Customer.initializeCustomers();
     }
-    public void editEmail() {
+    public void editEmail() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit email>\nEnter new email:");
@@ -261,11 +268,18 @@ public class Customer extends User{
         if (!Utility.validateInput(email, "^.+@.+$")){
             System.out.println("Invalid email input");
         } else {
-            this.setAddress(address);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    email,
+                    1,
+                    6,
+                    "Database/account.txt"
+            );
             System.out.println("New email is updated!");
         }
+        Customer.initializeCustomers();
     }
-    public void editPhone() {
+    public void editPhone() throws IOException {
         Scanner input = new Scanner(System.in);
 
         System.out.println("<Edit phone number>\nEnter new phone number (start with 0, 10-11 numbers):");
@@ -274,9 +288,16 @@ public class Customer extends User{
         if (!Utility.validateInput(phone, "^0[0-9]{9,10}$")){
             System.out.println("Invalid phone number input");
         } else {
-            this.setPhoneNumber(phone);
+            Utility.updateTextFile(
+                    this.getUserName(),
+                    phone,
+                    1,
+                    5,
+                    "Database/account.txt"
+            );
             System.out.println("New phone number is updated!");
         }
+        Customer.initializeCustomers();
     }
 
     public static void listMembers() throws IOException {
@@ -291,7 +312,7 @@ public class Customer extends User{
     public void updateMembership() throws IOException {
         ArrayList<String> tempLines = new ArrayList<>();
         String membershipUpdate;
-        Scanner accounts = new Scanner(Paths.get("account.txt"));
+        Scanner accounts = new Scanner(Paths.get("Database/account.txt"));
         while (accounts.hasNext()) {
             String line = accounts.nextLine();
             String[] lineArray = line.split(";;;");
@@ -312,7 +333,7 @@ public class Customer extends User{
             tempLines.add(line);
         }
         accounts.close();
-        PrintWriter pw = new PrintWriter(new FileWriter("account.txt"));
+        PrintWriter pw = new PrintWriter(new FileWriter("Database/account.txt"));
         for (String line : tempLines) {
             pw.println(line);
         }
@@ -322,7 +343,7 @@ public class Customer extends User{
 
     public static void membershipNumbers() throws IOException {
         int regular=0, silver=0, gold=0, platinum=0;
-        Scanner accounts = new Scanner(new File("account.txt"));
+        Scanner accounts = new Scanner(new File("Database/account.txt"));
         while (accounts.hasNext()) {
             String[] info = accounts.nextLine().split(";;;");
             if (info[8].equals("Silver")) {

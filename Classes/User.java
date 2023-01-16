@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -10,11 +10,9 @@ Acknowledgement:
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.regex.Pattern;
 
 public abstract class  User {
     private String userName;
@@ -38,7 +36,7 @@ public abstract class  User {
         int totalPay;
         Scanner fileScanner = null;
         try {
-            fileScanner = new Scanner(new File("account.txt"));
+            fileScanner = new Scanner(new File("Database/account.txt"));
             while (fileScanner.hasNext()){
                 String line = fileScanner.nextLine();
                 StringTokenizer inReader = new StringTokenizer(line, ";;;");

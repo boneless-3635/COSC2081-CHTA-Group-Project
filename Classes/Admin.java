@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -7,7 +7,6 @@ Authors: Nguyen Quoc An, Pham Minh Hoang, Tran Gia Minh Thong, Yoo Christina
 ID: s3938278, s3930051, s3924667, s3938331
 Acknowledgement:
 */
-
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -33,7 +32,7 @@ public class Admin extends User {
         if (!isExist){
             System.out.println("Order ID does not exist, quit the procedure!");
         } else {
-            Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "order.txt");
+            Utility.updateTextFile(orderIdInput.toLowerCase(), "PAID", 0, 6, "Database/order.txt");
             System.out.println("Order status is changed successfully to PAID!");
         }
     }
@@ -209,7 +208,7 @@ public class Admin extends User {
         if (!isExist){
             System.out.println("Customer ID does not exist!");
         } else {
-            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "account.txt");
+            Utility.deleteRowTextFile(customerIDInput.toLowerCase(), 0, "Database/account.txt");
             Customer.initializeCustomers();
         }
     }

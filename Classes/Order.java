@@ -1,4 +1,4 @@
-/*
+package Classes;/*
 RMIT University Vietnam
 Course: COSC2081 Programming 1
 Semester: 2022C
@@ -41,7 +41,7 @@ public class Order {
         orders.clear();
         Scanner fileScanner = null;
         try {
-            fileScanner = new Scanner(new File("order.txt"));
+            fileScanner = new Scanner(new File("Database/order.txt"));
             while (fileScanner.hasNext()) {
                 //read per line and split line into array
                 List<String> orderFields = Arrays.asList(fileScanner.nextLine().split(";;;"));
@@ -95,7 +95,7 @@ public class Order {
         //turn array of productAndQuantity to String to store to text file
         String productNamesAndQuantity = String.join(",", order.getProductNamesAndQuantity());
         PrintWriter pw = null;
-        pw = new PrintWriter(new FileWriter("order.txt", true));
+        pw = new PrintWriter(new FileWriter("Database/order.txt", true));
         pw.println(order.getORDER_ID() + ";;;"  + order.getCUSTOMER_ID() + ";;;" + order.getCustomerName() + ";;;" + productNamesAndQuantity + ";;;" + order.getTotalPrice() + ";;;" + order.getCustomerAddress() + ";;;" + order.getStatus() + ";;;" + order.getDate());
         pw.close();
     }
@@ -224,7 +224,6 @@ public class Order {
                             customer.updateMembership();
                             //recall initializeOrders and initializeCUstomers to update orders and customer arraylist
                             Customer.initializeCustomers();
-                            initializeOrders();
                             System.out.println("Placed order successfully!");
                         } else if (userConfirm.equalsIgnoreCase("cancel")){
                             confirmAnswer = true;
