@@ -1,7 +1,7 @@
 # COSC2081-CHTA-Group-Project
 
 - Git repository link: https://github.com/boneless-3635/COSC2081-CHTA-Group-Project
-- Video link:
+- Video link: https://youtu.be/zJmOYiE7gmI
 
 <Admin>
 username: Admin
